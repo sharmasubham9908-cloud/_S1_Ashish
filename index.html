@@ -3,136 +3,596 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Happy Birthday, Ashish!</title>
+  <title>Happy Birthday, Lovely!</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
-    body { background: #0d0205; color: #fff; font-family: system-ui, sans-serif; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
-    .screen { width: 100%; max-width: 412px; height: 100vh; position: relative; background: radial-gradient(circle at 50% 25%, #2d050e 0%, #0d0205 70%); display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding: 50px 20px; text-align: center; }
-    .page { display: none; width: 100%; height: 100%; flex-direction: column; justify-content: space-between; align-items: center; }
-    .page.active { display: flex; }
-    .big-heart { font-size: 80px; margin: auto 0; cursor: pointer; filter: drop-shadow(0 0 25px #ff4d6d); animation: p 1.2s infinite alternate; }
-    @keyframes p { 0% { transform: scale(0.9); } 100% { transform: scale(1.1); } }
-    .btn { background: linear-gradient(135deg, #e63946, #b5179e); color: #fff; border: none; padding: 14px 32px; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; }
-    .tile { background: rgba(255,255,255,0.1); border: 1px solid rgba(223,186,115,0.4); border-radius: 12px; padding: 12px; margin: 6px 0; text-align: left; width: 100%; }
-    .secret { position: absolute; top: 0; left: 0; width: 80px; height: 80px; z-index: 9999; }
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000; padding: 25px 20px; overflow-y: auto; text-align: left; }
-    .modal.active { display: block; }
-    .modal input, .modal textarea { width: 100%; padding: 10px; background: #222; border: 1px solid #444; border-radius: 8px; color: #fff; margin-bottom: 12px; }
+    :root {
+      --gold: #dfba73;
+      --gold-border: rgba(223, 186, 115, 0.45);
+      --card-bg: rgba(20, 10, 15, 0.95);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      background: #000;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .app {
+      width: 100%;
+      max-width: 420px;
+      height: 100vh;
+      position: relative;
+      background: #000000;
+      overflow: hidden;
+    }
+
+    /* Secret Area: Top-Left (3 Taps for PASS82) */
+    .secret-trigger {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 80px;
+      height: 80px;
+      z-index: 99999;
+      opacity: 0;
+    }
+
+    .scene {
+      display: none !important;
+      width: 100%;
+      height: 100%;
+      padding: 55px 22px 35px 22px;
+      text-align: center;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .scene.active {
+      display: flex !important;
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Common Typography */
+    .script-sub {
+      font-style: italic;
+      font-size: 1.15rem;
+      color: #dfba73;
+      margin-bottom: 6px;
+    }
+    .hero-title {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.25;
+      text-shadow: 0 4px 18px rgba(255, 77, 109, 0.4);
+    }
+    .bottom-hint {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.55);
+      letter-spacing: 0.5px;
+    }
+
+    /* Scene 1: Send This */
+    .sc1-bg {
+      background: radial-gradient(circle at 50% 30%, #200208 0%, #080002 70%, #000000 100%);
+    }
+    .glow-heart-wrap {
+      margin: auto 0;
+      cursor: pointer;
+    }
+    .glow-heart-svg {
+      width: 120px;
+      height: 120px;
+      filter: drop-shadow(0 0 30px #ff3366) drop-shadow(0 0 60px rgba(255, 51, 102, 0.6));
+      animation: pulseHeart 1.2s infinite alternate ease-in-out;
+    }
+    @keyframes pulseHeart {
+      0% { transform: scale(0.92); }
+      100% { transform: scale(1.08); }
+    }
+
+    /* Scene 2: Sakura Heart Tree (Video Match) */
+    .sc2-bg {
+      background: radial-gradient(circle at 50% 15%, #fceade 0%, #dfb2a9 30%, #2b1118 70%, #0c0205 100%);
+    }
+    .tree-stage {
+      position: relative;
+      width: 270px;
+      height: 310px;
+      margin: auto 0;
+      cursor: pointer;
+    }
+    .tree-trunk-line {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 5px;
+      height: 180px;
+      background: #502219;
+      transform: translateX(-50%);
+      border-radius: 3px;
+    }
+    .tree-branches-svg {
+      position: absolute;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 170px;
+      height: 140px;
+      pointer-events: none;
+    }
+    .heart-blossoms {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%) scale(0);
+      width: 230px;
+      height: 200px;
+      transition: transform 1s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    }
+    .heart-blossoms.bloomed {
+      transform: translateX(-50%) scale(1) !important;
+    }
+    .leaf-heart {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background: radial-gradient(circle, #ffe5ec 20%, #ff8fab 80%);
+      clip-path: path("M8,14 C8,14 1,9 1,4.5 C1,1.5 3.5,0.5 6,2.5 C8,4 8,4 8,4 C8,4 8,4 10,2.5 C12.5,0.5 15,1.5 15,4.5 C15,9 8,14 8,14 Z");
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+    }
+
+    /* Scene 3: Tiered Frosted Cake */
+    .sc3-bg {
+      background: radial-gradient(circle at 50% 25%, #25040e 0%, #0d0105 65%, #000 100%);
+    }
+    .cake-container {
+      position: relative;
+      width: 220px;
+      height: 170px;
+      margin: auto 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      cursor: pointer;
+    }
+    .cake-tier-bottom {
+      width: 180px;
+      height: 48px;
+      background: #f7a8b8;
+      border-radius: 14px;
+      position: relative;
+      box-shadow: 0 6px 0 #bd4765;
+    }
+    .cake-tier-top {
+      width: 140px;
+      height: 38px;
+      background: #fcd5ce;
+      border-radius: 12px;
+      margin-bottom: -5px;
+      position: relative;
+      box-shadow: 0 5px 0 #c77b8b;
+      z-index: 2;
+    }
+    .cream-white-drip {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 18px;
+      background: #ffffff;
+      border-radius: 12px 12px 6px 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .cake-candle-bar {
+      width: 9px;
+      height: 36px;
+      background: repeating-linear-gradient(45deg, #fff, #fff 5px, #ff477e 5px, #ff477e 10px);
+      border-radius: 3px;
+      margin-bottom: -4px;
+      position: relative;
+      z-index: 3;
+    }
+    .candle-light {
+      width: 13px;
+      height: 20px;
+      background: radial-gradient(circle, #fff 10%, #ffd000 60%, #ff5400 100%);
+      border-radius: 50% 50% 20% 20%;
+      position: absolute;
+      top: -20px;
+      left: -2px;
+      box-shadow: 0 0 15px #ffb703, 0 0 25px #fb8500;
+      display: none;
+      animation: flameWiggle 0.6s infinite alternate;
+    }
+    @keyframes flameWiggle {
+      0% { transform: scale(1) rotate(-3deg); }
+      100% { transform: scale(1.15) rotate(3deg); }
+    }
+
+    /* Scene 4: 5 3D Balloons (Video Palette) */
+    .balloons-row {
+      display: flex;
+      justify-content: center;
+      gap: 13px;
+      margin: 15px 0;
+    }
+    .balloon-3d {
+      width: 48px;
+      height: 64px;
+      border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+      cursor: pointer;
+      position: relative;
+      box-shadow: inset -4px -4px 10px rgba(0,0,0,0.5), inset 4px 4px 10px rgba(255,255,255,0.45);
+      animation: bBobbing 2.4s ease-in-out infinite alternate;
+      transition: transform 0.2s, opacity 0.3s;
+    }
+    .balloon-3d::after {
+      content: "";
+      position: absolute;
+      bottom: -11px;
+      left: 50%;
+      width: 2px;
+      height: 11px;
+      background: rgba(255,255,255,0.35);
+      transform: translateX(-50%);
+    }
+    @keyframes bBobbing {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-10px); }
+    }
+    .reasons-scrollbox {
+      width: 100%;
+      max-height: 250px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .reason-gold-card {
+      background: var(--card-bg);
+      border: 1px solid var(--gold);
+      border-radius: 14px;
+      padding: 13px 16px;
+      text-align: left;
+      font-size: 0.92rem;
+      color: #ffe5ec;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+      animation: popCard 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    }
+    @keyframes popCard {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .reason-label {
+      font-size: 0.72rem;
+      color: var(--gold);
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      margin-bottom: 3px;
+    }
+
+    /* Scene 5: Black Polaroid Photo */
+    .polaroid-black-frame {
+      background: #141414;
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 12px 12px 28px 12px;
+      border-radius: 8px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.8);
+      margin: auto 0;
+      cursor: pointer;
+      transform: rotate(-1.5deg);
+    }
+    .polaroid-black-frame img {
+      width: 235px;
+      height: 265px;
+      object-fit: cover;
+      display: block;
+      border-radius: 4px;
+    }
+    .gold-tiny-heart {
+      color: var(--gold);
+      font-size: 1.1rem;
+      margin-top: 10px;
+    }
+
+    /* Scene 6: Envelope & Letter */
+    .wax-envelope {
+      width: 230px;
+      height: 145px;
+      background: #cca062;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto 0;
+      box-shadow: 0 16px 35px rgba(0,0,0,0.6);
+      position: relative;
+    }
+    .wax-seal-circle {
+      width: 46px;
+      height: 46px;
+      background: #8b1e2f;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-weight: bold;
+      font-size: 1.25rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    .letter-paper-box {
+      display: none;
+      background: rgba(18, 8, 12, 0.98);
+      border: 1px solid var(--gold);
+      border-radius: 16px;
+      padding: 22px;
+      text-align: left;
+      max-height: 320px;
+      overflow-y: auto;
+      margin: auto 0;
+    }
+    .letter-text {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #f7e1d7;
+      white-space: pre-line;
+    }
+
+    /* Primary Gradient Button */
+    .btn-action {
+      background: linear-gradient(135deg, #e63946, #b5179e);
+      color: #fff;
+      border: none;
+      padding: 13px 32px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(230, 57, 70, 0.45);
+      margin-top: 15px;
+    }
+    .btn-action:active { transform: scale(0.96); }
+
+    /* Admin Editor Panel (PASS82) */
+    .admin-panel {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.97);
+      z-index: 100000;
+      overflow-y: auto;
+      padding: 25px 20px;
+      text-align: left;
+    }
+    .admin-panel.active { display: block !important; }
+    .fg { margin-bottom: 12px; }
+    .fg label { display: block; font-size: 0.8rem; color: #aaa; margin-bottom: 4px; }
+    .fg input, .fg textarea {
+      width: 100%;
+      padding: 9px;
+      background: #191919;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 0.85rem;
+    }
+    .fg textarea { height: 90px; }
+    .sec-tag {
+      font-size: 0.75rem;
+      color: #ff758f;
+      margin: 15px 0 6px 0;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
   </style>
 </head>
 <body>
 
-  <div class="screen">
-    <!-- Top-Left 3 Taps for Secret PASS82 -->
-    <div class="secret" id="secBtn"></div>
+  <div class="app">
+    <!-- Secret 3 Taps in Top Left Corner -->
+    <div class="secret-trigger" id="adminTrigger"></div>
 
-    <!-- 1. Intro -->
-    <div class="page active" id="p1">
-      <p style="color:rgba(255,255,255,0.6);">SEND THIS TO YOUR BEST FRIEND 🫶</p>
-      <div class="big-heart" id="heartBtn">❤️</div>
-      <button class="btn" id="startBtn">Tap to Open ✨</button>
-    </div>
-
-    <!-- 2. Birthday Tree & Wish -->
-    <div class="page" id="p2">
+    <!-- 1. Intro Screen: Send this 🫶 -->
+    <div class="scene sc1-bg active" id="sc1">
+      <div style="margin-top: 25px; pointer-events:none;">
+        <h2 style="font-family:'Playfair Display', serif; font-size:1.8rem; font-weight:400; color:#fff;">Send this 🫶</h2>
+      </div>
+      <div class="glow-heart-wrap" id="heartBtn">
+        <svg class="glow-heart-svg" viewBox="0 0 24 24" fill="#ff4d6d">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+      </div>
       <div>
-        <p style="color:#dfba73; font-style:italic;">It's officially your day</p>
-        <h1 id="tName" style="font-size: 2rem; margin-top: 5px;">Happy Birthday, Ashish!</h1>
-        <p id="tTag" style="color:#ff758f; margin-top: 5px;">To my brother & partner-in-crime ✨</p>
+        <button class="btn-action" id="startBtn">Tap to Open ✨</button>
+        <p class="bottom-hint" style="margin-top: 10px;">tap anywhere to begin</p>
       </div>
-      <div style="font-size: 90px; margin: auto 0;">🌸🌳🌸</div>
-      <button class="btn" onclick="go(3)">Cut The Cake 🎂</button>
     </div>
 
-    <!-- 3. Cake -->
-    <div class="page" id="p3">
-      <h2 style="color:#dfba73;">Make a wish, Bhai! 🕯️</h2>
-      <div style="font-size: 90px; margin: auto 0;">🎂</div>
-      <button class="btn" onclick="go(4)">Pop Balloons 🎈</button>
+    <!-- 2. Sakura Blooming Tree Screen -->
+    <div class="scene sc2-bg" id="sc2">
+      <div class="tree-stage" id="treeBox">
+        <div class="tree-trunk-line"></div>
+        <svg class="tree-branches-svg" viewBox="0 0 100 80" fill="none" stroke="#502219" stroke-width="2.5" stroke-linecap="round">
+          <path d="M50 80 Q50 45 35 25 M35 25 Q20 15 10 10 M35 25 Q38 12 40 5"/>
+          <path d="M50 80 Q50 45 65 25 M65 25 Q80 15 90 10 M65 25 Q62 12 60 5"/>
+        </svg>
+        <div class="heart-blossoms" id="treeCrown"></div>
+      </div>
+
+      <div style="width:100%;">
+        <p class="script-sub">it's officially your day</p>
+        <h1 class="hero-title" id="txtTitle">Happy Birthday, Lovely</h1>
+        <p class="bottom-hint" id="txtAge" style="margin-top: 6px; color:#ff758f;">and just like that, you're turning 21 ✨ (26th Oct)</p>
+        <p class="bottom-hint" id="treeStatus" style="margin-top: 12px;">tap anywhere to continue</p>
+        <button class="btn-action" id="btnTreeNext" style="display:none;" onclick="showScene(3)">Continue 🎂</button>
+      </div>
     </div>
 
-    <!-- 4. Balloons & Friendship Reasons -->
-    <div class="page" id="p4">
-      <h2>Why You're My Best Friend 🤜🤛</h2>
-      <div style="width: 100%; max-height: 280px; overflow-y: auto; margin: 15px 0;">
-        <div class="tile">🌟 The brother I got to choose for myself.</div>
-        <div class="tile">🛡️ Always got my back, no matter what happens.</div>
-        <div class="tile">🚀 Late night talks and dumbest memories.</div>
-        <div class="tile">🔥 Celebrates my wins like his own.</div>
+    <!-- 3. Baking Cake Screen -->
+    <div class="scene sc3-bg" id="sc3">
+      <div>
+        <h2 style="font-size: 1.45rem; color: #fff;">First things first 🎂</h2>
+        <p class="script-sub" style="margin-top: 6px;">Baking something sweet...</p>
       </div>
-      <button class="btn" onclick="go(5)">Read My Letter 💌</button>
+
+      <div class="cake-container" id="cakeBox">
+        <div class="cake-candle-bar"><div class="candle-light" id="flameElement"></div></div>
+        <div class="cake-tier-top"><div class="cream-white-drip"></div></div>
+        <div class="cake-tier-bottom"><div class="cream-white-drip"></div></div>
+      </div>
+
+      <div>
+        <p class="script-sub" id="cakeStatus">Make a wish 🕯️</p>
+        <button class="btn-action" id="btnCakeNext" style="display:none;" onclick="showScene(4)">Pop The Balloons 🎈</button>
+      </div>
     </div>
 
-    <!-- 5. Letter -->
-    <div class="page" id="p5">
-      <h2 style="color:#dfba73;">A Letter For You 💌</h2>
-      <div style="background:rgba(255,255,255,0.08); border:1px solid #dfba73; border-radius:14px; padding:18px; text-align:left; font-size:0.95rem; line-height:1.6; margin: auto 0; max-height: 300px; overflow-y: auto;" id="tLetter">
-        Dear Ashish,<br><br>
-        I'm really lucky to have a friend like you in my life. You have always stood by me through thick and thin.<br><br>
-        May this year bring you all the success, happiness, and peace you deserve.<br><br>
-        <b>— Tera Bhai, Shubham</b>
+    <!-- 4. 5 3D Balloons (Video Match) -->
+    <div class="scene" id="sc4">
+      <div>
+        <h2 style="font-size: 1.4rem; color: #fff;">Pop the balloons 🎈</h2>
+        <p class="bottom-hint" style="margin-top: 4px;">5 balloons. Each one holds a reason you're a special friend. Pop them all 🎈</p>
       </div>
-      <button class="btn" onclick="go(1)">Replay ✨</button>
+
+      <div class="balloons-row">
+        <!-- 1. Maroon/Red -->
+        <div class="balloon-3d" style="background: radial-gradient(circle at 35% 30%, #8a1d30, #36050e);" onclick="popBalloon(0, this)"></div>
+        <!-- 2. Purple -->
+        <div class="balloon-3d" style="background: radial-gradient(circle at 35% 30%, #4a287a, #1a0833);" onclick="popBalloon(1, this)"></div>
+        <!-- 3. Emerald Green -->
+        <div class="balloon-3d" style="background: radial-gradient(circle at 35% 30%, #20634c, #07241a);" onclick="popBalloon(2, this)"></div>
+        <!-- 4. Deep Blue -->
+        <div class="balloon-3d" style="background: radial-gradient(circle at 35% 30%, #1a4f7a, #061929);" onclick="popBalloon(3, this)"></div>
+        <!-- 5. Ruby Red -->
+        <div class="balloon-3d" style="background: radial-gradient(circle at 35% 30%, #a82338, #3b050f);" onclick="popBalloon(4, this)"></div>
+      </div>
+
+      <div class="reasons-scrollbox" id="reasonsContainer"></div>
+      <button class="btn-action" id="btnToPhotos" onclick="showScene(5)">Keep going ✨</button>
+    </div>
+
+    <!-- 5. Black Polaroid Photo Gallery -->
+    <div class="scene" id="sc5">
+      <div>
+        <h2 style="font-size: 1.4rem; color: #fff;">A walk down memory lane</h2>
+        <p class="bottom-hint" style="margin-top: 4px;">swipe through 📁 (tap for next photo)</p>
+      </div>
+
+      <div class="polaroid-black-frame" onclick="nextPhoto()">
+        <img id="friendPhoto" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" alt="Memory">
+        <div class="gold-tiny-heart">💛</div>
+      </div>
+
+      <button class="btn-action" onclick="showScene(6)">Keep going ✨</button>
+    </div>
+
+    <!-- 6. Vintage Wax Envelope & Letter -->
+    <div class="scene" id="sc6">
+      <div>
+        <h2 style="font-size: 1.4rem; color: #fff;">One last thing, Lovely...</h2>
+        <p class="script-sub" style="margin-top: 4px;">Shubham wrote you a letter.</p>
+      </div>
+
+      <div class="wax-envelope" id="envBox" onclick="openEnvelope()">
+        <div class="wax-seal-circle" id="sealLetter">L</div>
+      </div>
+
+      <div class="letter-paper-box" id="letterModal">
+        <p class="letter-text" id="letterBodyText"></p>
+        <p style="text-align:right; margin-top:18px; font-weight:700; color:var(--gold);" id="letterSignature">With all my best wishes,<br>— Shubham</p>
+      </div>
+
+      <button class="btn-action" onclick="showScene(1)">Replay ✨</button>
     </div>
   </div>
 
-  <!-- Admin Modal -->
-  <div class="modal" id="adminBox">
-    <h3 style="color:#dfba73; margin-bottom:12px;">⚙️ Edit Details</h3>
-    <label>दोस्त का नाम:</label>
-    <input type="text" id="inName">
-    <label>टैगलाइन:</label>
-    <input type="text" id="inTag">
-    <label>लेटर:</label>
-    <textarea id="inMsg" rows="5"></textarea>
-    <button class="btn" style="width:100%; margin-bottom:8px;" onclick="saveData()">Save Changes</button>
-    <button class="btn" style="width:100%; background:#444;" onclick="document.getElementById('adminBox').classList.remove('active')">Cancel</button>
+  <!-- Secret Admin Editor Panel (PASS82) -->
+  <div class="admin-panel" id="adminModal">
+    <h3 style="color:var(--gold); margin-bottom:15px;">⚙️ सीक्रेट एडिट पैनल (सिर्फ आपके लिए)</h3>
+    
+    <div class="fg">
+      <label>दोस्त का नाम:</label>
+      <input type="text" id="inName">
+    </div>
+    <div class="fg">
+      <label>टैगलाइन (Tagline):</label>
+      <input type="text" id="inAge">
+    </div>
+
+    <div class="sec-tag">📸 गैलरी से 3 फोटो चुनें (Tap to slide):</div>
+    <div class="fg"><label>फोटो 1:</label><input type="file" id="inPhoto1" accept="image/*"></div>
+    <div class="fg"><label>फोटो 2:</label><input type="file" id="inPhoto2" accept="image/*"></div>
+    <div class="fg"><label>फोटो 3:</label><input type="file" id="inPhoto3" accept="image/*"></div>
+
+    <div class="sec-tag">🎈 5 गुब्बारों के संदेश (Video Match):</div>
+    <div class="fg"><label>गुब्बारा 1 (Maroon):</label><input type="text" id="inB1"></div>
+    <div class="fg"><label>गुब्बारा 2 (Purple):</label><input type="text" id="inB2"></div>
+    <div class="fg"><label>गुब्बारा 3 (Green):</label><input type="text" id="inB3"></div>
+    <div class="fg"><label>गुब्बारा 4 (Blue):</label><input type="text" id="inB4"></div>
+    <div class="fg"><label>गुब्बारा 5 (Red):</label><input type="text" id="inB5"></div>
+
+    <div class="fg">
+      <label>💌 जन्मदिन का पत्र (Letter):</label>
+      <textarea id="inMsg"></textarea>
+    </div>
+
+    <button class="btn-action" style="width:100%; margin-top:10px;" onclick="saveAdminData()">💾 Save All Changes</button>
+    <button class="btn-action" style="width:100%; background:#444; margin-top:8px;" onclick="document.getElementById('adminModal').classList.remove('active')">Cancel</button>
   </div>
 
   <script>
-    function go(n) {
-      for(var i=1; i<=5; i++) {
-        var el = document.getElementById('p'+i);
-        if(el) el.classList.remove('active');
-      }
-      var target = document.getElementById('p'+n);
-      if(target) target.classList.add('active');
+    var DATA = {
+      name: "Lovely",
+      ageText: "and just like that, you're turning 21 ✨ (26th Oct)",
+      photos: [
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80"
+      ],
+      reasons: [
+        "My worst days get shorter when we talk 🌸",
+        "Your laugh is truly wonderful and infectious ✨",
+        "The world is kinder with your positivity in it 💫",
+        "You make ordinary conversations feel special 😊",
+        "Grateful to have started this lovely friendship with you 🤝"
+      ],
+      letter: "Dear Lovely,\n\nWishing you a very Happy Birthday! 🎂✨\n\nभले ही हमारी दोस्ती अभी नई है, लेकिन आपसे बात करके सच में बहुत अच्छा लगता है। आपकी सादगी, पॉजिटिव सोच और मुस्कान बहुत प्यारी है।\n\nदुआ है कि 26 अक्टूबर का यह खास दिन और आने वाला पूरा साल आपके जीवन में ढेर सारी खुशियाँ, कामयाबी और अच्छे पल लेकर आए। आशा है हमारी यह दोस्ती हमेशा ऐसी ही खूबसूरत रहेगी।\n\nEnjoy your special day to the fullest!"
+    };
+
+    var saved = localStorage.getItem("lovely_bday_video_exact_v1");
+    if (saved) {
+      try { DATA = Object.assign({}, DATA, JSON.parse(saved)); } catch(e){}
     }
 
-    // Touch & Click listeners for Scene 1
-    function next() { go(2); }
-    document.getElementById('heartBtn').addEventListener('pointerdown', next);
-    document.getElementById('startBtn').addEventListener('pointerdown', next);
-
-    // Secret 3 Taps for PASS82
-    var taps = 0, timer = null;
-    document.getElementById('secBtn').addEventListener('pointerdown', function() {
-      taps++;
-      clearTimeout(timer);
-      timer = setTimeout(function(){ taps = 0; }, 1000);
-      if(taps >= 3) {
-        taps = 0;
-        var p = prompt("पासवर्ड दर्ज करें:");
-        if(p === "PASS82") {
-          document.getElementById('inName').value = document.getElementById('tName').innerText.replace("Happy Birthday, ", "").replace("!", "");
-          document.getElementById('inTag').value = document.getElementById('tTag').innerText;
-          document.getElementById('adminBox').classList.add('active');
-        } else {
-          alert("गलत पासवर्ड!");
-        }
-      }
-    });
-
-    function saveData() {
-      var n = document.getElementById('inName').value;
-      var t = document.getElementById('inTag').value;
-      var m = document.getElementById('inMsg').value;
-      if(n) document.getElementById('tName').innerText = "Happy Birthday, " + n + "!";
-      if(t) document.getElementById('tTag').innerText = t;
-      if(m) document.getElementById('tLetter').innerHTML = m.replace(/\n/g, "<br>");
-      document.getElementById('adminBox').classList.remove('active');
-      alert("सेव हो गया!");
-    }
-  </script>
-</body>
-</html>
+    // Build Sakura Tree Canopy with miniature 3D hearts (Video Match)
+    function buildTreeCanopy() {
+      var crown = document.getElementById("treeCrown");
+      crown.innerHTML = "";
+      var positions = [
+        {x: 105, y: 175}, {x: 80, y: 155}, {x: 130, y: 155}, {x: 60, y: 130}, {x: 150, y: 130},
+        {x: 40, y: 105}, {x: 170, y: 105}, {x: 25, y: 75}, {x: 185, y: 75}, {x: 20, y: 45},
+        {x: 190, y: 45}, {x: 40, y: 25}, {x: 170, y: 25}, {x: 70, y: 15}, {x: 140,
