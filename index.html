@@ -4,613 +4,462 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#170611">
-<title>Happy Birthday Lovely!</title>
-
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<meta name="theme-color" content="#490b32">
+<title>Birthday Surprise ❤️</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--pink:#ff4b80;--light:#ffb5cb;--gold:#ffd780}
-body{
-  font-family:Arial,sans-serif;
-  background:#090309;color:white;
-  min-height:100vh;display:flex;
-  justify-content:center;align-items:center;
-  padding:10px;
+:root {
+  --pink: #ff4f8b;
+  --light: #ffd6e5;
+  --dark: #490b32;
 }
-button,input,textarea{font:inherit}
-button{cursor:pointer}
-.phone{
-  width:100%;max-width:420px;height:94vh;
-  min-height:560px;max-height:900px;
-  position:relative;overflow:hidden;
-  border-radius:25px;
-  background:radial-gradient(ellipse at top,#421024,#10050e 65%,#050205);
-  box-shadow:0 0 35px #ff4b8030;
-  border:1px solid #ff7da533;
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: linear-gradient(145deg, #240019, #781449, #e52d70);
 }
-.top-bar{
-  position:absolute;z-index:20;top:0;left:0;right:0;
-  height:54px;padding:15px;
-  display:flex;align-items:center;justify-content:space-between;
-  background:#170611b0;backdrop-filter:blur(8px);
-  font-size:13px;
+button, input, textarea { font: inherit; }
+.screen {
+  display: none;
+  min-height: 100vh;
+  padding: 24px 16px;
+  align-items: center;
+  justify-content: center;
 }
-.top-bar button{
-  background:transparent;border:0;color:white;
+.screen.active { display: flex; animation: appear .45s ease; }
+.card {
+  width: 100%;
+  max-width: 440px;
+  padding: 24px 18px;
+  border: 1px solid #ffffff45;
+  border-radius: 25px;
+  background: #ffffff16;
+  box-shadow: 0 12px 35px #0004;
+  backdrop-filter: blur(8px);
 }
-.badge{color:var(--gold);font-size:10px}
-.screen{
-  position:absolute;inset:54px 0 0;
-  padding:20px 18px 24px;overflow-y:auto;
-  display:none;flex-direction:column;
-  align-items:center;justify-content:center;
-  text-align:center;gap:13px;
+h1 {
+  color: #ffe2ed;
+  font-size: clamp(30px, 8vw, 42px);
+  text-shadow: 0 0 15px #ff5599;
 }
-.screen.show{display:flex;animation:appear .45s ease}
-@keyframes appear{
-  from{opacity:0;transform:translateY(12px)}
-  to{opacity:1;transform:translateY(0)}
+h2 { color: #ffe2ed; }
+p { font-size: 17px; line-height: 1.65; }
+.big { font-size: 66px; margin: 15px 0; }
+button {
+  width: 100%;
+  padding: 14px;
+  margin: 8px 0;
+  border: 0;
+  border-radius: 14px;
+  background: var(--pink);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
 }
-h1,h2,h3{line-height:1.3}
-p{line-height:1.6}
-.muted{font-size:13px;color:#e5cbd7}
-.pink{color:var(--light)}
-.btn{
-  border:0;border-radius:28px;padding:12px 21px;
-  background:linear-gradient(120deg,#ff3972,#ff8da9);
-  color:white;font-weight:bold;
-  box-shadow:0 5px 20px #ff39723b;
-  margin-top:7px;max-width:100%;
+button:active { transform: scale(.98); }
+button.secondary { background: white; color: #8d174d; }
+input, textarea {
+  width: 100%;
+  padding: 13px;
+  margin: 8px 0 15px;
+  border: 2px solid #ffb5cf;
+  border-radius: 12px;
+  background: white;
+  color: #333;
 }
-.btn:active{transform:scale(.97)}
-.btn.secondary{
-  background:#ffffff12;border:1px solid #ff8da966;
-  box-shadow:none;
+textarea { min-height: 100px; resize: vertical; }
+label { display: block; text-align: left; font-weight: bold; }
+#photoInput {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin: 12px 0;
+  color: white;
+  background: #ffffff15;
+  border: 2px dashed #ffd6e5;
+  border-radius: 12px;
 }
-.btn.gold{background:linear-gradient(120deg,#bd8033,#ffe0a0);color:#35101b}
-.btn-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
-.heart{
-  font-size:85px;cursor:pointer;
-  animation:pulse 1s infinite alternate;
-  filter:drop-shadow(0 0 18px #ff397277)
+#photoPreview {
+  display: none;
+  width: 100%;
+  max-height: 390px;
+  object-fit: contain;
+  margin: 14px 0;
+  border: 3px solid #ffd6e5;
+  border-radius: 15px;
 }
-@keyframes pulse{to{transform:scale(1.15)}}
-.card{
-  width:100%;padding:27px 18px;border-radius:20px;
-  border:1px solid #ff8da955;
-  background:linear-gradient(145deg,#541027,#250916);
-  box-shadow:0 12px 30px #0005;
+#musicInput { display: none; }
+#musicPlayer { width: 100%; margin: 12px 0; }
+.small { font-size: 13px; }
+#editor {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 20px 12px;
+  background: #250018f5;
+  align-items: center;
+  justify-content: center;
 }
-.card h1{font-size:39px;margin:12px 0;color:#fff0f5}
-.tree{font-size:76px;animation:sway 3s ease-in-out infinite alternate}
-@keyframes sway{to{transform:rotate(5deg)}}
-.cake{font-size:85px;cursor:pointer;transition:.3s}
-.cake.blown{filter:grayscale(.5);transform:scale(.95)}
-.balloon-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
-.balloon{
-  width:48px;height:58px;border-radius:50% 50% 45% 45%;
-  border:0;color:white;font-size:25px;
-  box-shadow:inset -6px -5px 10px #0002;
-  animation:float 1.5s infinite alternate;
+#editor .card { margin: auto; }
+.heart {
+  position: fixed;
+  bottom: -50px;
+  pointer-events: none;
+  z-index: 500;
+  animation: float 5s linear forwards;
 }
-.balloon:nth-child(even){animation-delay:.4s}
-@keyframes float{to{transform:translateY(-8px)}}
-.balloon.popped{visibility:hidden;pointer-events:none}
-.reasons{
-  width:100%;display:flex;flex-direction:column;gap:8px;
-  max-height:160px;overflow:auto;
+@keyframes appear {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-.reason{
-  padding:10px;border-radius:10px;text-align:left;
-  background:#ffffff12;border-left:3px solid var(--pink);
-  font-size:13px;animation:appear .3s ease;
-}
-.photo-frame{
-  background:#fff;color:#381222;padding:10px 10px 18px;
-  width:min(240px,90%);border-radius:5px;
-  box-shadow:0 10px 30px #0008;transform:rotate(-2deg);
-}
-.photo-frame img{
-  display:block;width:100%;height:230px;
-  object-fit:cover;border-radius:3px;
-  background:#381222;
-}
-.photo-frame p{margin-top:10px;font-weight:bold}
-.letter{
-  text-align:left;background:#2c0d1d;
-  border:1px solid #ff8da966;border-radius:16px;
-  padding:20px;line-height:1.8;font-size:14px;width:100%;
-}
-.field{
-  width:100%;text-align:left;display:flex;
-  flex-direction:column;gap:6px;font-size:13px;
-}
-.field input,.field textarea{
-  width:100%;padding:11px;border-radius:10px;
-  border:1px solid #ff8da955;background:#ffffff0d;
-  color:white;outline:none;
-}
-.field textarea{resize:vertical;min-height:75px}
-.field input:focus,.field textarea:focus{border-color:var(--pink)}
-input[type=file]{font-size:12px}
-.file-input{width:100%;padding:10px;background:#ffffff0c;border-radius:10px}
-.file-input input{width:100%;margin-top:8px}
-#musicStatus{font-size:12px;color:var(--gold);overflow-wrap:anywhere}
-.final-emoji{font-size:67px;animation:pulse 1s infinite alternate}
-.footer{font-size:11px;color:#bfa4b2;margin-top:8px}
-.confetti-heart{
-  position:absolute;bottom:-30px;z-index:1;pointer-events:none;
-  animation:rise 5s linear forwards;
-}
-@keyframes rise{
-  to{transform:translateY(-800px) rotate(360deg);opacity:0}
-}
-hr{border:0;border-top:1px solid #ff8da944;margin:15px 0}
-@media(max-height:650px){
- .phone{height:96vh;min-height:0}
- .screen{justify-content:flex-start;padding-top:22px}
- .heart{font-size:65px}
- .cake{font-size:65px}
- .photo-frame img{height:150px}
+@keyframes float {
+  to { transform: translateY(-110vh) rotate(300deg); opacity: 0; }
 }
 </style>
 </head>
 
 <body>
-<div class="phone" id="phone">
 
-  <div class="top-bar">
-    <button onclick="goBack()">← Back</button>
-    <span class="badge">♥ BIRTHDAY SURPRISE</span>
-    <button id="musicButton" onclick="toggleMusic()" aria-label="Music">♫ Music</button>
+<!-- 1. INTRO -->
+<section class="screen active">
+  <div class="card">
+    <div class="big">💌</div>
+    <h1 id="secretTitle">A Special Surprise</h1>
+    <p>एक प्यारा-सा सरप्राइज सिर्फ आपके लिए ❤️</p>
+    <p>आगे कुछ खास आपका इंतज़ार कर रहा है।</p>
+    <button onclick="go(1)">Open Your Surprise 💖</button>
   </div>
+</section>
 
-  <!-- SCREEN 1 -->
-  <section class="screen show" id="s1">
-    <p class="pink">A little surprise, just for you</p>
-    <div class="heart" onclick="goNext()">💖</div>
-    <h1>Hey, Lovely! 🌸</h1>
-    <p class="muted">Someone special has made something for you.</p>
-    <button class="btn" onclick="goNext()">Tap to Open ✨</button>
-    <button class="btn secondary" onclick="openCustomize()">Customize Website ⚙️</button>
-  </section>
+<!-- 2. BIRTHDAY -->
+<section class="screen">
+  <div class="card">
+    <div class="big">🎂🎉</div>
+    <h1>Happy Birthday!</h1>
+    <h2 id="birthdayHeading">Lovely ❤️</h2>
+    <p>जन्मदिन की ढेर सारी शुभकामनाएँ!</p>
+    <p>आपकी ज़िंदगी हमेशा प्यार, खुशियों और कामयाबी से भरी रहे। ✨</p>
+    <button onclick="go(2)">आगे देखिए 💕</button>
+    <button class="secondary" onclick="go(0)">⬅️ पीछे</button>
+  </div>
+</section>
 
-  <!-- SCREEN 2 -->
-  <section class="screen" id="s2">
-    <div class="card">
-      <p class="pink"><i>Make a wish...</i></p>
-      <h1>Happy<br>Birthday!</h1>
-      <div style="font-size:48px">🎀 🎁 🎀</div>
-      <hr>
-      <p>To someone who makes the world more beautiful. 💗</p>
-    </div>
-    <button class="btn" onclick="goNext()">Next Surprise →</button>
-  </section>
+<!-- 3. MESSAGE -->
+<section class="screen">
+  <div class="card">
+    <div class="big">🌹</div>
+    <h1>For You</h1>
+    <p id="birthdayMessage">आपकी हर सुबह मुस्कान से शुरू हो और हर शाम खुशियों से भरी हो। आपके सारे सपने पूरे हों। ❤️</p>
+    <p>ढेर सारा प्यार,</p>
+    <h2 id="senderHeading">Shubham 💖</h2>
+    <button onclick="go(3)">फोटो वाला सरप्राइज 📸</button>
+    <button class="secondary" onclick="go(1)">⬅️ पीछे</button>
+  </div>
+</section>
 
-  <!-- SCREEN 3 -->
-  <section class="screen" id="s3">
-    <div class="tree">🌳💕</div>
-    <p class="pink">Today is all about you!</p>
-    <h2>Happy Birthday, <span data-name>Lovely</span> 🎂</h2>
-    <p class="muted">You are turning <span data-age>19</span>! ✨</p>
-    <p>May your life be filled with love, laughter and beautiful memories.</p>
-    <button class="btn" onclick="goNext()">One More Surprise →</button>
-  </section>
-
-  <!-- SCREEN 4 -->
-  <section class="screen" id="s4">
-    <h2>Make a Birthday Wish 🎂</h2>
-    <div class="cake" id="cake" onclick="blowCake()">🎂</div>
-    <p id="cakeText" class="muted">Tap the cake to blow out the candles!</p>
-    <button class="btn" onclick="goNext()">Next →</button>
-  </section>
-
-  <!-- SCREEN 5 -->
-  <section class="screen" id="s5">
-    <h2>Pop the Balloons 🎈</h2>
-    <p class="muted">Tap each balloon to reveal a little wish.</p>
-    <div class="balloon-row" id="balloons">
-      <button class="balloon" style="background:#e74c3c" onclick="pop(this,0)">🎈</button>
-      <button class="balloon" style="background:#2ecc71" onclick="pop(this,1)">🎈</button>
-      <button class="balloon" style="background:#9b59b6" onclick="pop(this,2)">🎈</button>
-      <button class="balloon" style="background:#e84393" onclick="pop(this,3)">🎈</button>
-      <button class="balloon" style="background:#e67e22" onclick="pop(this,4)">🎈</button>
-    </div>
-    <div class="reasons" id="reasons"></div>
-    <button class="btn" onclick="goNext()">See Your Memories →</button>
-  </section>
-
-  <!-- SCREEN 6 -->
-  <section class="screen" id="s6">
-    <h2>Our Memory Lane 📸</h2>
-    <div class="photo-frame">
-      <img id="memoryPhoto"
-        src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500"
-        alt="Birthday memory">
-      <p id="photoCaption">Lovely's Special Memories 🌸</p>
-    </div>
-    <label class="btn secondary" for="photoInput">📷 Choose Your Photo</label>
-    <input class="file-input" type="file" id="photoInput" accept="image/*">
-    <p class="muted">Choose a photo from your phone gallery.</p>
-    <button class="btn" onclick="goNext()">Read Your Letter 💌</button>
-  </section>
-
-  <!-- SCREEN 7 -->
-  <section class="screen" id="s7">
-    <h2>A Letter for You 💌</h2>
-    <div class="letter">
-      <p><strong>Dear <span data-name>Lovely</span>,</strong></p>
-      <p id="letterMessage" style="margin-top:10px">
-        On your special day, I wish you endless happiness, beautiful memories
-        and all the love your heart can hold. Keep smiling and keep shining.
-        You deserve every wonderful thing life has to offer. Happy 19th Birthday! 🤍
-      </p>
-      <p style="text-align:right;margin-top:16px;font-style:italic">
-        With love,<br>— <span data-sender>Shubham</span> ❤️
-      </p>
-    </div>
-    <button class="btn" onclick="goNext()">Celebrate! 🎉</button>
-  </section>
-
-  <!-- SCREEN 8 -->
-  <section class="screen" id="s8">
-    <p class="pink">Today is your day!</p>
-    <h1 style="font-size:30px;color:#ff91b1">
-      HAPPY BIRTHDAY<br><span data-name>Lovely</span>! 💐
-    </h1>
-    <div class="final-emoji">🎉🎂✨</div>
-    <p id="finalMessage">May all your beautiful dreams come true! 💖</p>
-    <p class="muted">Lots of love from <span data-sender>Shubham</span></p>
-    <div class="btn-row">
-      <button class="btn" onclick="fireConfetti()">More Confetti 🎊</button>
-      <button class="btn secondary" onclick="shareWebsite()">Share 💌</button>
-    </div>
-    <button class="btn gold" onclick="restart()">Replay Surprise ↻</button>
-    <button class="btn secondary" onclick="openCustomize()">Edit Birthday Details ⚙️</button>
-  </section>
-
-  <!-- CUSTOMIZE PANEL -->
-  <section class="screen" id="customizeScreen">
-    <h2>Customize Birthday 💗</h2>
-    <p class="muted">Change the details and update your page.</p>
-
-    <label class="field">Birthday Person's Name
-      <input id="nameInput" maxlength="60" value="Lovely" placeholder="Name">
+<!-- 4. PHOTO -->
+<section class="screen">
+  <div class="card">
+    <div class="big">📸</div>
+    <h1>Our Memories</h1>
+    <p>नीचे से अपने मोबाइल की गैलरी में जाकर फोटो चुनें।</p>
+    <label for="photoInput" style="text-align:center;background:#ff4f8b;padding:15px;border-radius:14px;">
+      📸 अपनी फोटो चुनें
     </label>
-    <label class="field">Age
+    <input id="photoInput" type="file" accept="image/*">
+    <img id="photoPreview" alt="चुनी हुई फोटो">
+    <p id="photoStatus" class="small">अभी कोई फोटो नहीं चुनी गई है।</p>
+    <button onclick="go(4)">केक काटें 🎂</button>
+    <button class="secondary" onclick="go(2)">⬅️ पीछे</button>
+  </div>
+</section>
+
+<!-- 5. CAKE -->
+<section class="screen">
+  <div class="card">
+    <div class="big" id="cake">🎂</div>
+    <h1>Make a Wish!</h1>
+    <p>एक प्यारी-सी इच्छा माँगिए और मोमबत्तियाँ बुझाइए। ✨</p>
+    <button onclick="blowCandles()">🕯️ Blow the Candles</button>
+    <p id="wishMessage"></p>
+    <button onclick="go(5)">आपका पसंदीदा गाना 🎵</button>
+    <button class="secondary" onclick="go(3)">⬅️ पीछे</button>
+  </div>
+</section>
+
+<!-- 6. MUSIC -->
+<section class="screen">
+  <div class="card">
+    <div class="big">🎶</div>
+    <h1>A Special Song</h1>
+    <p>अपने फोन से कोई पसंदीदा गाना चुनें।</p>
+    <button onclick="chooseMusic()">🎵 अपना गाना चुनें</button>
+    <input id="musicInput" type="file" accept="audio/*">
+    <p id="musicStatus" class="small">अभी कोई गाना नहीं चुना गया है।</p>
+    <audio id="musicPlayer" controls></audio>
+    <button onclick="go(6)">Final Surprise ❤️</button>
+    <button class="secondary" onclick="go(4)">⬅️ पीछे</button>
+  </div>
+</section>
+
+<!-- 7. FINALE -->
+<section class="screen">
+  <div class="card">
+    <div class="big">🎉💖🎉</div>
+    <h1>Happy Birthday!</h1>
+    <h2 id="finalName">Lovely ❤️</h2>
+    <p>आप हमेशा खुश रहें, मुस्कुराते रहें और आपकी हर इच्छा पूरी हो। आज का दिन आपके लिए बेहद खूबसूरत हो। 🌹</p>
+    <p>With lots of love,</p>
+    <h2 id="finalSender">Shubham 💕</h2>
+    <button onclick="shareWebsite()">📲 Share Website</button>
+    <button class="secondary" onclick="go(0)">🔄 फिर से देखें</button>
+    <p class="small">Edit खोलने के लिए ऊपर “A Special Surprise” शीर्षक पर 5 बार टैप करें।</p>
+  </div>
+</section>
+
+<!-- PASSWORD AND EDIT PANEL: सामान्य स्क्रीन पर छिपा हुआ -->
+<div id="editor">
+  <div class="card">
+    <div id="loginPanel">
+      <div class="big">🔐</div>
+      <h2>Admin Login</h2>
+      <p>Edit विकल्प खोलने के लिए पासवर्ड डालें।</p>
+      <input id="passwordInput" type="password" placeholder="Password" autocomplete="off">
+      <p id="passwordError" class="small"></p>
+      <button onclick="checkPassword()">Unlock 🔓</button>
+      <button class="secondary" onclick="closeEditor()">Cancel</button>
+    </div>
+
+    <div id="editPanel" style="display:none;">
+      <h1>Customize Birthday ✏️</h1>
+      <p>यहाँ अपनी पसंद के अनुसार बदलाव करें।</p>
+
+      <label for="nameInput">जन्मदिन वाले का नाम</label>
+      <input id="nameInput" value="Lovely" maxlength="50">
+
+      <label for="ageInput">उम्र</label>
       <input id="ageInput" type="number" min="1" max="120" value="19">
-    </label>
-    <label class="field">Your Name
-      <input id="senderInput" maxlength="60" value="Shubham" placeholder="Sender name">
-    </label>
-    <label class="field">Birthday Message
-      <textarea id="messageInput" maxlength="1000">On your special day, I wish you endless happiness, beautiful memories and all the love your heart can hold. Keep smiling and keep shining. You deserve every wonderful thing life has to offer. Happy Birthday! 🤍</textarea>
-    </label>
-    <label class="field">Photo Caption
-      <input id="captionInput" maxlength="100" value="Lovely's Special Memories 🌸">
-    </label>
 
-    <div class="btn-row">
-      <button class="btn" onclick="saveCustomize()">Save Changes ✓</button>
-      <button class="btn secondary" onclick="closeCustomize()">Cancel</button>
+      <label for="senderInput">आपका नाम</label>
+      <input id="senderInput" value="Shubham" maxlength="50">
+
+      <label for="messageInput">जन्मदिन का संदेश</label>
+      <textarea id="messageInput">आपकी हर सुबह मुस्कान से शुरू हो और हर शाम खुशियों से भरी हो। आपके सारे सपने पूरे हों। ❤️</textarea>
+
+      <label for="themeInput">बैकग्राउंड रंग</label>
+      <select id="themeInput" style="width:100%;padding:12px;border-radius:12px;margin:8px 0 15px;">
+        <option value="pink">Pink Romantic</option>
+        <option value="purple">Royal Purple</option>
+        <option value="blue">Dreamy Blue</option>
+        <option value="red">Red Love</option>
+      </select>
+
+      <button onclick="saveChanges()">✅ बदलाव सेव करें</button>
+      <button class="secondary" onclick="closeEditor()">बंद करें</button>
     </div>
-    <p class="muted">Changes apply to this page in your current browser.</p>
-  </section>
-
-  <!-- MUSIC CONTROLS -->
-  <audio id="birthdayAudio" loop></audio>
+  </div>
 </div>
 
 <script>
 "use strict";
 
-const defaults = {
-  name: "Lovely",
-  age: "19",
-  sender: "Shubham",
-  message: "On your special day, I wish you endless happiness, beautiful memories and all the love your heart can hold. Keep smiling and keep shining. You deserve every wonderful thing life has to offer. Happy Birthday! 🤍",
-  caption: "Lovely's Special Memories 🌸"
-};
+const screens = Array.from(document.querySelectorAll(".screen"));
+const editor = document.getElementById("editor");
+let currentScreen = 0;
+let tapCount = 0;
+let tapTimer = null;
+let photoURL = null;
+let musicURL = null;
 
-let details = {...defaults};
-let current = 1;
-let previousScreen = 1;
-let photoURL = "";
-let musicURL = "";
-let musicObjectURL = "";
-let photoObjectURL = "";
-let blown = false;
-const popped = new Set();
+function go(index) {
+  if (index < 0 || index >= screens.length) return;
 
-const wishes = [
-  "Your smile makes the world brighter. 💖",
-  "May your dreams come true. ✨",
-  "You deserve endless happiness. 🌸",
-  "May love surround you every day. 💕",
-  "Never stop shining, Lovely! 🌟"
-];
-
-const $ = id => document.getElementById(id);
-
-function safeConfetti(options) {
-  if (typeof window.confetti === "function") {
-    window.confetti(options);
-  }
-}
-
-function fireConfetti() {
-  safeConfetti({
-    particleCount: 100,
-    spread: 80,
-    origin: {y: 0.65}
+  screens.forEach((screen, i) => {
+    screen.classList.toggle("active", i === index);
   });
+
+  currentScreen = index;
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-function update() {
-  document.querySelectorAll(".screen").forEach(screen => {
-    screen.classList.remove("show");
-  });
-  const target = $("s" + current);
-  if (target) target.classList.add("show");
+function openLogin() {
+  document.getElementById("loginPanel").style.display = "block";
+  document.getElementById("editPanel").style.display = "none";
+  document.getElementById("passwordInput").value = "";
+  document.getElementById("passwordError").textContent = "";
+  editor.style.display = "flex";
+}
 
-  if (current === 8) {
-    fireConfetti();
-    heartRain();
+function closeEditor() {
+  editor.style.display = "none";
+}
+
+document.getElementById("secretTitle").addEventListener("click", function() {
+  tapCount++;
+  clearTimeout(tapTimer);
+
+  tapTimer = setTimeout(() => {
+    tapCount = 0;
+  }, 1800);
+
+  if (tapCount >= 5) {
+    tapCount = 0;
+    openLogin();
+  }
+});
+
+document.getElementById("passwordInput").addEventListener("keydown", function(event) {
+  if (event.key === "Enter") checkPassword();
+});
+
+function checkPassword() {
+  const password = document.getElementById("passwordInput").value;
+
+  if (password === "PASS82") {
+    document.getElementById("loginPanel").style.display = "none";
+    document.getElementById("editPanel").style.display = "block";
+    document.getElementById("passwordError").textContent = "";
+  } else {
+    document.getElementById("passwordError").textContent =
+      "❌ गलत पासवर्ड। दोबारा कोशिश करें।";
   }
 }
 
-function goNext() {
-  if (current < 8) {
-    current++;
-    update();
-  }
-}
+function saveChanges() {
+  const name = document.getElementById("nameInput").value.trim() || "Lovely";
+  const sender = document.getElementById("senderInput").value.trim() || "Shubham";
+  const message = document.getElementById("messageInput").value.trim();
+  let age = Number(document.getElementById("ageInput").value);
 
-function goBack() {
-  if ($("customizeScreen").classList.contains("show")) {
-    closeCustomize();
-    return;
-  }
-  if (current > 1) {
-    current--;
-    update();
-  }
-}
-
-function restart() {
-  current = 1;
-  blown = false;
-  $("cake").classList.remove("blown");
-  $("cakeText").textContent = "Tap the cake to blow out the candles!";
-  popped.clear();
-  $("reasons").replaceChildren();
-  document.querySelectorAll(".balloon").forEach(b => {
-    b.classList.remove("popped");
-  });
-  update();
-}
-
-function blowCake() {
-  if (blown) return;
-  blown = true;
-  $("cake").classList.add("blown");
-  $("cakeText").textContent = "Wish made! Happy Birthday, " + details.name + "! ✨";
-  fireConfetti();
-}
-
-function pop(element, index) {
-  if (popped.has(index)) return;
-  popped.add(index);
-  element.classList.add("popped");
-
-  const div = document.createElement("div");
-  div.className = "reason";
-  div.textContent = "💖 " + wishes[index];
-  $("reasons").appendChild(div);
-  fireConfetti();
-}
-
-function heartRain() {
-  const phone = $("phone");
-  for (let i = 0; i < 12; i++) {
-    const heart = document.createElement("div");
-    heart.className = "confetti-heart";
-    heart.textContent = ["💖","💕","💗","✨"][i % 4];
-    heart.style.left = (Math.random() * 90 + 3) + "%";
-    heart.style.animationDelay = (Math.random() * 2) + "s";
-    heart.style.fontSize = (16 + Math.random() * 18) + "px";
-    phone.appendChild(heart);
-    setTimeout(() => heart.remove(), 7500);
-  }
-}
-
-function openCustomize() {
-  previousScreen = current;
-  $("nameInput").value = details.name;
-  $("ageInput").value = details.age;
-  $("senderInput").value = details.sender;
-  $("messageInput").value = details.message;
-  $("captionInput").value = details.caption;
-
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("show"));
-  $("customizeScreen").classList.add("show");
-}
-
-function closeCustomize() {
-  $("customizeScreen").classList.remove("show");
-  current = previousScreen;
-  update();
-}
-
-function saveCustomize() {
-  const name = $("nameInput").value.trim();
-  const age = Number($("ageInput").value);
-  const sender = $("senderInput").value.trim();
-  const message = $("messageInput").value.trim();
-  const caption = $("captionInput").value.trim();
-
-  if (!name || !sender) {
-    alert("Please enter the birthday name and sender name.");
-    return;
-  }
-  if (!Number.isInteger(age) || age < 1 || age > 120) {
-    alert("Please enter an age between 1 and 120.");
+  if (!Number.isFinite(age) || age < 1 || age > 120) {
+    alert("कृपया उम्र 1 से 120 के बीच लिखें।");
     return;
   }
 
-  details = {
-    name, age: String(age), sender,
-    message: message || defaults.message,
-    caption: caption || (name + "'s Special Memories 🌸")
+  document.getElementById("birthdayHeading").textContent =
+    name + " ❤️ (" + age + " साल)";
+  document.getElementById("birthdayMessage").textContent =
+    message || "आपका हर दिन खुशियों से भरा रहे। ❤️";
+  document.getElementById("senderHeading").textContent = sender + " 💖";
+  document.getElementById("finalName").textContent = name + " ❤️";
+  document.getElementById("finalSender").textContent = sender + " 💕";
+
+  const theme = document.getElementById("themeInput").value;
+  const backgrounds = {
+    pink: "linear-gradient(145deg, #240019, #781449, #e52d70)",
+    purple: "linear-gradient(145deg, #170b3b, #51218a, #bd68d8)",
+    blue: "linear-gradient(145deg, #061b3a, #145a8d, #64b8d8)",
+    red: "linear-gradient(145deg, #300000, #8d1111, #e94a55)"
   };
 
-  document.querySelectorAll("[data-name]").forEach(el => el.textContent = details.name);
-  document.querySelectorAll("[data-age]").forEach(el => el.textContent = details.age);
-  document.querySelectorAll("[data-sender]").forEach(el => el.textContent = details.sender);
+  document.body.style.background = backgrounds[theme] || backgrounds.pink;
 
-  $("letterMessage").textContent = details.message;
-  $("photoCaption").textContent = details.caption;
-  $("finalMessage").textContent = "May all your beautiful dreams come true, " + details.name + "! 💖";
-  $("customizeScreen").classList.remove("show");
-
-  current = previousScreen;
-  update();
+  closeEditor();
+  alert("आपके बदलाव सेव हो गए हैं!");
 }
 
-$("photoInput").addEventListener("change", function() {
-  const file = this.files && this.files[0];
+document.getElementById("photoInput").addEventListener("change", function(event) {
+  const file = event.target.files && event.target.files[0];
   if (!file) return;
 
   if (!file.type.startsWith("image/")) {
-    alert("Please choose an image file.");
-    this.value = "";
+    alert("कृपया image फ़ाइल चुनें।");
+    event.target.value = "";
     return;
   }
 
-  if (file.size > 12 * 1024 * 1024) {
-    alert("Please choose a photo smaller than 12 MB.");
-    this.value = "";
-    return;
-  }
+  if (photoURL) URL.revokeObjectURL(photoURL);
+  photoURL = URL.createObjectURL(file);
 
-  if (photoObjectURL) URL.revokeObjectURL(photoObjectURL);
-  photoObjectURL = URL.createObjectURL(file);
-  $("memoryPhoto").src = photoObjectURL;
+  const preview = document.getElementById("photoPreview");
+  preview.src = photoURL;
+  preview.style.display = "block";
+  document.getElementById("photoStatus").textContent =
+    "✅ फोटो चुन ली गई है: " + file.name;
 });
 
-function toggleMusic() {
-  const audio = $("birthdayAudio");
-
-  if (!audio.src) {
-    alert("First choose your music file using the music option.");
-    $("musicInput").click();
-    return;
-  }
-
-  if (audio.paused) {
-    audio.play().then(() => {
-      $("musicButton").textContent = "♫ Pause";
-    }).catch(() => {
-      alert("Tap Music again to start playback.");
-    });
-  } else {
-    audio.pause();
-    $("musicButton").textContent = "♫ Music";
-  }
+function chooseMusic() {
+  document.getElementById("musicInput").click();
 }
 
-// Create the music picker without needing another visible screen.
-const musicInput = document.createElement("input");
-musicInput.type = "file";
-musicInput.id = "musicInput";
-musicInput.accept = "audio/*";
-musicInput.hidden = true;
-document.body.appendChild(musicInput);
-
-musicInput.addEventListener("change", function() {
-  const file = this.files && this.files[0];
+document.getElementById("musicInput").addEventListener("change", function(event) {
+  const file = event.target.files && event.target.files[0];
   if (!file) return;
 
   if (!file.type.startsWith("audio/")) {
-    alert("Please choose an audio file.");
-    this.value = "";
+    alert("कृपया audio फ़ाइल चुनें।");
+    event.target.value = "";
     return;
   }
 
-  if (musicObjectURL) URL.revokeObjectURL(musicObjectURL);
-  musicObjectURL = URL.createObjectURL(file);
-  $("birthdayAudio").src = musicObjectURL;
-  $("birthdayAudio").load();
-  $("musicButton").textContent = "♫ Play";
-  $("birthdayAudio").play().then(() => {
-    $("musicButton").textContent = "♫ Pause";
-  }).catch(() => {
-    alert("Music is ready. Tap the Music button to play it.");
-  });
+  const player = document.getElementById("musicPlayer");
+  if (musicURL) URL.revokeObjectURL(musicURL);
+
+  musicURL = URL.createObjectURL(file);
+  player.src = musicURL;
+  player.load();
+
+  document.getElementById("musicStatus").textContent =
+    "✅ गाना तैयार है: " + file.name + " — चलाने के लिए Play दबाएँ।";
 });
 
-// The file picker is opened by the visible Music button.
-function showMusicPicker() {
-  musicInput.click();
+function blowCandles() {
+  document.getElementById("cake").textContent = "🎂✨🎉";
+  document.getElementById("wishMessage").textContent =
+    "आपकी सारी प्यारी इच्छाएँ पूरी हों! ❤️";
+
+  for (let i = 0; i < 22; i++) {
+    setTimeout(createHeart, i * 100);
+  }
 }
+
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.textContent = ["💖", "❤️", "💕", "✨", "🌹"][
+    Math.floor(Math.random() * 5)
+  ];
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (18 + Math.random() * 22) + "px";
+
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 5100);
+}
+
+setInterval(() => {
+  if (Math.random() > 0.5) createHeart();
+}, 1600);
 
 async function shareWebsite() {
-  const url = window.location.href;
-  const text = "🎂 Happy Birthday, " + details.name +
-    "! 💖 A special birthday surprise from " + details.sender + ".";
+  const shareData = {
+    title: "Happy Birthday ❤️",
+    text: "आपके लिए एक खास Birthday Surprise! 🎂",
+    url: window.location.href
+  };
 
-  if (location.protocol === "file:") {
-    alert("पहले इस HTML वेबसाइट को Netlify या GitHub Pages पर publish करें। उसके बाद उसका online link WhatsApp पर share होगा।");
-    return;
-  }
-
-  try {
-    if (navigator.share) {
-      await navigator.share({title: "Happy Birthday " + details.name, text, url});
-    } else if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(url);
-      alert("Website link copied! अब इसे WhatsApp पर paste करें.");
-    } else {
-      prompt("Copy your website link:", url);
+  if (navigator.share) {
+    try {
+      await navigator.share(shareData);
+    } catch (error) {
+      // शेयर विंडो बंद करने पर कोई त्रुटि संदेश नहीं दिखाएँ।
     }
-  } catch (error) {
-    if (error.name !== "AbortError") {
-      prompt("Copy your website link:", url);
+  } else if (navigator.clipboard && window.isSecureContext) {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      alert("वेबसाइट का लिंक कॉपी हो गया!");
+    } catch (error) {
+      alert("इस पेज का लिंक कॉपी नहीं हो पाया। ऑनलाइन प्रकाशित URL को कॉपी करें।");
     }
+  } else {
+    alert("ऑनलाइन प्रकाशित वेबसाइट का URL ब्राउज़र के एड्रेस बार से कॉपी करके शेयर करें।");
   }
 }
-
-// Use the Music button to select a song if one is not loaded yet.
-$("musicButton").addEventListener("contextmenu", event => {
-  event.preventDefault();
-  showMusicPicker();
-});
-
-// Long-press is not required: clicking the Music button opens the picker
-// when no song has been selected.
-$("musicButton").onclick = function() {
-  const audio = $("birthdayAudio");
-  if (!audio.src) {
-    showMusicPicker();
-  } else {
-    toggleMusic();
-  }
-};
-
-// Release temporary resources when leaving the page.
-window.addEventListener("beforeunload", () => {
-  if (photoObjectURL) URL.revokeObjectURL(photoObjectURL);
-  if (musicObjectURL) URL.revokeObjectURL(musicObjectURL);
-});
-
-// Apply the default details at startup.
-document.querySelectorAll("[data-name]").forEach(el => el.textContent = details.name);
-document.querySelectorAll("[data-age]").forEach(el => el.textContent = details.age);
-document.querySelectorAll("[data-sender]").forEach(el => el.textContent = details.sender);
-$("letterMessage").textContent = details.message;
-$("photoCaption").textContent = details.caption;
 </script>
 </body>
 </html>
