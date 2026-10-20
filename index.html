@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Happy Birthday, Lovely!</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Happy Birthday Tanisha</title>
+  <!-- Google Fonts & Canvas Confetti -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
   <style>
-    :root {
-      --gold: #dfba73;
-      --card-bg: rgba(20, 10, 15, 0.95);
-    }
     * {
       box-sizing: border-box;
       margin: 0;
@@ -17,574 +18,620 @@
       user-select: none;
       -webkit-tap-highlight-color: transparent;
     }
+
     body {
-      background: #000;
+      background-color: #0b0709;
       color: #fff;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      height: 100vh;
-      overflow: hidden;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
-    }
-    .app {
-      width: 100%;
-      max-width: 420px;
-      height: 100vh;
-      position: relative;
-      background: #000;
+      min-height: 100vh;
       overflow: hidden;
     }
 
-    .scene {
-      display: none !important;
+    /* Mobile Frame Viewport */
+    .app-container {
       width: 100%;
-      height: 100%;
-      padding: 55px 22px 35px 22px;
-      text-align: center;
+      max-width: 420px;
+      height: 100vh;
+      max-height: 880px;
+      position: relative;
+      background: radial-gradient(circle at top, #1c0e14 0%, #080306 100%);
+      overflow: hidden;
+      display: flex;
       flex-direction: column;
+      box-shadow: 0 0 50px rgba(255, 100, 150, 0.15);
+    }
+
+    /* Top Navigation bar */
+    .top-nav {
+      position: absolute;
+      top: 14px;
+      left: 16px;
+      right: 16px;
+      display: flex;
       justify-content: space-between;
       align-items: center;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-    .scene.active {
-      display: flex !important;
+      z-index: 100;
     }
 
-    .script-sub {
-      font-style: italic;
-      font-size: 1.15rem;
-      color: #dfba73;
-      margin-bottom: 6px;
-    }
-    .hero-title {
-      font-size: 2.1rem;
-      font-weight: 700;
-      color: #ffffff;
-      line-height: 1.25;
-    }
-    .bottom-hint {
-      font-size: 0.85rem;
-      color: rgba(255, 255, 255, 0.55);
-      letter-spacing: 0.5px;
-    }
-
-    /* Scene 1 */
-    .sc1-bg {
-      background: radial-gradient(circle at 50% 30%, #200208 0%, #080002 70%, #000000 100%);
-    }
-    .glow-heart-svg {
-      width: 120px;
-      height: 120px;
-      filter: drop-shadow(0 0 30px #ff3366);
-      animation: pulse 1.2s infinite alternate;
-    }
-    @keyframes pulse {
-      0% { transform: scale(0.92); }
-      100% { transform: scale(1.08); }
-    }
-
-    /* Scene 2: Sakura Heart Tree */
-    .sc2-bg {
-      background: radial-gradient(circle at 50% 15%, #fceade 0%, #dfb2a9 30%, #2b1118 70%, #0c0205 100%);
-    }
-    .tree-stage {
-      position: relative;
-      width: 270px;
-      height: 300px;
-      margin: auto 0;
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
       cursor: pointer;
     }
-    .tree-trunk-line {
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      width: 5px;
-      height: 180px;
-      background: #502219;
-      transform: translateX(-50%);
-      border-radius: 3px;
-    }
-    .tree-branches-svg {
-      position: absolute;
-      top: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 170px;
-      height: 140px;
-      pointer-events: none;
-    }
-    .heart-canopy {
-      position: absolute;
-      top: 15px;
-      left: 50%;
-      transform: translateX(-50%) scale(0);
-      width: 220px;
-      height: 190px;
-      background: radial-gradient(circle, #ffe5ec 20%, #ff8fab 70%, #d90429 100%);
-      clip-path: path("M110,180 C110,180 15,120 15,60 C15,20 50,5 85,30 C110,45 110,45 110,45 C110,45 110,45 135,30 C170,5 205,20 205,60 C205,120 110,180 110,180 Z");
-      box-shadow: 0 0 45px rgba(255, 117, 143, 0.85);
-      transition: transform 0.8s ease-out;
-    }
-    .heart-canopy.bloomed {
-      transform: translateX(-50%) scale(1) !important;
+
+    .badge-preview {
+      background: rgba(243, 156, 18, 0.15);
+      border: 1px solid rgba(243, 156, 18, 0.4);
+      color: #f39c12;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 20px;
     }
 
-    /* Scene 3: Tiered Cake */
-    .sc3-bg {
-      background: radial-gradient(circle at 50% 25%, #25040e 0%, #0d0105 65%, #000 100%);
+    /* Floating ambient stars/dust */
+    .ambient-particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background-image: 
+        radial-gradient(1.5px 1.5px at 20px 30px, #ffffff99, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 80px 140px, #ffb3c6, rgba(0,0,0,0)),
+        radial-gradient(1.5px 1.5px at 240px 190px, #ffffffcc, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 320px 70px, #f9ca24, rgba(0,0,0,0));
+      background-repeat: repeat;
+      background-size: 350px 350px;
+      opacity: 0.55;
     }
-    .cake-container {
-      position: relative;
-      width: 220px;
-      height: 170px;
-      margin: auto 0;
+
+    /* Scene Transitions */
+    .scene {
+      position: absolute;
+      inset: 0;
+      padding: 70px 24px 30px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-end;
-      cursor: pointer;
-    }
-    .cake-tier-bottom {
-      width: 180px;
-      height: 48px;
-      background: #f7a8b8;
-      border-radius: 14px;
-      position: relative;
-      box-shadow: 0 6px 0 #bd4765;
-    }
-    .cake-tier-top {
-      width: 140px;
-      height: 38px;
-      background: #fcd5ce;
-      border-radius: 12px;
-      margin-bottom: -5px;
-      position: relative;
-      box-shadow: 0 5px 0 #c77b8b;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.96);
+      transition: all 0.55s cubic-bezier(0.4, 0, 0.2, 1);
       z-index: 2;
     }
-    .cream-white-drip {
+
+    .scene.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    .tap-hint {
+      position: absolute;
+      bottom: 24px;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.45);
+      letter-spacing: 0.5px;
+      animation: pulseHint 2s infinite ease-in-out;
+    }
+
+    @keyframes pulseHint {
+      0%, 100% { opacity: 0.35; transform: translateY(0); }
+      50% { opacity: 0.8; transform: translateY(-3px); }
+    }
+
+    .action-btn {
+      background: linear-gradient(135deg, #e84393, #d63031);
+      color: white;
+      border: none;
+      padding: 13px 34px;
+      border-radius: 28px;
+      font-weight: 600;
+      font-size: 15px;
+      box-shadow: 0 8px 24px rgba(232, 67, 147, 0.35);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .action-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* Scene 1: Heart Intro */
+    .scene-1-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 38px;
+      margin-bottom: 30px;
+    }
+    .big-heart {
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle at 35% 35%, #ff758c, #ff0844);
+      transform: rotate(-45deg);
+      border-radius: 20px 20px 0 0;
+      position: relative;
+      box-shadow: 0 0 50px rgba(255, 8, 68, 0.6);
+      animation: heartBeat 1.3s infinite ease-in-out;
+      cursor: pointer;
+    }
+    .big-heart::before,
+    .big-heart::after {
+      content: "";
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      background: inherit;
+      border-radius: 50%;
+    }
+    .big-heart::before { top: -70px; left: 0; }
+    .big-heart::after { left: 70px; top: 0; }
+
+    @keyframes heartBeat {
+      0%, 100% { transform: rotate(-45deg) scale(0.95); }
+      30% { transform: rotate(-45deg) scale(1.12); }
+      50% { transform: rotate(-45deg) scale(1.02); }
+    }
+
+    /* Scene 2: Wish Card */
+    .card-wrap {
+      background: linear-gradient(180deg, #420610 0%, #200206 100%);
+      border: 1px solid rgba(255, 180, 200, 0.2);
+      border-radius: 20px;
+      width: 100%;
+      padding: 40px 24px;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+    }
+    .wish-subtitle {
+      font-style: italic;
+      color: #f7a8b8;
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+    .wish-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 40px;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+    .gold-divider {
+      width: 120px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #d4af37, transparent);
+      margin: 15px auto;
+    }
+
+    /* Scene 3: Tree Scene */
+    .tree-stage {
+      width: 100%;
+      height: 60%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      position: relative;
+    }
+    .tree-svg {
+      width: 260px;
+      height: 280px;
+    }
+    .heart-foliage {
+      position: absolute;
+      top: 25px;
+      width: 220px;
+      height: 190px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      pointer-events: none;
+    }
+    .mini-leaf-heart {
+      display: inline-block;
+      font-size: 16px;
+      animation: floatUp 2s ease forwards;
+    }
+
+    /* Scene 4: Cake Scene */
+    .cake-box {
+      position: relative;
+      margin: 40px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .cake-layer {
+      width: 170px;
+      height: 55px;
+      background: #ff85a2;
+      border-radius: 12px;
+      position: relative;
+      box-shadow: 0 6px 0 #f36886;
+    }
+    .cake-frosting {
       position: absolute;
       top: 0;
-      left: 0;
       width: 100%;
-      height: 18px;
-      background: #ffffff;
-      border-radius: 12px 12px 6px 6px;
-    }
-    .cake-candle-bar {
-      width: 9px;
-      height: 36px;
-      background: repeating-linear-gradient(45deg, #fff, #fff 5px, #ff477e 5px, #ff477e 10px);
-      border-radius: 3px;
-      margin-bottom: -4px;
-      position: relative;
-      z-index: 3;
-    }
-    .candle-light {
-      width: 13px;
       height: 20px;
-      background: radial-gradient(circle, #fff 10%, #ffd000 60%, #ff5400 100%);
+      background: #fff;
+      border-radius: 12px 12px 10px 10px;
+    }
+    .candle {
+      width: 10px;
+      height: 38px;
+      background: repeating-linear-gradient(45deg, #fff, #fff 4px, #ff4757 4px, #ff4757 8px);
+      border-radius: 4px;
+      margin-bottom: -2px;
+      position: relative;
+    }
+    .candle-flame {
+      width: 14px;
+      height: 20px;
+      background: #ffa502;
       border-radius: 50% 50% 20% 20%;
       position: absolute;
       top: -20px;
       left: -2px;
-      box-shadow: 0 0 15px #ffb703, 0 0 25px #fb8500;
-      display: none;
+      box-shadow: 0 0 14px #ffa502, 0 0 25px #ff6348;
+      animation: flicker 0.6s infinite alternate;
+    }
+    @keyframes flicker {
+      0% { transform: scale(1) rotate(-2deg); }
+      100% { transform: scale(1.15) rotate(3deg); }
     }
 
-    /* Scene 4: 5 Balloons */
-    .balloons-row {
+    /* Scene 5: Balloons & Reasons */
+    .balloon-stage {
       display: flex;
+      gap: 15px;
       justify-content: center;
-      gap: 13px;
-      margin: 15px 0;
+      margin-bottom: 25px;
     }
-    .balloon-3d {
-      width: 48px;
-      height: 64px;
+    .balloon {
+      width: 46px;
+      height: 58px;
       border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
       cursor: pointer;
       position: relative;
-      box-shadow: inset -4px -4px 10px rgba(0,0,0,0.5), inset 4px 4px 10px rgba(255,255,255,0.45);
-      animation: bFloat 2.4s ease-in-out infinite alternate;
+      transition: transform 0.2s;
+      animation: balloonFloat 3s infinite ease-in-out alternate;
     }
-    .balloon-3d::after {
+    .balloon::after {
       content: "";
       position: absolute;
-      bottom: -11px;
+      bottom: -10px;
       left: 50%;
-      width: 2px;
-      height: 11px;
-      background: rgba(255,255,255,0.35);
-      transform: translateX(-50%);
+      width: 1px;
+      height: 12px;
+      background: rgba(255,255,255,0.4);
     }
-    @keyframes bFloat {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-10px); }
+    .balloon:hover { transform: scale(1.1); }
+    @keyframes balloonFloat {
+      from { transform: translateY(0); }
+      to { transform: translateY(-8px); }
     }
-    .reasons-scrollbox {
+    .reasons-list {
       width: 100%;
-      max-height: 250px;
+      max-height: 340px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      margin-bottom: 10px;
+      padding-right: 5px;
     }
-    .reason-gold-card {
-      background: var(--card-bg);
-      border: 1px solid var(--gold);
+    .reason-card {
+      background: rgba(30, 15, 22, 0.85);
+      border: 1px solid rgba(255, 120, 160, 0.25);
       border-radius: 14px;
-      padding: 13px 16px;
-      text-align: left;
-      font-size: 0.92rem;
-      color: #ffe5ec;
-    }
-    .reason-label {
-      font-size: 0.72rem;
-      color: var(--gold);
-      font-weight: 700;
-      letter-spacing: 0.8px;
-      margin-bottom: 3px;
-    }
-
-    /* Scene 5: Black Polaroid */
-    .polaroid-black-frame {
-      background: #141414;
-      border: 1px solid rgba(255,255,255,0.1);
-      padding: 12px 12px 28px 12px;
-      border-radius: 8px;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.8);
-      margin: auto 0;
-      cursor: pointer;
-      transform: rotate(-1.5deg);
-    }
-    .polaroid-black-frame img {
-      width: 235px;
-      height: 265px;
-      object-fit: cover;
-      display: block;
-      border-radius: 4px;
-    }
-
-    /* Scene 6: Envelope */
-    .wax-envelope {
-      width: 230px;
-      height: 145px;
-      background: #cca062;
-      border-radius: 12px;
-      cursor: pointer;
+      padding: 12px 16px;
+      font-size: 13.5px;
+      line-height: 1.4;
       display: flex;
       align-items: center;
-      justify-content: center;
-      margin: auto 0;
-      box-shadow: 0 16px 35px rgba(0,0,0,0.6);
-      position: relative;
+      gap: 12px;
+      animation: cardSlideUp 0.4s ease forwards;
     }
-    .wax-seal-circle {
-      width: 46px;
-      height: 46px;
-      background: #8b1e2f;
-      border-radius: 50%;
-      border: 2px solid var(--gold);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--gold);
-      font-weight: bold;
-      font-size: 1.25rem;
-    }
-    .letter-paper-box {
-      display: none;
-      background: rgba(18, 8, 12, 0.98);
-      border: 1px solid var(--gold);
-      border-radius: 16px;
-      padding: 22px;
-      text-align: left;
-      max-height: 320px;
-      overflow-y: auto;
-      margin: auto 0;
-    }
-    .letter-text {
-      font-size: 0.95rem;
-      line-height: 1.7;
-      color: #f7e1d7;
-      white-space: pre-line;
-    }
-
-    .btn-action {
-      background: linear-gradient(135deg, #e63946, #b5179e);
-      color: #fff;
-      border: none;
-      padding: 14px 36px;
-      border-radius: 50px;
+    .reason-tag {
+      font-size: 10px;
       font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      box-shadow: 0 6px 20px rgba(230, 57, 70, 0.5);
-      margin-top: 15px;
-    }
-
-    /* Admin Editor */
-    .admin-panel {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.98);
-      z-index: 100000;
-      overflow-y: auto;
-      padding: 25px 20px;
-      text-align: left;
-    }
-    .admin-panel.active { display: block !important; }
-    .fg { margin-bottom: 12px; }
-    .fg label { display: block; font-size: 0.8rem; color: #aaa; margin-bottom: 4px; }
-    .fg input, .fg textarea {
-      width: 100%;
-      padding: 9px;
-      background: #191919;
-      border: 1px solid #333;
-      border-radius: 8px;
-      color: #fff;
-      font-size: 0.85rem;
-    }
-    .fg textarea { height: 90px; }
-    .sec-tag {
-      font-size: 0.75rem;
-      color: #ff758f;
-      margin: 15px 0 6px 0;
-      font-weight: bold;
+      color: #ff758c;
+      letter-spacing: 0.5px;
       text-transform: uppercase;
+      margin-bottom: 2px;
     }
+    @keyframes cardSlideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Scene 6: Polaroids */
+    .polaroid-deck {
+      position: relative;
+      width: 250px;
+      height: 320px;
+      margin: 15px auto 25px;
+    }
+    .polaroid {
+      position: absolute;
+      inset: 0;
+      background: #fff;
+      padding: 12px 12px 40px;
+      border-radius: 4px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      transform-origin: center bottom;
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+    .polaroid img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      border-radius: 2px;
+    }
+    .polaroid .caption {
+      color: #222;
+      font-family: 'Caveat', cursive;
+      font-size: 20px;
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    /* Scene 7: Letter Envelope */
+    .envelope-box {
+      width: 260px;
+      height: 170px;
+      background: #c9933e;
+      border-radius: 8px;
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.5);
+      transition: transform 0.3s;
+    }
+    .wax-seal {
+      width: 48px;
+      height: 48px;
+      background: radial-gradient(circle, #2d2d2d, #111);
+      border-radius: 50%;
+      border: 2px solid #e0ab54;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 20px;
+      color: #e0ab54;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    }
+    .letter-modal {
+      display: none;
+      background: #1e1117;
+      border: 1px solid rgba(255, 175, 195, 0.3);
+      border-radius: 16px;
+      padding: 24px;
+      max-height: 450px;
+      overflow-y: auto;
+      font-family: 'Playfair Display', serif;
+      line-height: 1.6;
+      font-size: 14.5px;
+      color: #ffe6eb;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 4px; }
   </style>
 </head>
 <body>
 
-  <div class="app" id="mainApp">
+  <div class="app-container">
+    <div class="ambient-particles"></div>
 
-    <!-- 1. Intro Screen: Send this 🫶 -->
-    <div class="scene sc1-bg active" id="sc1">
-      <div style="margin-top: 25px; pointer-events:none;">
-        <h2 style="font-size:1.8rem; font-weight:400; color:#fff;">Send this 🫶</h2>
+    <!-- Header -->
+    <header class="top-nav">
+      <button class="nav-btn" onclick="prevStep()">← Back</button>
+      <div class="badge-preview">👁 PREVIEW MODE</div>
+      <button class="nav-btn" id="audioToggle">🔊</button>
+    </header>
+
+    <!-- STEP 1: Intro Heart -->
+    <section class="scene active" id="step-1" onclick="nextStep()">
+      <h1 class="scene-1-title">Send this 🫶</h1>
+      <div class="big-heart"></div>
+      <div class="tap-hint">tap anywhere to continue</div>
+    </section>
+
+    <!-- STEP 2: Happy Birthday Card -->
+    <section class="scene" id="step-2" onclick="nextStep()">
+      <div class="card-wrap">
+        <p class="wish-subtitle">make a wish...</p>
+        <h1 class="wish-title">Happy<br>Birthday</h1>
+        <div class="gold-divider"></div>
+        <p style="font-size: 14px; opacity: 0.85;">to someone worth celebrating</p>
       </div>
-      <div class="glow-heart-wrap" style="margin: auto 0; cursor: pointer;" onclick="showScene(2)">
-        <svg class="glow-heart-svg" viewBox="0 0 24 24" fill="#ff4d6d">
-          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      <div class="tap-hint">tap anywhere to continue</div>
+    </section>
+
+    <!-- STEP 3: Tree of Hearts -->
+    <section class="scene" id="step-3" onclick="nextStep()">
+      <div class="tree-stage">
+        <svg class="tree-svg" viewBox="0 0 200 200">
+          <path d="M100 190 L100 110 M100 140 L70 90 M100 130 L130 85 M100 110 L90 60 M100 110 L115 65" 
+                stroke="#63392a" stroke-width="4" stroke-linecap="round" fill="none"/>
         </svg>
+        <div class="heart-foliage" id="treeFoliage"></div>
       </div>
-      <div>
-        <button class="btn-action" onclick="showScene(2)">Tap to Open ✨</button>
-        <p class="bottom-hint" style="margin-top: 10px;">tap button or heart to begin</p>
+      <div style="text-align: center; margin-top: 15px;">
+        <span style="font-size: 13px; color: #ff9cb0;">it's officially your day</span>
+        <h2 style="font-size: 26px; font-weight: 700; margin: 4px 0;">Happy Birthday, Tanisha</h2>
+        <p style="font-size: 13px; opacity: 0.7;">and just like that, you're turning 21 ✨</p>
       </div>
-    </div>
+      <div class="tap-hint">tap anywhere to continue</div>
+    </section>
 
-    <!-- 2. Sakura Blooming Tree Screen -->
-    <div class="scene sc2-bg" id="sc2">
-      <div class="tree-stage" onclick="bloomTree()">
-        <div class="tree-trunk-line"></div>
-        <svg class="tree-branches-svg" viewBox="0 0 100 80" fill="none" stroke="#502219" stroke-width="2.5" stroke-linecap="round">
-          <path d="M50 80 Q50 45 35 25 M35 25 Q20 15 10 10 M35 25 Q38 12 40 5"/>
-          <path d="M50 80 Q50 45 65 25 M65 25 Q80 15 90 10 M65 25 Q62 12 60 5"/>
-        </svg>
-        <div class="heart-canopy" id="treeCanopy"></div>
+    <!-- STEP 4: Cake & Candle -->
+    <section class="scene" id="step-4">
+      <h3 style="font-size: 20px; font-weight: 600;">First things first 🎂</h3>
+      <div class="cake-box" onclick="blowCandle()">
+        <div class="candle">
+          <div class="candle-flame" id="flame"></div>
+        </div>
+        <div class="cake-layer" style="margin-bottom: 4px;">
+          <div class="cake-frosting"></div>
+        </div>
+        <div class="cake-layer" style="width: 200px;">
+          <div class="cake-frosting"></div>
+        </div>
       </div>
+      <p id="cakeStatus" style="font-size: 14px; color: #ffb8c9;">Baking something sweet...</p>
+      <div class="tap-hint" style="position: static; margin-top: 25px;" id="cakeNext" onclick="nextStep()">Tap flame to make a wish 🕯️</div>
+    </section>
 
-      <div style="width:100%;">
-        <p class="script-sub">it's officially your day</p>
-        <h1 class="hero-title" id="txtTitle">Happy Birthday, Lovely</h1>
-        <p class="bottom-hint" id="txtAge" style="margin-top: 6px; color:#ff758f;">and just like that, you're turning 21 ✨ (26th Oct)</p>
-        <p class="bottom-hint" id="treeStatus" style="margin-top: 12px;">tap the tree to bloom 🌸</p>
-        <button class="btn-action" id="btnTreeNext" style="display:none;" onclick="showScene(3)">Continue 🎂</button>
-      </div>
-    </div>
+    <!-- STEP 5: Pop Balloons & 5 Reasons -->
+    <section class="scene" id="step-5">
+      <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 4px;">Pop the balloons 🎈</h3>
+      <p style="font-size: 12px; opacity: 0.7; margin-bottom: 16px;">Pop each one to reveal why you're loved</p>
 
-    <!-- 3. Baking Cake Screen -->
-    <div class="scene sc3-bg" id="sc3">
-      <div>
-        <h2 style="font-size: 1.45rem; color: #fff;">First things first 🎂</h2>
-        <p class="script-sub" style="margin-top: 6px;">Baking something sweet...</p>
-      </div>
-
-      <div class="cake-container" onclick="lightCandle()">
-        <div class="cake-candle-bar"><div class="candle-light" id="flameElement"></div></div>
-        <div class="cake-tier-top"><div class="cream-white-drip"></div></div>
-        <div class="cake-tier-bottom"><div class="cream-white-drip"></div></div>
-      </div>
-
-      <div>
-        <p class="script-sub" id="cakeStatus">Make a wish 🕯️ (tap cake)</p>
-        <button class="btn-action" id="btnCakeNext" style="display:none;" onclick="showScene(4)">Pop The Balloons 🎈</button>
-      </div>
-    </div>
-
-    <!-- 4. 5 Balloons (Video Match) -->
-    <div class="scene" id="sc4" style="background:#0d0105;">
-      <div>
-        <h2 style="font-size: 1.4rem; color: #fff;">Pop the balloons 🎈</h2>
-        <p class="bottom-hint" style="margin-top: 4px;">5 balloons. Each one holds a reason you're a special friend. Pop them all 🎈</p>
+      <div class="balloon-stage">
+        <div class="balloon" style="background: #e74c3c;" onclick="popBalloon(0, this)"></div>
+        <div class="balloon" style="background: #2ecc71;" onclick="popBalloon(1, this)"></div>
+        <div class="balloon" style="background: #9b59b6;" onclick="popBalloon(2, this)"></div>
+        <div class="balloon" style="background: #f1c40f;" onclick="popBalloon(3, this)"></div>
+        <div class="balloon" style="background: #e67e22;" onclick="popBalloon(4, this)"></div>
       </div>
 
-      <div class="balloons-row">
-        <div class="balloon-3d" style="background: radial-gradient(circle at 35% 30%, #8a1d30, #36050e);" onclick="popBalloon(0, this)"></div>
-        <div class="balloon-3d" style="background: radial-gradient(circle at 35% 30%, #4a287a, #1a0833);" onclick="popBalloon(1, this)"></div>
-        <div class="balloon-3d" style="background: radial-gradient(circle at 35% 30%, #20634c, #07241a);" onclick="popBalloon(2, this)"></div>
-        <div class="balloon-3d" style="background: radial-gradient(circle at 35% 30%, #1a4f7a, #061929);" onclick="popBalloon(3, this)"></div>
-        <div class="balloon-3d" style="background: radial-gradient(circle at 35% 30%, #a82338, #3b050f);" onclick="popBalloon(4, this)"></div>
+      <div class="reasons-list" id="reasonsContainer"></div>
+
+      <button class="action-btn" id="balloonContinueBtn" style="display:none; margin-top:15px;" onclick="nextStep()">Keep going 💛</button>
+    </section>
+
+    <!-- STEP 6: Memory Lane Photos -->
+    <section class="scene" id="step-6">
+      <h3 style="font-size: 20px; font-weight: 600;">A walk down memory lane</h3>
+      <p style="font-size: 12px; opacity: 0.7; margin-bottom: 8px;">swipe / tap through 📁</p>
+
+      <div class="polaroid-deck" onclick="rotatePolaroid()">
+        <div class="polaroid" style="transform: rotate(-6deg);" id="card-3">
+          <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop" alt="Memory 3" />
+          <div class="caption">Forever smiling ✨</div>
+        </div>
+        <div class="polaroid" style="transform: rotate(4deg);" id="card-2">
+          <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500&auto=format&fit=crop" alt="Memory 2" />
+          <div class="caption">Adventures together 🌸</div>
+        </div>
+        <div class="polaroid" style="transform: rotate(-2deg);" id="card-1">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop" alt="Memory 1" />
+          <div class="caption">Unfiltered happiness 💛</div>
+        </div>
       </div>
 
-      <div class="reasons-scrollbox" id="reasonsContainer"></div>
-      <button class="btn-action" onclick="showScene(5)">Keep going ✨</button>
-    </div>
+      <button class="action-btn" onclick="nextStep()">Keep going ✨</button>
+    </section>
 
-    <!-- 5. Black Polaroid Photo Gallery -->
-    <div class="scene" id="sc5" style="background:#0d0105;">
-      <div>
-        <h2 style="font-size: 1.4rem; color: #fff;">A walk down memory lane</h2>
-        <p class="bottom-hint" style="margin-top: 4px;">swipe through 📁 (tap photo for next)</p>
+    <!-- STEP 7: Letter from Friend/Partner -->
+    <section class="scene" id="step-7">
+      <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 4px;">One last thing, Tanisha...</h3>
+      <p style="font-size: 12px; opacity: 0.7; margin-bottom: 24px;">Mahi wrote you a letter.</p>
+
+      <div class="envelope-box" id="envelope" onclick="openLetter()">
+        <div class="wax-seal">T</div>
       </div>
 
-      <div class="polaroid-black-frame" onclick="nextPhoto()">
-        <img id="friendPhoto" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" alt="Memory">
-        <div style="color:var(--gold); font-size:1.1rem; margin-top:10px;">💛</div>
+      <div class="letter-modal" id="letter">
+        <p><strong>Dear Tanisha,</strong></p><br>
+        <p>I keep thinking about how lucky I got with you. You have seen me at my worst and stayed anyway, and I do not say thank you nearly enough for that. 🤍</p><br>
+        <p>This year, I hope life is gentle with you... You make my most ordinary days feel worth remembering. Happy birthday, my favourite person!</p><br>
+        <p style="text-align: right; font-style: italic;">With all my love,<br>— Mahi</p>
+        <button class="action-btn" style="width: 100%; margin-top: 15px;" onclick="nextStep()">Continue</button>
       </div>
+    </section>
 
-      <button class="btn-action" onclick="showScene(6)">Keep going ✨</button>
-    </div>
-
-    <!-- 6. Vintage Wax Envelope & Letter -->
-    <div class="scene" id="sc6" style="background:#0d0105;">
-      <div>
-        <h2 style="font-size: 1.4rem; color: #fff;">One last thing, Lovely...</h2>
-        <p class="script-sub" style="margin-top: 4px;">Shubham wrote you a letter.</p>
-      </div>
-
-      <div class="wax-envelope" id="envBox" onclick="openEnvelope()">
-        <div class="wax-seal-circle" id="sealLetter">L</div>
-      </div>
-
-      <div class="letter-paper-box" id="letterModal">
-        <p class="letter-text" id="letterBodyText"></p>
-        <p style="text-align:right; margin-top:18px; font-weight:700; color:var(--gold);">With all my best wishes,<br>— Shubham</p>
-      </div>
-
-      <button class="btn-action" onclick="showScene(1)">Replay ✨</button>
-    </div>
-  </div>
-
-  <!-- Secret Admin Editor Panel (PASS82) -->
-  <div class="admin-panel" id="adminModal">
-    <h3 style="color:var(--gold); margin-bottom:15px;">⚙️ सीक्रेट एडिट पैनल (सिर्फ आपके लिए)</h3>
-    
-    <div class="fg">
-      <label>दोस्त का नाम:</label>
-      <input type="text" id="inName">
-    </div>
-    <div class="fg">
-      <label>टैगलाइन (Tagline):</label>
-      <input type="text" id="inAge">
-    </div>
-
-    <div class="sec-tag">📸 गैलरी से 3 फोटो चुनें:</div>
-    <div class="fg"><label>फोटो 1:</label><input type="file" id="inPhoto1" accept="image/*"></div>
-    <div class="fg"><label>फोटो 2:</label><input type="file" id="inPhoto2" accept="image/*"></div>
-    <div class="fg"><label>फोटो 3:</label><input type="file" id="inPhoto3" accept="image/*"></div>
-
-    <div class="sec-tag">🎈 5 गुब्बारों के संदेश (Video Match):</div>
-    <div class="fg"><label>गुब्बारा 1 (Maroon):</label><input type="text" id="inB1"></div>
-    <div class="fg"><label>गुब्बारा 2 (Purple):</label><input type="text" id="inB2"></div>
-    <div class="fg"><label>गुब्बारा 3 (Green):</label><input type="text" id="inB3"></div>
-    <div class="fg"><label>गुब्बारा 4 (Blue):</label><input type="text" id="inB4"></div>
-    <div class="fg"><label>गुब्बारा 5 (Red):</label><input type="text" id="inB5"></div>
-
-    <div class="fg">
-      <label>💌 जन्मदिन का पत्र (Letter):</label>
-      <textarea id="inMsg"></textarea>
-    </div>
-
-    <button class="btn-action" style="width:100%; margin-top:10px;" onclick="saveAdminData()">💾 Save All Changes</button>
-    <button class="btn-action" style="width:100%; background:#444; margin-top:8px;" onclick="document.getElementById('adminModal').classList.remove('active')">Cancel</button>
+    <!-- STEP 8: Grand Finale -->
+    <section class="scene" id="step-8">
+      <h1 style="font-size: 32px; font-weight: 800; letter-spacing: 1px; text-align: center;">HAPPY BIRTHDAY<br><span style="color:#ff758c;">Tanisha!</span></h1>
+      <div style="font-size: 80px; margin: 30px 0;">🐱💐</div>
+      <button class="action-btn" onclick="fireMegaConfetti()">Celebrate Again 🎉</button>
+    </section>
   </div>
 
   <script>
-    var DATA = {
-      name: "Lovely",
-      ageText: "and just like that, you're turning 21 ✨ (26th Oct)",
-      photos: [
-        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
-        "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80",
-        "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80"
-      ],
-      reasons: [
-        "My worst days get shorter when we talk 🌸",
-        "Your laugh is truly wonderful and infectious ✨",
-        "The world is kinder with your positivity in it 💫",
-        "You make ordinary conversations feel special 😊",
-        "Grateful to have started this lovely friendship with you 🤝"
-      ],
-      letter: "Dear Lovely,\n\nWishing you a very Happy Birthday! 🎂✨\n\nभले ही हमारी दोस्ती अभी नई है, लेकिन आपसे बात करके सच में बहुत अच्छा लगता है। आपकी सादगी, पॉजिटिव सोच और मुस्कान बहुत प्यारी है।\n\nदुआ है कि 26 अक्टूबर का यह खास दिन और आने वाला पूरा साल आपके जीवन में ढेर सारी खुशियाँ, कामयाबी और अच्छे पल लेकर आए। आशा है हमारी यह दोस्ती हमेशा ऐसी ही खूबसूरत रहेगी।\n\nEnjoy your special day to the fullest!"
-    };
+    let currentStep = 1;
+    const totalSteps = 8;
 
-    var saved = localStorage.getItem("lovely_bday_perfect_touch");
-    if (saved) {
-      try { DATA = Object.assign({}, DATA, JSON.parse(saved)); } catch(e){}
+    function showStep(step) {
+      document.querySelectorAll('.scene').forEach(el => el.classList.remove('active'));
+      const activeEl = document.getElementById(`step-${step}`);
+      if (activeEl) activeEl.classList.add('active');
+
+      if (step === 3) populateTree();
+      if (step === 8) fireMegaConfetti();
     }
 
-    function renderView() {
-      document.getElementById("txtTitle").innerText = "Happy Birthday, " + DATA.name;
-      document.getElementById("txtAge").innerText = DATA.ageText;
-      document.getElementById("sealLetter").innerText = (DATA.name[0] || 'L').toUpperCase();
-      document.getElementById("letterBodyText").innerText = DATA.letter;
-      if (DATA.photos && DATA.photos[0]) {
-        document.getElementById("friendPhoto").src = DATA.photos[0];
+    function nextStep() {
+      if (currentStep < totalSteps) {
+        currentStep++;
+        showStep(currentStep);
       }
     }
-    renderView();
 
-    function showScene(n) {
-      for (var i = 1; i <= 6; i++) {
-        var el = document.getElementById("sc" + i);
-        if (el) el.classList.remove("active");
+    function prevStep() {
+      if (currentStep > 1) {
+        currentStep--;
+        showStep(currentStep);
       }
-      var target = document.getElementById("sc" + n);
-      if (target) target.classList.add("active");
     }
 
-    function bloomTree() {
-      document.getElementById("treeCanopy").classList.add("bloomed");
-      document.getElementById("treeStatus").style.display = "none";
-      document.getElementById("btnTreeNext").style.display = "inline-block";
+    /* Populate Heart Tree leaves */
+    function populateTree() {
+      const container = document.getElementById('treeFoliage');
+      if (container.children.length > 0) return;
+      const icons = ['🌸', '💖', '💐', '✨', '💕', '💗'];
+      for (let i = 0; i < 45; i++) {
+        const span = document.createElement('span');
+        span.className = 'mini-leaf-heart';
+        span.innerText = icons[Math.floor(Math.random() * icons.length)];
+        span.style.padding = '3px';
+        container.appendChild(span);
+      }
     }
 
-    function lightCandle() {
-      document.getElementById("flameElement").style.display = "block";
-      document.getElementById("cakeStatus").innerText = "Happy Birthday, " + DATA.name + "! 🎉";
-      document.getElementById("btnCakeNext").style.display = "inline-block";
+    /* Candle blow logic */
+    function blowCandle() {
+      const flame = document.getElementById('flame');
+      if (flame.style.display !== 'none') {
+        flame.style.display = 'none';
+        document.getElementById('cakeStatus').innerText = 'Wish made! ✨ Happy Birthday, Tanisha!';
+        confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+        document.getElementById('cakeNext').innerText = 'Tap here to continue →';
+      }
     }
 
-    function popBalloon(idx, el) {
-      el.style.visibility = "hidden";
-      var container = document.getElementById("reasonsContainer");
-      var card = document.createElement("div");
-      card.className = "reason-gold-card";
-      card.innerHTML = "<div class='reason-label'>REASON NO. " + (idx + 1) + " 💖</div><div>" + DATA.reasons[idx] + "</div>";
-      container.appendChild(card);
-    }
+    /* Reasons popping */
+    const reasons = [
+      "My worst days get shorter when you call",
+      "Your laugh is my favourite sound",
+      "The world is kinder with you in it",
+      "You make ordinary days feel special",
+      "You believed in me when I didn't"
+    ];
+    let poppedCount = 0;
 
-    var photoIdx = 0;
-    function nextPhoto() {
-      if (!DATA.photos || !DATA.photos.length) return;
-      photoIdx = (photoIdx + 1) % DATA.photos.length;
-      document.getElementById("friendPhoto").src = DATA.photos[photoIdx];
-    }
-
-    function openEnvelope() {
-      document.getElementById("envBox").style.display = "none";
-      document.getElementById("letterModal").style.display = "block";
-    }
-
-    // Secret: 4 Taps anywhere on the screen for PASS82
-    var tapTimes = 0, tTimer = null;
-    doc
+    function popBalloon(index, el) {
+      if (el.style.visibility === 'hidden') return;
+      el.style.visibility = 'hidden';
+      
+      confetti({ particleCount: 35, spread
