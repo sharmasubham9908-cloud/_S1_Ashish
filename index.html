@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Happy Birthday Tanisha</title>
-  <!-- Google Fonts & Canvas Confetti -->
+  <!-- Google Fonts & Confetti Library -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -30,7 +30,7 @@
       overflow: hidden;
     }
 
-    /* Mobile Frame Viewport */
+    /* Mobile Container Frame */
     .app-container {
       width: 100%;
       max-width: 420px;
@@ -44,7 +44,7 @@
       box-shadow: 0 0 50px rgba(255, 100, 150, 0.15);
     }
 
-    /* Top Navigation bar */
+    /* Header Nav */
     .top-nav {
       position: absolute;
       top: 14px;
@@ -82,7 +82,7 @@
       border-radius: 20px;
     }
 
-    /* Floating ambient stars/dust */
+    /* Floating Dust Background */
     .ambient-particles {
       position: absolute;
       inset: 0;
@@ -98,7 +98,7 @@
       opacity: 0.55;
     }
 
-    /* Scene Transitions */
+    /* Stage Screens */
     .scene {
       position: absolute;
       inset: 0;
@@ -150,15 +150,15 @@
       transform: scale(0.96);
     }
 
-    /* Scene 1: Heart Intro */
+    /* Screen 1: Heart Intro */
     .scene-1-title {
       font-family: 'Playfair Display', serif;
       font-size: 38px;
       margin-bottom: 30px;
     }
     .big-heart {
-      width: 140px;
-      height: 140px;
+      width: 130px;
+      height: 130px;
       background: radial-gradient(circle at 35% 35%, #ff758c, #ff0844);
       transform: rotate(-45deg);
       border-radius: 20px 20px 0 0;
@@ -171,13 +171,13 @@
     .big-heart::after {
       content: "";
       position: absolute;
-      width: 140px;
-      height: 140px;
+      width: 130px;
+      height: 130px;
       background: inherit;
       border-radius: 50%;
     }
-    .big-heart::before { top: -70px; left: 0; }
-    .big-heart::after { left: 70px; top: 0; }
+    .big-heart::before { top: -65px; left: 0; }
+    .big-heart::after { left: 65px; top: 0; }
 
     @keyframes heartBeat {
       0%, 100% { transform: rotate(-45deg) scale(0.95); }
@@ -185,7 +185,7 @@
       50% { transform: rotate(-45deg) scale(1.02); }
     }
 
-    /* Scene 2: Wish Card */
+    /* Screen 2: Wish Card */
     .card-wrap {
       background: linear-gradient(180deg, #420610 0%, #200206 100%);
       border: 1px solid rgba(255, 180, 200, 0.2);
@@ -215,24 +215,24 @@
       margin: 15px auto;
     }
 
-    /* Scene 3: Tree Scene */
+    /* Screen 3: Heart Tree */
     .tree-stage {
       width: 100%;
-      height: 60%;
+      height: 250px;
       display: flex;
       justify-content: center;
       align-items: flex-end;
       position: relative;
     }
     .tree-svg {
-      width: 260px;
-      height: 280px;
+      width: 240px;
+      height: 240px;
     }
     .heart-foliage {
       position: absolute;
-      top: 25px;
+      top: 15px;
       width: 220px;
-      height: 190px;
+      height: 170px;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
@@ -242,20 +242,21 @@
     .mini-leaf-heart {
       display: inline-block;
       font-size: 16px;
-      animation: floatUp 2s ease forwards;
+      padding: 2px;
     }
 
-    /* Scene 4: Cake Scene */
+    /* Screen 4: Cake & Candle */
     .cake-box {
       position: relative;
       margin: 40px 0;
       display: flex;
       flex-direction: column;
       align-items: center;
+      cursor: pointer;
     }
     .cake-layer {
       width: 170px;
-      height: 55px;
+      height: 50px;
       background: #ff85a2;
       border-radius: 12px;
       position: relative;
@@ -265,7 +266,7 @@
       position: absolute;
       top: 0;
       width: 100%;
-      height: 20px;
+      height: 18px;
       background: #fff;
       border-radius: 12px 12px 10px 10px;
     }
@@ -293,16 +294,16 @@
       100% { transform: scale(1.15) rotate(3deg); }
     }
 
-    /* Scene 5: Balloons & Reasons */
+    /* Screen 5: Balloons */
     .balloon-stage {
       display: flex;
       gap: 15px;
       justify-content: center;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
     }
     .balloon {
-      width: 46px;
-      height: 58px;
+      width: 44px;
+      height: 56px;
       border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
       cursor: pointer;
       position: relative;
@@ -318,19 +319,17 @@
       height: 12px;
       background: rgba(255,255,255,0.4);
     }
-    .balloon:hover { transform: scale(1.1); }
     @keyframes balloonFloat {
       from { transform: translateY(0); }
       to { transform: translateY(-8px); }
     }
     .reasons-list {
       width: 100%;
-      max-height: 340px;
+      max-height: 330px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      padding-right: 5px;
     }
     .reason-card {
       background: rgba(30, 15, 22, 0.85);
@@ -339,9 +338,6 @@
       padding: 12px 16px;
       font-size: 13.5px;
       line-height: 1.4;
-      display: flex;
-      align-items: center;
-      gap: 12px;
       animation: cardSlideUp 0.4s ease forwards;
     }
     .reason-tag {
@@ -357,18 +353,18 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Scene 6: Polaroids */
+    /* Screen 6: Polaroid Gallery */
     .polaroid-deck {
       position: relative;
-      width: 250px;
-      height: 320px;
+      width: 240px;
+      height: 310px;
       margin: 15px auto 25px;
     }
     .polaroid {
       position: absolute;
       inset: 0;
       background: #fff;
-      padding: 12px 12px 40px;
+      padding: 12px 12px 36px;
       border-radius: 4px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.6);
       transform-origin: center bottom;
@@ -377,7 +373,7 @@
     }
     .polaroid img {
       width: 100%;
-      height: 240px;
+      height: 230px;
       object-fit: cover;
       border-radius: 2px;
     }
@@ -389,7 +385,7 @@
       margin-top: 8px;
     }
 
-    /* Scene 7: Letter Envelope */
+    /* Screen 7: Letter Envelope */
     .envelope-box {
       width: 260px;
       height: 170px;
@@ -401,7 +397,6 @@
       align-items: center;
       justify-content: center;
       box-shadow: 0 10px 35px rgba(0,0,0,0.5);
-      transition: transform 0.3s;
     }
     .wax-seal {
       width: 48px;
@@ -415,25 +410,20 @@
       font-weight: 800;
       font-size: 20px;
       color: #e0ab54;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
     }
     .letter-modal {
       display: none;
       background: #1e1117;
       border: 1px solid rgba(255, 175, 195, 0.3);
       border-radius: 16px;
-      padding: 24px;
-      max-height: 450px;
+      padding: 22px;
+      max-height: 440px;
       overflow-y: auto;
       font-family: 'Playfair Display', serif;
       line-height: 1.6;
       font-size: 14.5px;
       color: #ffe6eb;
     }
-
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 4px; }
   </style>
 </head>
 <body>
@@ -441,11 +431,11 @@
   <div class="app-container">
     <div class="ambient-particles"></div>
 
-    <!-- Header -->
+    <!-- Top Navigation Bar -->
     <header class="top-nav">
       <button class="nav-btn" onclick="prevStep()">← Back</button>
       <div class="badge-preview">👁 PREVIEW MODE</div>
-      <button class="nav-btn" id="audioToggle">🔊</button>
+      <button class="nav-btn" onclick="alert('Audio toggled!')">🔊</button>
     </header>
 
     <!-- STEP 1: Intro Heart -->
@@ -455,7 +445,7 @@
       <div class="tap-hint">tap anywhere to continue</div>
     </section>
 
-    <!-- STEP 2: Happy Birthday Card -->
+    <!-- STEP 2: Birthday Wish Card -->
     <section class="scene" id="step-2" onclick="nextStep()">
       <div class="card-wrap">
         <p class="wish-subtitle">make a wish...</p>
@@ -498,13 +488,13 @@
         </div>
       </div>
       <p id="cakeStatus" style="font-size: 14px; color: #ffb8c9;">Baking something sweet...</p>
-      <div class="tap-hint" style="position: static; margin-top: 25px;" id="cakeNext" onclick="nextStep()">Tap flame to make a wish 🕯️</div>
+      <div class="tap-hint" style="position: static; margin-top: 25px;" id="cakeNext" onclick="nextStep()">Tap candle flame to blow 🕯️</div>
     </section>
 
     <!-- STEP 5: Pop Balloons & 5 Reasons -->
     <section class="scene" id="step-5">
       <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 4px;">Pop the balloons 🎈</h3>
-      <p style="font-size: 12px; opacity: 0.7; margin-bottom: 16px;">Pop each one to reveal why you're loved</p>
+      <p style="font-size: 12px; opacity: 0.7; margin-bottom: 16px;">5 balloons. Each holds a reason you're loved.</p>
 
       <div class="balloon-stage">
         <div class="balloon" style="background: #e74c3c;" onclick="popBalloon(0, this)"></div>
@@ -519,7 +509,7 @@
       <button class="action-btn" id="balloonContinueBtn" style="display:none; margin-top:15px;" onclick="nextStep()">Keep going 💛</button>
     </section>
 
-    <!-- STEP 6: Memory Lane Photos -->
+    <!-- STEP 6: Polaroids (Swipe/Tap) -->
     <section class="scene" id="step-6">
       <h3 style="font-size: 20px; font-weight: 600;">A walk down memory lane</h3>
       <p style="font-size: 12px; opacity: 0.7; margin-bottom: 8px;">swipe / tap through 📁</p>
@@ -542,7 +532,7 @@
       <button class="action-btn" onclick="nextStep()">Keep going ✨</button>
     </section>
 
-    <!-- STEP 7: Letter from Friend/Partner -->
+    <!-- STEP 7: Mahi's Letter -->
     <section class="scene" id="step-7">
       <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 4px;">One last thing, Tanisha...</h3>
       <p style="font-size: 12px; opacity: 0.7; margin-bottom: 24px;">Mahi wrote you a letter.</p>
@@ -560,9 +550,9 @@
       </div>
     </section>
 
-    <!-- STEP 8: Grand Finale -->
+    <!-- STEP 8: Final Celebration -->
     <section class="scene" id="step-8">
-      <h1 style="font-size: 32px; font-weight: 800; letter-spacing: 1px; text-align: center;">HAPPY BIRTHDAY<br><span style="color:#ff758c;">Tanisha!</span></h1>
+      <h1 style="font-size: 30px; font-weight: 800; letter-spacing: 1px; text-align: center;">HAPPY BIRTHDAY<br><span style="color:#ff758c;">Tanisha!</span></h1>
       <div style="font-size: 80px; margin: 30px 0;">🐱💐</div>
       <button class="action-btn" onclick="fireMegaConfetti()">Celebrate Again 🎉</button>
     </section>
@@ -595,7 +585,7 @@
       }
     }
 
-    /* Populate Heart Tree leaves */
+    /* Tree Hearts Generator */
     function populateTree() {
       const container = document.getElementById('treeFoliage');
       if (container.children.length > 0) return;
@@ -604,12 +594,11 @@
         const span = document.createElement('span');
         span.className = 'mini-leaf-heart';
         span.innerText = icons[Math.floor(Math.random() * icons.length)];
-        span.style.padding = '3px';
         container.appendChild(span);
       }
     }
 
-    /* Candle blow logic */
+    /* Candle Blow */
     function blowCandle() {
       const flame = document.getElementById('flame');
       if (flame.style.display !== 'none') {
@@ -620,7 +609,7 @@
       }
     }
 
-    /* Reasons popping */
+    /* Balloons Pop & Reasons */
     const reasons = [
       "My worst days get shorter when you call",
       "Your laugh is my favourite sound",
@@ -634,4 +623,14 @@
       if (el.style.visibility === 'hidden') return;
       el.style.visibility = 'hidden';
       
-      confetti({ particleCount: 35, spread
+      confetti({ particleCount: 35, spread: 40, origin: { y: 0.4 } });
+
+      const container = document.getElementById('reasonsContainer');
+      const card = document.createElement('div');
+      card.className = 'reason-card';
+      card.innerHTML = `<div class="reason-tag">REASON NO. ${index + 1} 💖</div><div>${reasons[index]}</div>`;
+      container.appendChild(card);
+
+      poppedCount++;
+      if (poppedCount >= 5) {
+       
