@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Happy Birthday, Lovely!</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
     :root {
       --gold: #dfba73;
@@ -33,17 +34,6 @@
       position: relative;
       background: #000;
       overflow: hidden;
-    }
-
-    /* Secret Hotspot: Top-Left (3 Taps for PASS82) */
-    .secret-trigger {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 85px;
-      height: 85px;
-      z-index: 99999;
-      opacity: 0;
     }
 
     .scene {
@@ -329,15 +319,14 @@
       background: linear-gradient(135deg, #e63946, #b5179e);
       color: #fff;
       border: none;
-      padding: 13px 32px;
+      padding: 14px 36px;
       border-radius: 50px;
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: 1rem;
       cursor: pointer;
-      box-shadow: 0 6px 20px rgba(230, 57, 70, 0.45);
+      box-shadow: 0 6px 20px rgba(230, 57, 70, 0.5);
       margin-top: 15px;
     }
-    .btn-action:active { transform: scale(0.96); }
 
     /* Admin Editor */
     .admin-panel {
@@ -374,23 +363,21 @@
 </head>
 <body>
 
-  <div class="app">
-    <!-- Secret 3 Taps in Top Left Corner -->
-    <div class="secret-trigger" onclick="handleSecretTap()"></div>
+  <div class="app" id="mainApp">
 
     <!-- 1. Intro Screen: Send this 🫶 -->
-    <div class="scene sc1-bg active" id="sc1" onclick="showScene(2)">
+    <div class="scene sc1-bg active" id="sc1">
       <div style="margin-top: 25px; pointer-events:none;">
         <h2 style="font-size:1.8rem; font-weight:400; color:#fff;">Send this 🫶</h2>
       </div>
-      <div class="glow-heart-wrap" style="margin: auto 0; cursor: pointer;">
+      <div class="glow-heart-wrap" style="margin: auto 0; cursor: pointer;" onclick="showScene(2)">
         <svg class="glow-heart-svg" viewBox="0 0 24 24" fill="#ff4d6d">
           <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
         </svg>
       </div>
       <div>
-        <button class="btn-action" onclick="showScene(2); event.stopPropagation();">Tap to Open ✨</button>
-        <p class="bottom-hint" style="margin-top: 10px;">tap anywhere to begin</p>
+        <button class="btn-action" onclick="showScene(2)">Tap to Open ✨</button>
+        <p class="bottom-hint" style="margin-top: 10px;">tap button or heart to begin</p>
       </div>
     </div>
 
@@ -428,7 +415,7 @@
       </div>
 
       <div>
-        <p class="script-sub" id="cakeStatus">Make a wish 🕯️ (tap candle)</p>
+        <p class="script-sub" id="cakeStatus">Make a wish 🕯️ (tap cake)</p>
         <button class="btn-action" id="btnCakeNext" style="display:none;" onclick="showScene(4)">Pop The Balloons 🎈</button>
       </div>
     </div>
@@ -500,7 +487,7 @@
       <input type="text" id="inAge">
     </div>
 
-    <div class="sec-tag">📸 गैलरी से 3 फोटो चुनें (Tap to slide):</div>
+    <div class="sec-tag">📸 गैलरी से 3 फोटो चुनें:</div>
     <div class="fg"><label>फोटो 1:</label><input type="file" id="inPhoto1" accept="image/*"></div>
     <div class="fg"><label>फोटो 2:</label><input type="file" id="inPhoto2" accept="image/*"></div>
     <div class="fg"><label>फोटो 3:</label><input type="file" id="inPhoto3" accept="image/*"></div>
@@ -540,7 +527,7 @@
       letter: "Dear Lovely,\n\nWishing you a very Happy Birthday! 🎂✨\n\nभले ही हमारी दोस्ती अभी नई है, लेकिन आपसे बात करके सच में बहुत अच्छा लगता है। आपकी सादगी, पॉजिटिव सोच और मुस्कान बहुत प्यारी है।\n\nदुआ है कि 26 अक्टूबर का यह खास दिन और आने वाला पूरा साल आपके जीवन में ढेर सारी खुशियाँ, कामयाबी और अच्छे पल लेकर आए। आशा है हमारी यह दोस्ती हमेशा ऐसी ही खूबसूरत रहेगी।\n\nEnjoy your special day to the fullest!"
     };
 
-    var saved = localStorage.getItem("lovely_bday_final_store");
+    var saved = localStorage.getItem("lovely_bday_perfect_touch");
     if (saved) {
       try { DATA = Object.assign({}, DATA, JSON.parse(saved)); } catch(e){}
     }
@@ -565,21 +552,18 @@
       if (target) target.classList.add("active");
     }
 
-    // Sakura Tree Bloom
     function bloomTree() {
       document.getElementById("treeCanopy").classList.add("bloomed");
       document.getElementById("treeStatus").style.display = "none";
       document.getElementById("btnTreeNext").style.display = "inline-block";
     }
 
-    // Cake Flame Ignition
     function lightCandle() {
       document.getElementById("flameElement").style.display = "block";
       document.getElementById("cakeStatus").innerText = "Happy Birthday, " + DATA.name + "! 🎉";
       document.getElementById("btnCakeNext").style.display = "inline-block";
     }
 
-    // Pop 3D Balloons (Video Cards)
     function popBalloon(idx, el) {
       el.style.visibility = "hidden";
       var container = document.getElementById("reasonsContainer");
@@ -589,7 +573,18 @@
       container.appendChild(card);
     }
 
-    // Slide Polaroid Photos
     var photoIdx = 0;
     function nextPhoto() {
-      if (!DATA.photos || !DATA.photos.len
+      if (!DATA.photos || !DATA.photos.length) return;
+      photoIdx = (photoIdx + 1) % DATA.photos.length;
+      document.getElementById("friendPhoto").src = DATA.photos[photoIdx];
+    }
+
+    function openEnvelope() {
+      document.getElementById("envBox").style.display = "none";
+      document.getElementById("letterModal").style.display = "block";
+    }
+
+    // Secret: 4 Taps anywhere on the screen for PASS82
+    var tapTimes = 0, tTimer = null;
+    doc
