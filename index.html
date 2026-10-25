@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Happy Birthday Lovely 🎉</title>
+<title>Happy Birthday Lovely</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   body {
@@ -13,7 +13,25 @@
     overflow: hidden;
     height: 100vh;
     width: 100vw;
+    position: relative;
   }
+
+  /* Falling Stars & Bows */
+  .falling {
+    position: fixed;
+    top: -50px;
+    color: #ff6b9d;
+    font-size: 18px;
+    animation: fall linear infinite;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.8;
+  }
+  @keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0.3; }
+  }
+
   .screen {
     position: absolute;
     inset: 0;
@@ -24,14 +42,13 @@
     padding: 20px;
     text-align: center;
     opacity: 0;
-    transition: opacity 0.6s ease;
+    transition: opacity 0.5s ease;
+    z-index: 10;
   }
-  .screen.active {
-    display: flex;
-    opacity: 1;
-  }
+  .screen.active { display: flex; opacity: 1; }
+
   .btn {
-    background: linear-gradient(135deg, #ff6b9d, #c44569);
+    ban background: linear-gradient(135deg, #ff6b9d, #c44569);
     border: none;
     color: white;
     padding: 14px 32px;
@@ -39,88 +56,74 @@
     font-size: 16px;
     font-weight: 600;
     margin-top: 25px;
-    cursor: pointer;
     box-shadow: 0 8px 25px rgba(255,107,157,0.4);
+    z-index: 20;
   }
-  .heart {
-    font-size: 80px;
-    animation: pulse 1.5s infinite;
-    filter: drop-shadow(0 0 20px #ff6b9d);
-  }
+  .heart { font-size: 80px; animation: pulse 1.5s infinite; }
   @keyframes pulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.15); }
   }
   .cake {
-    width: 160px;
-    height: 120px;
+    width: 150px; height: 110px;
     background: linear-gradient(#ff9a9e, #fad0c4);
-    border-radius: 10px 10px 5px 5px;
+    border-radius: 10px;
     position: relative;
-    margin: 30px 0;
+    margin: 25px 0;
   }
   .cake::before {
     content: '';
     position: absolute;
-    top: -25px;
-    left: 20px;
-    right: 20px;
-    height: 30px;
+    top: -22px; left: 15px; right: 15px;
+    height: 28px;
     background: #fff;
     border-radius: 50% 50% 0 0;
   }
   .candle {
     position: absolute;
-    top: -50px;
-    left: 50%;
+    top: -45px; left: 50%;
     transform: translateX(-50%);
-    width: 8px;
-    height: 40px;
+    width: 8px; height: 35px;
     background: #ffd700;
   }
   .flame {
     position: absolute;
-    top: -18px;
-    left: 50%;
+    top: -16px; left: 50%;
     transform: translateX(-50%);
-    width: 14px;
-    height: 20px;
+    width: 12px; height: 18px;
     background: orange;
     border-radius: 50% 50% 20% 20%;
     animation: flicker 0.3s infinite alternate;
   }
   @keyframes flicker {
     from { transform: translateX(-50%) scale(1); }
-    to { transform: translateX(-50%) scale(1.1) rotate(5deg); }
+    to { transform: translateX(-50%) scale(1.1); }
   }
   .balloons {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     flex-wrap: wrap;
     justify-content: center;
-    margin: 30px 0;
+    margin: 25px 0;
+    z-index: 15;
   }
   .balloon {
-    width: 70px;
-    height: 90px;
+    width: 65px; height: 85px;
     border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
     position: relative;
     cursor: pointer;
-    transition: transform 0.2s;
     animation: float 3s ease-in-out infinite;
   }
-  .balloon:nth-child(1) { background: #ff6b6b; animation-delay: 0s; }
-  .balloon:nth-child(2) { background: #4ecdc4; animation-delay: 0.3s; }
-  .balloon:nth-child(3) { background: #45b7d1; animation-delay: 0.6s; }
-  .balloon:nth-child(4) { background: #96ceb4; animation-delay: 0.9s; }
-  .balloon:nth-child(5) { background: #ffeaa7; animation-delay: 1.2s; }
+  .balloon:nth-child(1) { background: #ff6b6b; }
+  .balloon:nth-child(2) { background: #4ecdc4; animation-delay: 0.2s; }
+  .balloon:nth-child(3) { background: #45b7d1; animation-delay: 0.4s; }
+  .balloon:nth-child(4) { background: #96ceb4; animation-delay: 0.6s; }
+  .balloon:nth-child(5) { background: #ffeaa7; animation-delay: 0.8s; }
   .balloon::after {
     content: '';
     position: absolute;
-    bottom: -20px;
-    left: 50%;
-    width: 2px;
-    height: 30px;
+    bottom: -18px; left: 50%;
+    width: 2px; height: 25px;
     background: #ccc;
   }
   .balloon.popped {
@@ -130,77 +133,67 @@
   }
   @keyframes float {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
+    50% { transform: translateY(-12px); }
   }
   .reason-card {
     background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,107,157,0.5);
+    border: 1px solid rgba(255,107,157,0.6);
     border-radius: 16px;
-    padding: 16px 20px;
-    margin: 10px 0;
+    padding: 14px 18px;
+    margin: 8px 0;
     width: 100%;
-    max-width: 340px;
+    max-width: 320px;
     text-align: left;
     opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s;
+    transform: translateY(15px);
+    transition: all 0.4s;
   }
   .reason-card.show {
     opacity: 1;
     transform: translateY(0);
   }
   .photo-frame {
-    width: 260px;
-    height: 320px;
+    width: 240px; height: 300px;
     background: #222;
-    border: 8px solid #333;
+    border: 6px solid #333;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
   }
   .photo-frame img {
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     object-fit: cover;
   }
   .envelope {
-    width: 280px;
-    height: 180px;
+    width: 260px; height: 160px;
     background: #f5c518;
     position: relative;
     cursor: pointer;
     border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
   }
   .envelope::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 90px;
+    height: 80px;
     background: #e6b800;
     clip-path: polygon(0 0, 50% 70%, 100% 0);
   }
   .letter {
     background: #1a1a1a;
     border: 2px solid #ff6b9d;
-    border-radius: 16px;
-    padding: 24px;
-    max-width: 340px;
+    border-radius: 14px;
+    padding: 20px;
+    max-width: 320px;
     text-align: left;
     line-height: 1.6;
     font-size: 15px;
-    max-height: 60vh;
+    max-height: 55vh;
     overflow-y: auto;
   }
-  .final-cat {
-    font-size: 80px;
-    margin: 20px 0;
-  }
-  h1, h2 { margin-bottom: 12px; }
-  .small { font-size: 14px; opacity: 0.8; margin-top: 8px; }
-  .tap-hint { font-size: 13px; opacity: 0.6; margin-top: 20px; }
+  h1, h2 { margin-bottom: 10px; }
+  .small { font-size: 14px; opacity: 0.8; }
+  .tap-hint { font-size: 13px; opacity: 0.6; margin-top: 15px; }
 
-  /* Edit Panel */
   #editPanel {
     display: none;
     position: fixed;
@@ -226,34 +219,24 @@
     display: block;
     text-align: left;
   }
-  #editPanel button {
-    width: 48%;
-    margin: 10px 1%;
-  }
-  .photo-preview {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin: 5px;
-    border: 2px solid #ff6b9d;
-  }
 </style>
 </head>
 <body>
 
-<!-- SCREENS -->
+<!-- Falling items container -->
+<div id="fallingContainer"></div>
+
 <div class="screen active" id="s1">
   <div class="heart">💖</div>
-  <h1 style="color:#ff6b9d; margin-top:20px;">Send this</h1>
+  <h1 style="color:#ff6b9d; margin-top:15px;">Send this</h1>
   <p class="small">to a new friend who’s pretty cool</p>
   <button class="btn" onclick="next(2)">Open</button>
 </div>
 
 <div class="screen" id="s2">
   <p class="small">make a wish...</p>
-  <h1 style="font-size:42px; line-height:1.1;">Happy<br>Birthday</h1>
-  <div style="width:80px; height:3px; background:#ff6b9d; margin:20px 0; border-radius:2px;"></div>
+  <h1 style="font-size:40px;">Happy<br>Birthday</h1>
+  <div style="width:70px; height:3px; background:#ff6b9d; margin:18px 0;"></div>
   <p>to someone worth celebrating</p>
   <button class="btn" onclick="next(3)">Continue</button>
 </div>
@@ -261,7 +244,7 @@
 <div class="screen" id="s3">
   <p class="small">it's officially your day</p>
   <h1 style="color:#ff6b9d;">Happy Birthday,<br><span id="nameDisplay">Lovely</span></h1>
-  <p style="margin-top:15px;">and just like that, you're turning <span id="ageDisplay">19</span> ✨</p>
+  <p style="margin-top:12px;">and just like that, you're turning <span id="ageDisplay">19</span> ✨</p>
   <button class="btn" onclick="next(4)">Keep going</button>
 </div>
 
@@ -271,8 +254,7 @@
     <div class="candle"><div class="flame"></div></div>
   </div>
   <p>Baking something sweet...</p>
-  <p style="margin-top:20px; font-size:22px; color:#ffd700;">Happy Birthday, <span id="nameDisplay2">Lovely</span>!</p>
-  <p class="tap-hint">Make a wish 🕯️</p>
+  <p style="margin-top:18px; font-size:20px; color:#ffd700;">Happy Birthday, <span id="nameDisplay2">Lovely</span>!</p>
   <button class="btn" onclick="next(5)">Continue</button>
 </div>
 
@@ -294,9 +276,9 @@
   <h2>A quick memory check</h2>
   <p class="small">even if we just started hanging out 📸</p>
   <div class="photo-frame">
-    <img src="" id="photoImg">
+    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop" id="photoImg">
   </div>
-  <p class="small" style="margin-top:15px;" id="photoCaption">Memory 1 of 3</p>
+  <p class="small" style="margin-top:12px;" id="photoCaption">Memory 1 of 3</p>
   <button class="btn" onclick="nextPhoto()">Next photo</button>
   <button class="btn" style="margin-top:10px; background:#333;" onclick="next(7)">Continue</button>
 </div>
@@ -305,38 +287,34 @@
   <h2>One last thing, <span id="nameDisplay3">Lovely</span>...</h2>
   <p class="small"><span id="senderDisplay">Shubham</span> wrote you a small note.</p>
   <div class="envelope" id="envelope" onclick="openLetter()">
-    <div style="position:absolute; bottom:20px; left:50%; transform:translateX(-50%); width:40px; height:40px; background:#111; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold;" id="initialDisplay">L</div>
+    <div style="position:absolute; bottom:18px; left:50%; transform:translateX(-50%); width:36px; height:36px; background:#111; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold;" id="initialDisplay">L</div>
   </div>
   <p class="tap-hint">Tap to open your letter</p>
   <div class="letter" id="letter" style="display:none;">
-    <p style="color:#ff6b9d; font-weight:600; margin-bottom:12px;">Hey <span id="nameDisplay4">Lovely</span>,</p>
+    <p style="color:#ff6b9d; font-weight:600; margin-bottom:10px;">Hey <span id="nameDisplay4">Lovely</span>,</p>
     <div id="letterContent"></div>
-    <p style="margin-top:20px; text-align:right; color:#ff6b9d;">Cheers,<br>— <span id="senderDisplay2">Shubham</span></p>
+    <p style="margin-top:18px; text-align:right; color:#ff6b9d;">Cheers,<br>— <span id="senderDisplay2">Shubham</span></p>
   </div>
   <button class="btn" id="afterLetter" style="display:none;" onclick="next(8)">Continue</button>
 </div>
 
 <div class="screen" id="s8" onclick="secretTap()">
-  <h1 style="font-size:36px;">HAPPY<br>BIRTHDAY</h1>
+  <h1 style="font-size:34px;">HAPPY<br>BIRTHDAY</h1>
   <h2 style="color:#ffd700; margin:10px 0;" id="nameDisplay5">Lovely!</h2>
-  <div class="final-cat">🐱🎈🎉</div>
-  <p style="font-size:20px; margin-top:20px;">Have an awesome day!</p>
-  <p class="small" style="margin-top:10px;">From your new friend <span id="senderDisplay3">Shubham</span></p>
+  <div style="font-size:70px; margin:15px 0;">🐱🎈🎉</div>
+  <p style="font-size:18px;">Have an awesome day!</p>
+  <p class="small" style="margin-top:8px;">From your new friend <span id="senderDisplay3">Shubham</span></p>
 </div>
 
 <!-- Edit Panel -->
 <div id="editPanel">
-  <h2 style="color:#ff6b9d; margin-bottom:20px;">Edit Birthday Card</h2>
-  
+  <h2 style="color:#ff6b9d; margin-bottom:15px;">Edit Card</h2>
   <label>Name</label>
   <input type="text" id="editName">
-  
   <label>Age</label>
   <input type="number" id="editAge">
-  
   <label>Sender Name</label>
   <input type="text" id="editSender">
-  
   <label>Reason 1</label>
   <input type="text" id="editR1">
   <label>Reason 2</label>
@@ -347,221 +325,170 @@
   <input type="text" id="editR4">
   <label>Reason 5</label>
   <input type="text" id="editR5">
-  
-  <label>Letter Content</label>
-  <textarea id="editLetter" rows="6"></textarea>
-
-  <hr style="border-color:#333; margin:20px 0;">
-  <h3 style="color:#ff6b9d; margin-bottom:10px;">Photos (URL डालो)</h3>
-  <p style="font-size:12px; opacity:0.7; margin-bottom:10px;">Imgur, Google Drive (public link) या कोई भी image link डाल सकते हो</p>
-  
-  <label>Photo 1 URL</label>
-  <input type="text" id="editP1" placeholder="https://...">
-  <label>Photo 2 URL</label>
-  <input type="text" id="editP2" placeholder="https://...">
-  <label>Photo 3 URL</label>
-  <input type="text" id="editP3" placeholder="https://...">
-  
-  <div id="photoPreviews" style="margin:15px 0;"></div>
-  
-  <button class="btn" onclick="saveEdits()">Save Changes</button>
-  <button class="btn" style="background:#444;" onclick="closeEdit()">Cancel</button>
+  <label>Letter</label>
+  <textarea id="editLetter" rows="5"></textarea>
+  <button class="btn" onclick="saveEdits()" style="width:48%;">Save</button>
+  <button class="btn" onclick="closeEdit()" style="width:48%; background:#444;">Cancel</button>
 </div>
 
 <script>
-  // Default Data
-  let data = {
-    name: "Lovely",
-    age: "19",
-    sender: "Shubham",
-    reasons: [
-      "Your smile makes conversations better",
-      "You have a really positive energy",
-      "Talking to you is always fun",
-      "You make ordinary chats feel nice",
-      "Glad we became friends"
-    ],
-    letter: `Happy Birthday! 🎉
-
-Even though we’ve just started being friends, talking to you already feels nice and easy. You’ve got a cool vibe and a smile that makes conversations better.
-
-Hope this new year of your life brings you lots of good moments, fun, and everything you wish for.
-
-Wishing you an amazing day and an even better year ahead!`,
-    photos: [
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop",
-      "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=500&fit=crop",
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=500&fit=crop"
-    ]
-  };
-
-  // Load saved data
-  if(localStorage.getItem('bdayData')) {
-    data = JSON.parse(localStorage.getItem('bdayData'));
+// Create falling stars and bows
+function createFallingItems() {
+  const container = document.getElementById('fallingContainer');
+  const items = ['✨', '🎀', '⭐', '💖', '🌸'];
+  
+  for (let i = 0; i < 25; i++) {
+    const el = document.createElement('div');
+    el.className = 'falling';
+    el.innerText = items[Math.floor(Math.random() * items.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.animationDuration = (4 + Math.random() * 6) + 's';
+    el.style.animationDelay = Math.random() * 5 + 's';
+    el.style.fontSize = (14 + Math.random() * 12) + 'px';
+    container.appendChild(el);
   }
+}
+createFallingItems();
 
-  let current = 1;
-  let popped = 0;
-  let photoIndex = 0;
-  let tapCount = 0;
-  let lastTap = 0;
+// Data
+let data = {
+  name: "Lovely",
+  age: "19",
+  sender: "Shubham",
+  reasons: [
+    "Your smile makes conversations better",
+    "You have a really positive energy",
+    "Talking to you is always fun",
+    "You make ordinary chats feel nice",
+    "Glad we became friends"
+  ],
+  letter: "Happy Birthday! 🎉\n\nEven though we’ve just started being friends, talking to you already feels nice and easy. You’ve got a cool vibe and a smile that makes conversations better.\n\nHope this new year of your life brings you lots of good moments, fun, and everything you wish for.\n\nWishing you an amazing day and an even better year ahead!"
+};
 
-  function applyData() {
-    document.getElementById('nameDisplay').innerText = data.name;
-    document.getElementById('nameDisplay2').innerText = data.name;
-    document.getElementById('nameDisplay3').innerText = data.name;
-    document.getElementById('nameDisplay4').innerText = data.name;
-    document.getElementById('nameDisplay5').innerText = data.name + "!";
-    document.getElementById('ageDisplay').innerText = data.age;
-    document.getElementById('senderDisplay').innerText = data.sender;
-    document.getElementById('senderDisplay2').innerText = data.sender;
-    document.getElementById('senderDisplay3').innerText = data.sender;
-    document.getElementById('initialDisplay').innerText = data.name.charAt(0).toUpperCase();
-    
-    // Letter
-    document.getElementById('letterContent').innerHTML = data.letter
-      .split('\n')
-      .filter(p => p.trim() !== '')
-      .map(p => `<p style="margin-top:12px;">${p}</p>`)
-      .join('');
+if(localStorage.getItem('bdayData')) {
+  data = JSON.parse(localStorage.getItem('bdayData'));
+}
 
-    // Photo
-    document.getElementById('photoImg').src = data.photos[0] || "";
-    document.getElementById('photoCaption').innerText = `Memory 1 of ${data.photos.length}`;
+let current = 1;
+let popped = 0;
+let photoIndex = 0;
+let tapCount = 0;
+let lastTap = 0;
+
+const photos = [
+  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=500&fit=crop",
+  "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=500&fit=crop"
+];
+
+function applyData() {
+  document.getElementById('nameDisplay').innerText = data.name;
+  document.getElementById('nameDisplay2').innerText = data.name;
+  document.getElementById('nameDisplay3').innerText = data.name;
+  document.getElementById('nameDisplay4').innerText = data.name;
+  document.getElementById('nameDisplay5').innerText = data.name + "!";
+  document.getElementById('ageDisplay').innerText = data.age;
+  document.getElementById('senderDisplay').innerText = data.sender;
+  document.getElementById('senderDisplay2').innerText = data.sender;
+  document.getElementById('senderDisplay3').innerText = data.sender;
+  document.getElementById('initialDisplay').innerText = data.name.charAt(0).toUpperCase();
+  document.getElementById('letterContent').innerHTML = data.letter.split('\n').filter(p => p.trim()).map(p => `<p style="margin-top:10px;">${p}</p>`).join('');
+}
+applyData();
+
+function next(n) {
+  document.getElementById('s' + current).classList.remove('active');
+  current = n;
+  document.getElementById('s' + current).classList.add('active');
+}
+
+function popBalloon(el, num) {
+  if (el.classList.contains('popped')) return;
+  el.classList.add('popped');
+  popped++;
+  
+  const card = document.createElement('div');
+  card.className = 'reason-card';
+  card.innerHTML = `<strong style="color:#ff6b9d;">REASON NO.\( {num} 💛</strong><br> \){data.reasons[num-1]}`;
+  document.getElementById('reasons').appendChild(card);
+  
+  setTimeout(() => card.classList.add('show'), 50);
+  
+  if (popped === 5) {
+    setTimeout(() => {
+      document.getElementById('nextAfterBalloons').style.display = 'block';
+    }, 500);
   }
+}
+
+function nextPhoto() {
+  photoIndex = (photoIndex + 1) % photos.length;
+  document.getElementById('photoImg').src = photos[photoIndex];
+  document.getElementById('photoCaption').innerText = `Memory ${photoIndex + 1} of ${photos.length}`;
+}
+
+function openLetter() {
+  document.getElementById('envelope').style.display = 'none';
+  document.getElementById('letter').style.display = 'block';
+  document.getElementById('afterLetter').style.display = 'block';
+}
+
+function secretTap() {
+  const now = Date.now();
+  if (now - lastTap < 400) {
+    tapCount++;
+  } else {
+    tapCount = 1;
+  }
+  lastTap = now;
+
+  if (tapCount >= 5) {
+    tapCount = 0;
+    const pass = prompt("Password:");
+    if (pass === "PASS82") {
+      openEdit();
+    } else if (pass !== null) {
+      alert("Wrong Password");
+    }
+  }
+}
+
+function openEdit() {
+  document.getElementById('editName').value = data.name;
+  document.getElementById('editAge').value = data.age;
+  document.getElementById('editSender').value = data.sender;
+  document.getElementById('editR1').value = data.reasons[0];
+  document.getElementById('editR2').value = data.reasons[1];
+  document.getElementById('editR3').value = data.reasons[2];
+  document.getElementById('editR4').value = data.reasons[3];
+  document.getElementById('editR5').value = data.reasons[4];
+  document.getElementById('editLetter').value = data.letter;
+  document.getElementById('editPanel').style.display = 'block';
+}
+
+function closeEdit() {
+  document.getElementById('editPanel').style.display = 'none';
+}
+
+function saveEdits() {
+  data.name = document.getElementById('editName').value.trim() || "Lovely";
+  data.age = document.getElementById('editAge').value.trim() || "19";
+  data.sender = document.getElementById('editSender').value.trim() || "Shubham";
+  data.reasons = [
+    document.getElementById('editR1').value.trim(),
+    document.getElementById('editR2').value.trim(),
+    document.getElementById('editR3').value.trim(),
+    document.getElementById('editR4').value.trim(),
+    document.getElementById('editR5').value.trim()
+  ];
+  data.letter = document.getElementById('editLetter').value.trim();
+  
+  localStorage.setItem('bdayData', JSON.stringify(data));
   applyData();
-
-  function next(n) {
-    document.getElementById('s' + current).classList.remove('active');
-    current = n;
-    document.getElementById('s' + current).classList.add('active');
-  }
-
-  function popBalloon(el, num) {
-    if (el.classList.contains('popped')) return;
-    el.classList.add('popped');
-    popped++;
-    const card = document.createElement('div');
-    card.className = 'reason-card';
-    card.innerHTML = `<strong style="color:#ff6b9d;">REASON NO.\( {num} 💛</strong><br> \){data.reasons[num-1]}`;
-    document.getElementById('reasons').appendChild(card);
-    setTimeout(() => card.classList.add('show'), 50);
-    if (popped === 5) {
-      setTimeout(() => {
-        document.getElementById('nextAfterBalloons').style.display = 'block';
-      }, 600);
-    }
-  }
-
-  function nextPhoto() {
-    photoIndex = (photoIndex + 1) % data.photos.length;
-    document.getElementById('photoImg').src = data.photos[photoIndex];
-    document.getElementById('photoCaption').innerText = `Memory ${photoIndex + 1} of ${data.photos.length}`;
-  }
-
-  function openLetter() {
-    document.getElementById('envelope').style.display = 'none';
-    document.getElementById('letter').style.display = 'block';
-    document.getElementById('afterLetter').style.display = 'block';
-  }
-
-  // Secret 5-tap unlock
-  function secretTap() {
-    const now = Date.now();
-    if (now - lastTap < 400) {
-      tapCount++;
-    } else {
-      tapCount = 1;
-    }
-    lastTap = now;
-
-    if (tapCount >= 5) {
-      tapCount = 0;
-      const pass = prompt("Enter Password:");
-      if (pass === "PASS82") {
-        openEdit();
-      } else if (pass !== null) {
-        alert("Wrong Password!");
-      }
-    }
-  }
-
-  function openEdit() {
-    document.getElementById('editName').value = data.name;
-    document.getElementById('editAge').value = data.age;
-    document.getElementById('editSender').value = data.sender;
-    document.getElementById('editR1').value = data.reasons[0];
-    document.getElementById('editR2').value = data.reasons[1];
-    document.getElementById('editR3').value = data.reasons[2];
-    document.getElementById('editR4').value = data.reasons[3];
-    document.getElementById('editR5').value = data.reasons[4];
-    document.getElementById('editLetter').value = data.letter;
-    document.getElementById('editP1').value = data.photos[0] || "";
-    document.getElementById('editP2').value = data.photos[1] || "";
-    document.getElementById('editP3').value = data.photos[2] || "";
-    
-    // Previews
-    updatePreviews();
-    document.getElementById('editPanel').style.display = 'block';
-  }
-
-  function updatePreviews() {
-    const box = document.getElementById('photoPreviews');
-    box.innerHTML = '';
-    [1,2,3].forEach(i => {
-      const url = document.getElementById('editP' + i).value;
-      if(url) {
-        const img = document.createElement('img');
-        img.src = url;
-        img.className = 'photo-preview';
-        img.onerror = () => img.style.display = 'none';
-        box.appendChild(img);
-      }
-    });
-  }
-
-  // Live preview when typing photo URL
-  document.getElementById('editP1')?.addEventListener('input', updatePreviews);
-  document.getElementById('editP2')?.addEventListener('input', updatePreviews);
-  document.getElementById('editP3')?.addEventListener('input', updatePreviews);
-
-  function closeEdit() {
-    document.getElementById('editPanel').style.display = 'none';
-  }
-
-  function saveEdits() {
-    data.name = document.getElementById('editName').value.trim() || "Lovely";
-    data.age = document.getElementById('editAge').value.trim() || "19";
-    data.sender = document.getElementById('editSender').value.trim() || "Shubham";
-    data.reasons = [
-      document.getElementById('editR1').value.trim(),
-      document.getElementById('editR2').value.trim(),
-      document.getElementById('editR3').value.trim(),
-      document.getElementById('editR4').value.trim(),
-      document.getElementById('editR5').value.trim()
-    ];
-    data.letter = document.getElementById('editLetter').value.trim();
-    
-    data.photos = [
-      document.getElementById('editP1').value.trim(),
-      document.getElementById('editP2').value.trim(),
-      document.getElementById('editP3').value.trim()
-    ].filter(url => url !== "");
-
-    if(data.photos.length === 0) {
-      data.photos = [
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop",
-        "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=500&fit=crop",
-        "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=500&fit=crop"
-      ];
-    }
-
-    localStorage.setItem('bdayData', JSON.stringify(data));
-    applyData();
-    closeEdit();
-    alert("सभी बदलाव सेव हो गए!");
-    location.reload();
-  }
+  closeEdit();
+  alert("Saved!");
+  location.reload();
+}
 </script>
 </body>
 </html>
