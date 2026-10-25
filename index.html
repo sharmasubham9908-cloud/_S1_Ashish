@@ -13,23 +13,20 @@
     overflow: hidden;
     height: 100vh;
     width: 100vw;
-    position: relative;
   }
 
-  /* Falling Stars & Bows */
   .falling {
     position: fixed;
-    top: -50px;
-    color: #ff6b9d;
+    top: -40px;
     font-size: 18px;
     animation: fall linear infinite;
     z-index: 1;
     pointer-events: none;
-    opacity: 0.8;
+    opacity: 0.85;
   }
   @keyframes fall {
     0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(110vh) rotate(360deg); opacity: 0.3; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0.2; }
   }
 
   .screen {
@@ -41,14 +38,12 @@
     justify-content: center;
     padding: 20px;
     text-align: center;
-    opacity: 0;
-    transition: opacity 0.5s ease;
     z-index: 10;
   }
-  .screen.active { display: flex; opacity: 1; }
+  .screen.active { display: flex; }
 
   .btn {
-    ban background: linear-gradient(135deg, #ff6b9d, #c44569);
+    background: linear-gradient(135deg, #ff6b9d, #c44569);
     border: none;
     color: white;
     padding: 14px 32px;
@@ -57,175 +52,129 @@
     font-weight: 600;
     margin-top: 25px;
     box-shadow: 0 8px 25px rgba(255,107,157,0.4);
-    z-index: 20;
   }
-  .heart { font-size: 80px; animation: pulse 1.5s infinite; }
+
+  .heart { font-size: 75px; animation: pulse 1.5s infinite; }
   @keyframes pulse {
     0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.15); }
+    50% { transform: scale(1.12); }
   }
-  .cake {
-    width: 150px; height: 110px;
-    background: linear-gradient(#ff9a9e, #fad0c4);
-    border-radius: 10px;
-    position: relative;
-    margin: 25px 0;
-  }
-  .cake::before {
-    content: '';
-    position: absolute;
-    top: -22px; left: 15px; right: 15px;
-    height: 28px;
-    background: #fff;
-    border-radius: 50% 50% 0 0;
-  }
-  .candle {
-    position: absolute;
-    top: -45px; left: 50%;
-    transform: translateX(-50%);
-    width: 8px; height: 35px;
-    background: #ffd700;
-  }
-  .flame {
-    position: absolute;
-    top: -16px; left: 50%;
-    transform: translateX(-50%);
-    width: 12px; height: 18px;
-    background: orange;
-    border-radius: 50% 50% 20% 20%;
-    animation: flicker 0.3s infinite alternate;
-  }
-  @keyframes flicker {
-    from { transform: translateX(-50%) scale(1); }
-    to { transform: translateX(-50%) scale(1.1); }
-  }
+
   .balloons {
     display: flex;
-    gap: 12px;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 14px;
     margin: 25px 0;
-    z-index: 15;
   }
   .balloon {
-    width: 65px; height: 85px;
+    width: 68px;
+    height: 88px;
     border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
     position: relative;
     cursor: pointer;
-    animation: float 3s ease-in-out infinite;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+    transition: 0.3s;
   }
-  .balloon:nth-child(1) { background: #ff6b6b; }
-  .balloon:nth-child(2) { background: #4ecdc4; animation-delay: 0.2s; }
-  .balloon:nth-child(3) { background: #45b7d1; animation-delay: 0.4s; }
-  .balloon:nth-child(4) { background: #96ceb4; animation-delay: 0.6s; }
-  .balloon:nth-child(5) { background: #ffeaa7; animation-delay: 0.8s; }
   .balloon::after {
     content: '';
     position: absolute;
-    bottom: -18px; left: 50%;
-    width: 2px; height: 25px;
-    background: #ccc;
+    bottom: -18px;
+    left: 50%;
+    width: 2px;
+    height: 22px;
+    background: #ddd;
   }
-  .balloon.popped {
-    transform: scale(0);
-    opacity: 0;
-    transition: all 0.4s;
-  }
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-12px); }
-  }
-  .reason-card {
+  .b1 { background: linear-gradient(#ff6b6b, #e74c3c); }
+  .b2 { background: linear-gradient(#4ecdc4, #1abc9c); }
+  .b3 { background: linear-gradient(#45b7d1, #2980b9); }
+  .b4 { background: linear-gradient(#96ceb4, #27ae60); }
+  .b5 { background: linear-gradient(#ffeaa7, #f1c40f); }
+
+  .reason {
     background: rgba(255,255,255,0.1);
     border: 1px solid rgba(255,107,157,0.6);
-    border-radius: 16px;
+    border-radius: 14px;
     padding: 14px 18px;
-    margin: 8px 0;
-    width: 100%;
-    max-width: 320px;
+    margin: 8px auto;
+    max-width: 310px;
     text-align: left;
-    opacity: 0;
-    transform: translateY(15px);
-    transition: all 0.4s;
+    display: none;
+    animation: fadeIn 0.4s ease;
   }
-  .reason-card.show {
-    opacity: 1;
-    transform: translateY(0);
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
   }
+
+  .star {
+    position: fixed;
+    font-size: 16px;
+    pointer-events: none;
+    animation: starBurst 0.7s forwards;
+    z-index: 100;
+  }
+  @keyframes starBurst {
+    0% { transform: scale(0.5) translate(0, 0); opacity: 1; }
+    100% { transform: scale(1.3) translate(var(--x), var(--y)); opacity: 0; }
+  }
+
   .photo-frame {
-    width: 240px; height: 300px;
+    width: 230px;
+    height: 290px;
     background: #222;
     border: 6px solid #333;
     border-radius: 8px;
     overflow: hidden;
+    margin: 15px 0;
   }
   .photo-frame img {
-    width: 100%; height: 100%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
+
   .envelope {
-    width: 260px; height: 160px;
+    width: 250px;
+    height: 150px;
     background: #f5c518;
     position: relative;
     cursor: pointer;
     border-radius: 8px;
+    margin: 20px 0;
   }
   .envelope::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 80px;
+    height: 75px;
     background: #e6b800;
     clip-path: polygon(0 0, 50% 70%, 100% 0);
   }
+
   .letter {
     background: #1a1a1a;
     border: 2px solid #ff6b9d;
     border-radius: 14px;
     padding: 20px;
-    max-width: 320px;
+    max-width: 310px;
     text-align: left;
     line-height: 1.6;
     font-size: 15px;
     max-height: 55vh;
     overflow-y: auto;
+    display: none;
   }
+
   h1, h2 { margin-bottom: 10px; }
   .small { font-size: 14px; opacity: 0.8; }
-  .tap-hint { font-size: 13px; opacity: 0.6; margin-top: 15px; }
-
-  #editPanel {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.96);
-    z-index: 9999;
-    padding: 20px;
-    overflow-y: auto;
-  }
-  #editPanel input, #editPanel textarea {
-    width: 100%;
-    padding: 12px;
-    margin: 6px 0 14px;
-    border-radius: 10px;
-    border: none;
-    background: #222;
-    color: white;
-    font-size: 15px;
-  }
-  #editPanel label {
-    font-size: 14px;
-    color: #ff6b9d;
-    display: block;
-    text-align: left;
-  }
 </style>
 </head>
 <body>
 
-<!-- Falling items container -->
 <div id="fallingContainer"></div>
 
+<!-- Screen 1 -->
 <div class="screen active" id="s1">
   <div class="heart">💖</div>
   <h1 style="color:#ff6b9d; margin-top:15px;">Send this</h1>
@@ -233,263 +182,165 @@
   <button class="btn" onclick="next(2)">Open</button>
 </div>
 
+<!-- Screen 2 -->
 <div class="screen" id="s2">
   <p class="small">make a wish...</p>
-  <h1 style="font-size:40px;">Happy<br>Birthday</h1>
-  <div style="width:70px; height:3px; background:#ff6b9d; margin:18px 0;"></div>
+  <h1 style="font-size:38px;">Happy<br>Birthday</h1>
+  <div style="width:70px; height:3px; background:#ff6b9d; margin:16px 0;"></div>
   <p>to someone worth celebrating</p>
   <button class="btn" onclick="next(3)">Continue</button>
 </div>
 
+<!-- Screen 3 -->
 <div class="screen" id="s3">
   <p class="small">it's officially your day</p>
-  <h1 style="color:#ff6b9d;">Happy Birthday,<br><span id="nameDisplay">Lovely</span></h1>
-  <p style="margin-top:12px;">and just like that, you're turning <span id="ageDisplay">19</span> ✨</p>
+  <h1 style="color:#ff6b9d;">Happy Birthday,<br>Lovely</h1>
+  <p style="margin-top:12px;">and just like that, you're turning 19 ✨</p>
   <button class="btn" onclick="next(4)">Keep going</button>
 </div>
 
+<!-- Screen 4 -->
 <div class="screen" id="s4">
   <h2>First things first 🎂</h2>
-  <div class="cake">
-    <div class="candle"><div class="flame"></div></div>
-  </div>
+  <div style="font-size:70px; margin:20px 0;">🎂</div>
   <p>Baking something sweet...</p>
-  <p style="margin-top:18px; font-size:20px; color:#ffd700;">Happy Birthday, <span id="nameDisplay2">Lovely</span>!</p>
+  <p style="margin-top:15px; font-size:20px; color:#ffd700;">Happy Birthday, Lovely!</p>
   <button class="btn" onclick="next(5)">Continue</button>
 </div>
 
+<!-- Screen 5 - Balloons -->
 <div class="screen" id="s5">
   <h2>Pop the balloons 🎈</h2>
   <p class="small">5 balloons. Each one holds a reason you're cool.<br>Pop them all</p>
-  <div class="balloons" id="balloonContainer">
-    <div class="balloon" onclick="popBalloon(this,1)"></div>
-    <div class="balloon" onclick="popBalloon(this,2)"></div>
-    <div class="balloon" onclick="popBalloon(this,3)"></div>
-    <div class="balloon" onclick="popBalloon(this,4)"></div>
-    <div class="balloon" onclick="popBalloon(this,5)"></div>
+
+  <div class="balloons">
+    <div class="balloon b1" onclick="popBalloon(this,1)"></div>
+    <div class="balloon b2" onclick="popBalloon(this,2)"></div>
+    <div class="balloon b3" onclick="popBalloon(this,3)"></div>
+    <div class="balloon b4" onclick="popBalloon(this,4)"></div>
+    <div class="balloon b5" onclick="popBalloon(this,5)"></div>
   </div>
+
   <div id="reasons"></div>
-  <button class="btn" id="nextAfterBalloons" style="display:none;" onclick="next(6)">Keep going 💛</button>
+  <button class="btn" id="nextBtn" style="display:none;" onclick="next(6)">Keep going 💛</button>
 </div>
 
+<!-- Screen 6 -->
 <div class="screen" id="s6">
   <h2>A quick memory check</h2>
   <p class="small">even if we just started hanging out 📸</p>
   <div class="photo-frame">
     <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop" id="photoImg">
   </div>
-  <p class="small" style="margin-top:12px;" id="photoCaption">Memory 1 of 3</p>
-  <button class="btn" onclick="nextPhoto()">Next photo</button>
-  <button class="btn" style="margin-top:10px; background:#333;" onclick="next(7)">Continue</button>
+  <button class="btn" onclick="next(7)">Continue</button>
 </div>
 
+<!-- Screen 7 - Letter -->
 <div class="screen" id="s7">
-  <h2>One last thing, <span id="nameDisplay3">Lovely</span>...</h2>
-  <p class="small"><span id="senderDisplay">Shubham</span> wrote you a small note.</p>
-  <div class="envelope" id="envelope" onclick="openLetter()">
-    <div style="position:absolute; bottom:18px; left:50%; transform:translateX(-50%); width:36px; height:36px; background:#111; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold;" id="initialDisplay">L</div>
-  </div>
-  <p class="tap-hint">Tap to open your letter</p>
-  <div class="letter" id="letter" style="display:none;">
-    <p style="color:#ff6b9d; font-weight:600; margin-bottom:10px;">Hey <span id="nameDisplay4">Lovely</span>,</p>
-    <div id="letterContent"></div>
-    <p style="margin-top:18px; text-align:right; color:#ff6b9d;">Cheers,<br>— <span id="senderDisplay2">Shubham</span></p>
+  <h2>One last thing, Lovely...</h2>
+  <p class="small">A small note for you</p>
+  <div class="envelope" id="envelope" onclick="openLetter()"></div>
+  <p class="small" style="margin-top:10px;">Tap to open</p>
+
+  <div class="letter" id="letter">
+    <p style="color:#ff6b9d; font-weight:600;">Hey Lovely,</p>
+    <p style="margin-top:12px;">Happy Birthday! 🎉</p>
+    <p style="margin-top:12px;">Even though we’ve just started being friends, talking to you already feels nice and easy. You’ve got a cool vibe.</p>
+    <p style="margin-top:12px;">Hope this new year of your life brings you lots of good moments and happiness.</p>
+    <p style="margin-top:12px;">Wishing you an amazing day and a wonderful year ahead!</p>
+    <p style="margin-top:20px; text-align:right; color:#ff6b9d;">— Shubham</p>
   </div>
   <button class="btn" id="afterLetter" style="display:none;" onclick="next(8)">Continue</button>
 </div>
 
-<div class="screen" id="s8" onclick="secretTap()">
+<!-- Screen 8 -->
+<div class="screen" id="s8">
   <h1 style="font-size:34px;">HAPPY<br>BIRTHDAY</h1>
-  <h2 style="color:#ffd700; margin:10px 0;" id="nameDisplay5">Lovely!</h2>
-  <div style="font-size:70px; margin:15px 0;">🐱🎈🎉</div>
+  <h2 style="color:#ffd700; margin:12px 0;">Lovely!</h2>
+  <div style="font-size:65px; margin:15px 0;">🐱🎈🎉</div>
   <p style="font-size:18px;">Have an awesome day!</p>
-  <p class="small" style="margin-top:8px;">From your new friend <span id="senderDisplay3">Shubham</span></p>
-</div>
-
-<!-- Edit Panel -->
-<div id="editPanel">
-  <h2 style="color:#ff6b9d; margin-bottom:15px;">Edit Card</h2>
-  <label>Name</label>
-  <input type="text" id="editName">
-  <label>Age</label>
-  <input type="number" id="editAge">
-  <label>Sender Name</label>
-  <input type="text" id="editSender">
-  <label>Reason 1</label>
-  <input type="text" id="editR1">
-  <label>Reason 2</label>
-  <input type="text" id="editR2">
-  <label>Reason 3</label>
-  <input type="text" id="editR3">
-  <label>Reason 4</label>
-  <input type="text" id="editR4">
-  <label>Reason 5</label>
-  <input type="text" id="editR5">
-  <label>Letter</label>
-  <textarea id="editLetter" rows="5"></textarea>
-  <button class="btn" onclick="saveEdits()" style="width:48%;">Save</button>
-  <button class="btn" onclick="closeEdit()" style="width:48%; background:#444;">Cancel</button>
+  <p class="small" style="margin-top:8px;">From Shubham</p>
 </div>
 
 <script>
-// Create falling stars and bows
-function createFallingItems() {
-  const container = document.getElementById('fallingContainer');
+  // Falling items
   const items = ['✨', '🎀', '⭐', '💖', '🌸'];
-  
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < 22; i++) {
     const el = document.createElement('div');
     el.className = 'falling';
     el.innerText = items[Math.floor(Math.random() * items.length)];
     el.style.left = Math.random() * 100 + 'vw';
-    el.style.animationDuration = (4 + Math.random() * 6) + 's';
+    el.style.animationDuration = (4 + Math.random() * 5) + 's';
     el.style.animationDelay = Math.random() * 5 + 's';
-    el.style.fontSize = (14 + Math.random() * 12) + 'px';
-    container.appendChild(el);
+    el.style.fontSize = (14 + Math.random() * 10) + 'px';
+    document.getElementById('fallingContainer').appendChild(el);
   }
-}
-createFallingItems();
 
-// Data
-let data = {
-  name: "Lovely",
-  age: "19",
-  sender: "Shubham",
-  reasons: [
-    "Your smile makes conversations better",
-    "You have a really positive energy",
-    "Talking to you is always fun",
-    "You make ordinary chats feel nice",
-    "Glad we became friends"
-  ],
-  letter: "Happy Birthday! 🎉\n\nEven though we’ve just started being friends, talking to you already feels nice and easy. You’ve got a cool vibe and a smile that makes conversations better.\n\nHope this new year of your life brings you lots of good moments, fun, and everything you wish for.\n\nWishing you an amazing day and an even better year ahead!"
-};
+  let current = 1;
+  let popped = 0;
 
-if(localStorage.getItem('bdayData')) {
-  data = JSON.parse(localStorage.getItem('bdayData'));
-}
+  const reasonsList = [
+    "🎀 You have a beautiful presence that makes everything around you feel lighter.",
+    "🎀 You carry such positive energy. The world needs more of what you have.",
+    "🎀 Your kindness and calm nature make you truly special. Never change that.",
+    "🎀 This new year of life will bring beautiful opportunities your way. Stay ready.",
+    "🎀 Your future looks full of happiness, success and wonderful moments. Believe in it."
+  ];
 
-let current = 1;
-let popped = 0;
-let photoIndex = 0;
-let tapCount = 0;
-let lastTap = 0;
-
-const photos = [
-  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop",
-  "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=500&fit=crop",
-  "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=500&fit=crop"
-];
-
-function applyData() {
-  document.getElementById('nameDisplay').innerText = data.name;
-  document.getElementById('nameDisplay2').innerText = data.name;
-  document.getElementById('nameDisplay3').innerText = data.name;
-  document.getElementById('nameDisplay4').innerText = data.name;
-  document.getElementById('nameDisplay5').innerText = data.name + "!";
-  document.getElementById('ageDisplay').innerText = data.age;
-  document.getElementById('senderDisplay').innerText = data.sender;
-  document.getElementById('senderDisplay2').innerText = data.sender;
-  document.getElementById('senderDisplay3').innerText = data.sender;
-  document.getElementById('initialDisplay').innerText = data.name.charAt(0).toUpperCase();
-  document.getElementById('letterContent').innerHTML = data.letter.split('\n').filter(p => p.trim()).map(p => `<p style="margin-top:10px;">${p}</p>`).join('');
-}
-applyData();
-
-function next(n) {
-  document.getElementById('s' + current).classList.remove('active');
-  current = n;
-  document.getElementById('s' + current).classList.add('active');
-}
-
-function popBalloon(el, num) {
-  if (el.classList.contains('popped')) return;
-  el.classList.add('popped');
-  popped++;
-  
-  const card = document.createElement('div');
-  card.className = 'reason-card';
-  card.innerHTML = `<strong style="color:#ff6b9d;">REASON NO.\( {num} 💛</strong><br> \){data.reasons[num-1]}`;
-  document.getElementById('reasons').appendChild(card);
-  
-  setTimeout(() => card.classList.add('show'), 50);
-  
-  if (popped === 5) {
-    setTimeout(() => {
-      document.getElementById('nextAfterBalloons').style.display = 'block';
-    }, 500);
+  function next(n) {
+    document.getElementById('s' + current).classList.remove('active');
+    current = n;
+    document.getElementById('s' + current).classList.add('active');
   }
-}
 
-function nextPhoto() {
-  photoIndex = (photoIndex + 1) % photos.length;
-  document.getElementById('photoImg').src = photos[photoIndex];
-  document.getElementById('photoCaption').innerText = `Memory ${photoIndex + 1} of ${photos.length}`;
-}
+  function popBalloon(el, num) {
+    if (el.style.opacity === '0') return;
 
-function openLetter() {
-  document.getElementById('envelope').style.display = 'none';
-  document.getElementById('letter').style.display = 'block';
-  document.getElementById('afterLetter').style.display = 'block';
-}
+    el.style.transform = 'scale(0)';
+    el.style.opacity = '0';
+    el.style.transition = '0.4s';
 
-function secretTap() {
-  const now = Date.now();
-  if (now - lastTap < 400) {
-    tapCount++;
-  } else {
-    tapCount = 1;
-  }
-  lastTap = now;
+    // Stars burst
+    for (let i = 0; i < 8; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.innerText = '✨';
+      const rect = el.getBoundingClientRect();
+      star.style.left = rect.left + rect.width / 2 + 'px';
+      star.style.top = rect.top + rect.height / 2 + 'px';
 
-  if (tapCount >= 5) {
-    tapCount = 0;
-    const pass = prompt("Password:");
-    if (pass === "PASS82") {
-      openEdit();
-    } else if (pass !== null) {
-      alert("Wrong Password");
+      const angle = (i / 8) * 360;
+      const dist = 50 + Math.random() * 40;
+      star.style.setProperty('--x', Math.cos(angle * Math.PI / 180) * dist + 'px');
+      star.style.setProperty('--y', Math.sin(angle * Math.PI / 180) * dist + 'px');
+
+      document.body.appendChild(star);
+      setTimeout(() => star.remove(), 700);
+    }
+
+    // Show reason
+    const div = document.createElement('div');
+    div.className = 'reason';
+    div.innerHTML = `<b style="color:#ff6b9d;">REASON NO.\( {num}</b><br> \){reasonsList[num-1]}`;
+    div.style.display = 'block';
+    document.getElementById('reasons').appendChild(div);
+
+    popped++;
+    if (popped === 5) {
+      setTimeout(() => {
+        document.getElementById('nextBtn').style.display = 'block';
+      }, 500);
     }
   }
-}
 
-function openEdit() {
-  document.getElementById('editName').value = data.name;
-  document.getElementById('editAge').value = data.age;
-  document.getElementById('editSender').value = data.sender;
-  document.getElementById('editR1').value = data.reasons[0];
-  document.getElementById('editR2').value = data.reasons[1];
-  document.getElementById('editR3').value = data.reasons[2];
-  document.getElementById('editR4').value = data.reasons[3];
-  document.getElementById('editR5').value = data.reasons[4];
-  document.getElementById('editLetter').value = data.letter;
-  document.getElementById('editPanel').style.display = 'block';
-}
-
-function closeEdit() {
-  document.getElementById('editPanel').style.display = 'none';
-}
-
-function saveEdits() {
-  data.name = document.getElementById('editName').value.trim() || "Lovely";
-  data.age = document.getElementById('editAge').value.trim() || "19";
-  data.sender = document.getElementById('editSender').value.trim() || "Shubham";
-  data.reasons = [
-    document.getElementById('editR1').value.trim(),
-    document.getElementById('editR2').value.trim(),
-    document.getElementById('editR3').value.trim(),
-    document.getElementById('editR4').value.trim(),
-    document.getElementById('editR5').value.trim()
-  ];
-  data.letter = document.getElementById('editLetter').value.trim();
-  
-  localStorage.setItem('bdayData', JSON.stringify(data));
-  applyData();
-  closeEdit();
-  alert("Saved!");
-  location.reload();
-}
+  function openLetter() {
+    document.getElementById('envelope').style.display = 'none';
+    document.getElementById('letter').style.display = 'block';
+    document.getElementById('afterLetter').style.display = 'block';
+  }
 </script>
 </body>
 </html>
+
+
 
