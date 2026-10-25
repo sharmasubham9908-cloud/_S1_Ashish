@@ -1,465 +1,567 @@
-
 <!DOCTYPE html>
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#490b32">
-<title>Birthday Surprise ❤️</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Happy Birthday Lovely 🎉</title>
 <style>
-:root {
-  --pink: #ff4f8b;
-  --light: #ffd6e5;
-  --dark: #490b32;
-}
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  min-height: 100vh;
-  color: white;
-  font-family: Arial, sans-serif;
-  text-align: center;
-  background: linear-gradient(145deg, #240019, #781449, #e52d70);
-}
-button, input, textarea { font: inherit; }
-.screen {
-  display: none;
-  min-height: 100vh;
-  padding: 24px 16px;
-  align-items: center;
-  justify-content: center;
-}
-.screen.active { display: flex; animation: appear .45s ease; }
-.card {
-  width: 100%;
-  max-width: 440px;
-  padding: 24px 18px;
-  border: 1px solid #ffffff45;
-  border-radius: 25px;
-  background: #ffffff16;
-  box-shadow: 0 12px 35px #0004;
-  backdrop-filter: blur(8px);
-}
-h1 {
-  color: #ffe2ed;
-  font-size: clamp(30px, 8vw, 42px);
-  text-shadow: 0 0 15px #ff5599;
-}
-h2 { color: #ffe2ed; }
-p { font-size: 17px; line-height: 1.65; }
-.big { font-size: 66px; margin: 15px 0; }
-button {
-  width: 100%;
-  padding: 14px;
-  margin: 8px 0;
-  border: 0;
-  border-radius: 14px;
-  background: var(--pink);
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-}
-button:active { transform: scale(.98); }
-button.secondary { background: white; color: #8d174d; }
-input, textarea {
-  width: 100%;
-  padding: 13px;
-  margin: 8px 0 15px;
-  border: 2px solid #ffb5cf;
-  border-radius: 12px;
-  background: white;
-  color: #333;
-}
-textarea { min-height: 100px; resize: vertical; }
-label { display: block; text-align: left; font-weight: bold; }
-#photoInput {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  margin: 12px 0;
-  color: white;
-  background: #ffffff15;
-  border: 2px dashed #ffd6e5;
-  border-radius: 12px;
-}
-#photoPreview {
-  display: none;
-  width: 100%;
-  max-height: 390px;
-  object-fit: contain;
-  margin: 14px 0;
-  border: 3px solid #ffd6e5;
-  border-radius: 15px;
-}
-#musicInput { display: none; }
-#musicPlayer { width: 100%; margin: 12px 0; }
-.small { font-size: 13px; }
-#editor {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  overflow-y: auto;
-  padding: 20px 12px;
-  background: #250018f5;
-  align-items: center;
-  justify-content: center;
-}
-#editor .card { margin: auto; }
-.heart {
-  position: fixed;
-  bottom: -50px;
-  pointer-events: none;
-  z-index: 500;
-  animation: float 5s linear forwards;
-}
-@keyframes appear {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes float {
-  to { transform: translateY(-110vh) rotate(300deg); opacity: 0; }
-}
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0a0a0a;
+    color: #fff;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+  .screen {
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  .screen.active {
+    display: flex;
+    opacity: 1;
+  }
+  .btn {
+    background: linear-gradient(135deg, #ff6b9d, #c44569);
+    border: none;
+    color: white;
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 25px;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(255,107,157,0.4);
+  }
+  .heart {
+    font-size: 80px;
+    animation: pulse 1.5s infinite;
+    filter: drop-shadow(0 0 20px #ff6b9d);
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+  }
+  .cake {
+    width: 160px;
+    height: 120px;
+    background: linear-gradient(#ff9a9e, #fad0c4);
+    border-radius: 10px 10px 5px 5px;
+    position: relative;
+    margin: 30px 0;
+  }
+  .cake::before {
+    content: '';
+    position: absolute;
+    top: -25px;
+    left: 20px;
+    right: 20px;
+    height: 30px;
+    background: #fff;
+    border-radius: 50% 50% 0 0;
+  }
+  .candle {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 40px;
+    background: #ffd700;
+  }
+  .flame {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 20px;
+    background: orange;
+    border-radius: 50% 50% 20% 20%;
+    animation: flicker 0.3s infinite alternate;
+  }
+  @keyframes flicker {
+    from { transform: translateX(-50%) scale(1); }
+    to { transform: translateX(-50%) scale(1.1) rotate(5deg); }
+  }
+  .balloons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 30px 0;
+  }
+  .balloon {
+    width: 70px;
+    height: 90px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s;
+    animation: float 3s ease-in-out infinite;
+  }
+  .balloon:nth-child(1) { background: #ff6b6b; animation-delay: 0s; }
+  .balloon:nth-child(2) { background: #4ecdc4; animation-delay: 0.3s; }
+  .balloon:nth-child(3) { background: #45b7d1; animation-delay: 0.6s; }
+  .balloon:nth-child(4) { background: #96ceb4; animation-delay: 0.9s; }
+  .balloon:nth-child(5) { background: #ffeaa7; animation-delay: 1.2s; }
+  .balloon::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    width: 2px;
+    height: 30px;
+    background: #ccc;
+  }
+  .balloon.popped {
+    transform: scale(0);
+    opacity: 0;
+    transition: all 0.4s;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+  .reason-card {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,107,157,0.5);
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin: 10px 0;
+    width: 100%;
+    max-width: 340px;
+    text-align: left;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s;
+  }
+  .reason-card.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .photo-frame {
+    width: 260px;
+    height: 320px;
+    background: #222;
+    border: 8px solid #333;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  }
+  .photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .envelope {
+    width: 280px;
+    height: 180px;
+    background: #f5c518;
+    position: relative;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  }
+  .envelope::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 90px;
+    background: #e6b800;
+    clip-path: polygon(0 0, 50% 70%, 100% 0);
+  }
+  .letter {
+    background: #1a1a1a;
+    border: 2px solid #ff6b9d;
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 340px;
+    text-align: left;
+    line-height: 1.6;
+    font-size: 15px;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+  .final-cat {
+    font-size: 80px;
+    margin: 20px 0;
+  }
+  h1, h2 { margin-bottom: 12px; }
+  .small { font-size: 14px; opacity: 0.8; margin-top: 8px; }
+  .tap-hint { font-size: 13px; opacity: 0.6; margin-top: 20px; }
+
+  /* Edit Panel */
+  #editPanel {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.96);
+    z-index: 9999;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  #editPanel input, #editPanel textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 6px 0 14px;
+    border-radius: 10px;
+    border: none;
+    background: #222;
+    color: white;
+    font-size: 15px;
+  }
+  #editPanel label {
+    font-size: 14px;
+    color: #ff6b9d;
+    display: block;
+    text-align: left;
+  }
+  #editPanel button {
+    width: 48%;
+    margin: 10px 1%;
+  }
+  .photo-preview {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 5px;
+    border: 2px solid #ff6b9d;
+  }
 </style>
 </head>
-
 <body>
 
-<!-- 1. INTRO -->
-<section class="screen active">
-  <div class="card">
-    <div class="big">💌</div>
-    <h1 id="secretTitle">A Special Surprise</h1>
-    <p>एक प्यारा-सा सरप्राइज सिर्फ आपके लिए ❤️</p>
-    <p>आगे कुछ खास आपका इंतज़ार कर रहा है।</p>
-    <button onclick="go(1)">Open Your Surprise 💖</button>
+<!-- SCREENS -->
+<div class="screen active" id="s1">
+  <div class="heart">💖</div>
+  <h1 style="color:#ff6b9d; margin-top:20px;">Send this</h1>
+  <p class="small">to a new friend who’s pretty cool</p>
+  <button class="btn" onclick="next(2)">Open</button>
+</div>
+
+<div class="screen" id="s2">
+  <p class="small">make a wish...</p>
+  <h1 style="font-size:42px; line-height:1.1;">Happy<br>Birthday</h1>
+  <div style="width:80px; height:3px; background:#ff6b9d; margin:20px 0; border-radius:2px;"></div>
+  <p>to someone worth celebrating</p>
+  <button class="btn" onclick="next(3)">Continue</button>
+</div>
+
+<div class="screen" id="s3">
+  <p class="small">it's officially your day</p>
+  <h1 style="color:#ff6b9d;">Happy Birthday,<br><span id="nameDisplay">Lovely</span></h1>
+  <p style="margin-top:15px;">and just like that, you're turning <span id="ageDisplay">19</span> ✨</p>
+  <button class="btn" onclick="next(4)">Keep going</button>
+</div>
+
+<div class="screen" id="s4">
+  <h2>First things first 🎂</h2>
+  <div class="cake">
+    <div class="candle"><div class="flame"></div></div>
   </div>
-</section>
+  <p>Baking something sweet...</p>
+  <p style="margin-top:20px; font-size:22px; color:#ffd700;">Happy Birthday, <span id="nameDisplay2">Lovely</span>!</p>
+  <p class="tap-hint">Make a wish 🕯️</p>
+  <button class="btn" onclick="next(5)">Continue</button>
+</div>
 
-<!-- 2. BIRTHDAY -->
-<section class="screen">
-  <div class="card">
-    <div class="big">🎂🎉</div>
-    <h1>Happy Birthday!</h1>
-    <h2 id="birthdayHeading">Lovely ❤️</h2>
-    <p>जन्मदिन की ढेर सारी शुभकामनाएँ!</p>
-    <p>आपकी ज़िंदगी हमेशा प्यार, खुशियों और कामयाबी से भरी रहे। ✨</p>
-    <button onclick="go(2)">आगे देखिए 💕</button>
-    <button class="secondary" onclick="go(0)">⬅️ पीछे</button>
+<div class="screen" id="s5">
+  <h2>Pop the balloons 🎈</h2>
+  <p class="small">5 balloons. Each one holds a reason you're cool.<br>Pop them all</p>
+  <div class="balloons" id="balloonContainer">
+    <div class="balloon" onclick="popBalloon(this,1)"></div>
+    <div class="balloon" onclick="popBalloon(this,2)"></div>
+    <div class="balloon" onclick="popBalloon(this,3)"></div>
+    <div class="balloon" onclick="popBalloon(this,4)"></div>
+    <div class="balloon" onclick="popBalloon(this,5)"></div>
   </div>
-</section>
+  <div id="reasons"></div>
+  <button class="btn" id="nextAfterBalloons" style="display:none;" onclick="next(6)">Keep going 💛</button>
+</div>
 
-<!-- 3. MESSAGE -->
-<section class="screen">
-  <div class="card">
-    <div class="big">🌹</div>
-    <h1>For You</h1>
-    <p id="birthdayMessage">आपकी हर सुबह मुस्कान से शुरू हो और हर शाम खुशियों से भरी हो। आपके सारे सपने पूरे हों। ❤️</p>
-    <p>ढेर सारा प्यार,</p>
-    <h2 id="senderHeading">Shubham 💖</h2>
-    <button onclick="go(3)">फोटो वाला सरप्राइज 📸</button>
-    <button class="secondary" onclick="go(1)">⬅️ पीछे</button>
+<div class="screen" id="s6">
+  <h2>A quick memory check</h2>
+  <p class="small">even if we just started hanging out 📸</p>
+  <div class="photo-frame">
+    <img src="" id="photoImg">
   </div>
-</section>
+  <p class="small" style="margin-top:15px;" id="photoCaption">Memory 1 of 3</p>
+  <button class="btn" onclick="nextPhoto()">Next photo</button>
+  <button class="btn" style="margin-top:10px; background:#333;" onclick="next(7)">Continue</button>
+</div>
 
-<!-- 4. PHOTO -->
-<section class="screen">
-  <div class="card">
-    <div class="big">📸</div>
-    <h1>Our Memories</h1>
-    <p>नीचे से अपने मोबाइल की गैलरी में जाकर फोटो चुनें।</p>
-    <label for="photoInput" style="text-align:center;background:#ff4f8b;padding:15px;border-radius:14px;">
-      📸 अपनी फोटो चुनें
-    </label>
-    <input id="photoInput" type="file" accept="image/*">
-    <img id="photoPreview" alt="चुनी हुई फोटो">
-    <p id="photoStatus" class="small">अभी कोई फोटो नहीं चुनी गई है।</p>
-    <button onclick="go(4)">केक काटें 🎂</button>
-    <button class="secondary" onclick="go(2)">⬅️ पीछे</button>
+<div class="screen" id="s7">
+  <h2>One last thing, <span id="nameDisplay3">Lovely</span>...</h2>
+  <p class="small"><span id="senderDisplay">Shubham</span> wrote you a small note.</p>
+  <div class="envelope" id="envelope" onclick="openLetter()">
+    <div style="position:absolute; bottom:20px; left:50%; transform:translateX(-50%); width:40px; height:40px; background:#111; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold;" id="initialDisplay">L</div>
   </div>
-</section>
-
-<!-- 5. CAKE -->
-<section class="screen">
-  <div class="card">
-    <div class="big" id="cake">🎂</div>
-    <h1>Make a Wish!</h1>
-    <p>एक प्यारी-सी इच्छा माँगिए और मोमबत्तियाँ बुझाइए। ✨</p>
-    <button onclick="blowCandles()">🕯️ Blow the Candles</button>
-    <p id="wishMessage"></p>
-    <button onclick="go(5)">आपका पसंदीदा गाना 🎵</button>
-    <button class="secondary" onclick="go(3)">⬅️ पीछे</button>
+  <p class="tap-hint">Tap to open your letter</p>
+  <div class="letter" id="letter" style="display:none;">
+    <p style="color:#ff6b9d; font-weight:600; margin-bottom:12px;">Hey <span id="nameDisplay4">Lovely</span>,</p>
+    <div id="letterContent"></div>
+    <p style="margin-top:20px; text-align:right; color:#ff6b9d;">Cheers,<br>— <span id="senderDisplay2">Shubham</span></p>
   </div>
-</section>
+  <button class="btn" id="afterLetter" style="display:none;" onclick="next(8)">Continue</button>
+</div>
 
-<!-- 6. MUSIC -->
-<section class="screen">
-  <div class="card">
-    <div class="big">🎶</div>
-    <h1>A Special Song</h1>
-    <p>अपने फोन से कोई पसंदीदा गाना चुनें।</p>
-    <button onclick="chooseMusic()">🎵 अपना गाना चुनें</button>
-    <input id="musicInput" type="file" accept="audio/*">
-    <p id="musicStatus" class="small">अभी कोई गाना नहीं चुना गया है।</p>
-    <audio id="musicPlayer" controls></audio>
-    <button onclick="go(6)">Final Surprise ❤️</button>
-    <button class="secondary" onclick="go(4)">⬅️ पीछे</button>
-  </div>
-</section>
+<div class="screen" id="s8" onclick="secretTap()">
+  <h1 style="font-size:36px;">HAPPY<br>BIRTHDAY</h1>
+  <h2 style="color:#ffd700; margin:10px 0;" id="nameDisplay5">Lovely!</h2>
+  <div class="final-cat">🐱🎈🎉</div>
+  <p style="font-size:20px; margin-top:20px;">Have an awesome day!</p>
+  <p class="small" style="margin-top:10px;">From your new friend <span id="senderDisplay3">Shubham</span></p>
+</div>
 
-<!-- 7. FINALE -->
-<section class="screen">
-  <div class="card">
-    <div class="big">🎉💖🎉</div>
-    <h1>Happy Birthday!</h1>
-    <h2 id="finalName">Lovely ❤️</h2>
-    <p>आप हमेशा खुश रहें, मुस्कुराते रहें और आपकी हर इच्छा पूरी हो। आज का दिन आपके लिए बेहद खूबसूरत हो। 🌹</p>
-    <p>With lots of love,</p>
-    <h2 id="finalSender">Shubham 💕</h2>
-    <button onclick="shareWebsite()">📲 Share Website</button>
-    <button class="secondary" onclick="go(0)">🔄 फिर से देखें</button>
-    <p class="small">Edit खोलने के लिए ऊपर “A Special Surprise” शीर्षक पर 5 बार टैप करें।</p>
-  </div>
-</section>
+<!-- Edit Panel -->
+<div id="editPanel">
+  <h2 style="color:#ff6b9d; margin-bottom:20px;">Edit Birthday Card</h2>
+  
+  <label>Name</label>
+  <input type="text" id="editName">
+  
+  <label>Age</label>
+  <input type="number" id="editAge">
+  
+  <label>Sender Name</label>
+  <input type="text" id="editSender">
+  
+  <label>Reason 1</label>
+  <input type="text" id="editR1">
+  <label>Reason 2</label>
+  <input type="text" id="editR2">
+  <label>Reason 3</label>
+  <input type="text" id="editR3">
+  <label>Reason 4</label>
+  <input type="text" id="editR4">
+  <label>Reason 5</label>
+  <input type="text" id="editR5">
+  
+  <label>Letter Content</label>
+  <textarea id="editLetter" rows="6"></textarea>
 
-<!-- PASSWORD AND EDIT PANEL: सामान्य स्क्रीन पर छिपा हुआ -->
-<div id="editor">
-  <div class="card">
-    <div id="loginPanel">
-      <div class="big">🔐</div>
-      <h2>Admin Login</h2>
-      <p>Edit विकल्प खोलने के लिए पासवर्ड डालें।</p>
-      <input id="passwordInput" type="password" placeholder="Password" autocomplete="off">
-      <p id="passwordError" class="small"></p>
-      <button onclick="checkPassword()">Unlock 🔓</button>
-      <button class="secondary" onclick="closeEditor()">Cancel</button>
-    </div>
-
-    <div id="editPanel" style="display:none;">
-      <h1>Customize Birthday ✏️</h1>
-      <p>यहाँ अपनी पसंद के अनुसार बदलाव करें।</p>
-
-      <label for="nameInput">जन्मदिन वाले का नाम</label>
-      <input id="nameInput" value="Lovely" maxlength="50">
-
-      <label for="ageInput">उम्र</label>
-      <input id="ageInput" type="number" min="1" max="120" value="19">
-
-      <label for="senderInput">आपका नाम</label>
-      <input id="senderInput" value="Shubham" maxlength="50">
-
-      <label for="messageInput">जन्मदिन का संदेश</label>
-      <textarea id="messageInput">आपकी हर सुबह मुस्कान से शुरू हो और हर शाम खुशियों से भरी हो। आपके सारे सपने पूरे हों। ❤️</textarea>
-
-      <label for="themeInput">बैकग्राउंड रंग</label>
-      <select id="themeInput" style="width:100%;padding:12px;border-radius:12px;margin:8px 0 15px;">
-        <option value="pink">Pink Romantic</option>
-        <option value="purple">Royal Purple</option>
-        <option value="blue">Dreamy Blue</option>
-        <option value="red">Red Love</option>
-      </select>
-
-      <button onclick="saveChanges()">✅ बदलाव सेव करें</button>
-      <button class="secondary" onclick="closeEditor()">बंद करें</button>
-    </div>
-  </div>
+  <hr style="border-color:#333; margin:20px 0;">
+  <h3 style="color:#ff6b9d; margin-bottom:10px;">Photos (URL डालो)</h3>
+  <p style="font-size:12px; opacity:0.7; margin-bottom:10px;">Imgur, Google Drive (public link) या कोई भी image link डाल सकते हो</p>
+  
+  <label>Photo 1 URL</label>
+  <input type="text" id="editP1" placeholder="https://...">
+  <label>Photo 2 URL</label>
+  <input type="text" id="editP2" placeholder="https://...">
+  <label>Photo 3 URL</label>
+  <input type="text" id="editP3" placeholder="https://...">
+  
+  <div id="photoPreviews" style="margin:15px 0;"></div>
+  
+  <button class="btn" onclick="saveEdits()">Save Changes</button>
+  <button class="btn" style="background:#444;" onclick="closeEdit()">Cancel</button>
 </div>
 
 <script>
-"use strict";
+  // Default Data
+  let data = {
+    name: "Lovely",
+    age: "19",
+    sender: "Shubham",
+    reasons: [
+      "Your smile makes conversations better",
+      "You have a really positive energy",
+      "Talking to you is always fun",
+      "You make ordinary chats feel nice",
+      "Glad we became friends"
+    ],
+    letter: `Happy Birthday! 🎉
 
-const screens = Array.from(document.querySelectorAll(".screen"));
-const editor = document.getElementById("editor");
-let currentScreen = 0;
-let tapCount = 0;
-let tapTimer = null;
-let photoURL = null;
-let musicURL = null;
+Even though we’ve just started being friends, talking to you already feels nice and easy. You’ve got a cool vibe and a smile that makes conversations better.
 
-function go(index) {
-  if (index < 0 || index >= screens.length) return;
+Hope this new year of your life brings you lots of good moments, fun, and everything you wish for.
 
-  screens.forEach((screen, i) => {
-    screen.classList.toggle("active", i === index);
-  });
-
-  currentScreen = index;
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function openLogin() {
-  document.getElementById("loginPanel").style.display = "block";
-  document.getElementById("editPanel").style.display = "none";
-  document.getElementById("passwordInput").value = "";
-  document.getElementById("passwordError").textContent = "";
-  editor.style.display = "flex";
-}
-
-function closeEditor() {
-  editor.style.display = "none";
-}
-
-document.getElementById("secretTitle").addEventListener("click", function() {
-  tapCount++;
-  clearTimeout(tapTimer);
-
-  tapTimer = setTimeout(() => {
-    tapCount = 0;
-  }, 1800);
-
-  if (tapCount >= 5) {
-    tapCount = 0;
-    openLogin();
-  }
-});
-
-document.getElementById("passwordInput").addEventListener("keydown", function(event) {
-  if (event.key === "Enter") checkPassword();
-});
-
-function checkPassword() {
-  const password = document.getElementById("passwordInput").value;
-
-  if (password === "PASS82") {
-    document.getElementById("loginPanel").style.display = "none";
-    document.getElementById("editPanel").style.display = "block";
-    document.getElementById("passwordError").textContent = "";
-  } else {
-    document.getElementById("passwordError").textContent =
-      "❌ गलत पासवर्ड। दोबारा कोशिश करें।";
-  }
-}
-
-function saveChanges() {
-  const name = document.getElementById("nameInput").value.trim() || "Lovely";
-  const sender = document.getElementById("senderInput").value.trim() || "Shubham";
-  const message = document.getElementById("messageInput").value.trim();
-  let age = Number(document.getElementById("ageInput").value);
-
-  if (!Number.isFinite(age) || age < 1 || age > 120) {
-    alert("कृपया उम्र 1 से 120 के बीच लिखें।");
-    return;
-  }
-
-  document.getElementById("birthdayHeading").textContent =
-    name + " ❤️ (" + age + " साल)";
-  document.getElementById("birthdayMessage").textContent =
-    message || "आपका हर दिन खुशियों से भरा रहे। ❤️";
-  document.getElementById("senderHeading").textContent = sender + " 💖";
-  document.getElementById("finalName").textContent = name + " ❤️";
-  document.getElementById("finalSender").textContent = sender + " 💕";
-
-  const theme = document.getElementById("themeInput").value;
-  const backgrounds = {
-    pink: "linear-gradient(145deg, #240019, #781449, #e52d70)",
-    purple: "linear-gradient(145deg, #170b3b, #51218a, #bd68d8)",
-    blue: "linear-gradient(145deg, #061b3a, #145a8d, #64b8d8)",
-    red: "linear-gradient(145deg, #300000, #8d1111, #e94a55)"
+Wishing you an amazing day and an even better year ahead!`,
+    photos: [
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=500&fit=crop"
+    ]
   };
 
-  document.body.style.background = backgrounds[theme] || backgrounds.pink;
-
-  closeEditor();
-  alert("आपके बदलाव सेव हो गए हैं!");
-}
-
-document.getElementById("photoInput").addEventListener("change", function(event) {
-  const file = event.target.files && event.target.files[0];
-  if (!file) return;
-
-  if (!file.type.startsWith("image/")) {
-    alert("कृपया image फ़ाइल चुनें।");
-    event.target.value = "";
-    return;
+  // Load saved data
+  if(localStorage.getItem('bdayData')) {
+    data = JSON.parse(localStorage.getItem('bdayData'));
   }
 
-  if (photoURL) URL.revokeObjectURL(photoURL);
-  photoURL = URL.createObjectURL(file);
+  let current = 1;
+  let popped = 0;
+  let photoIndex = 0;
+  let tapCount = 0;
+  let lastTap = 0;
 
-  const preview = document.getElementById("photoPreview");
-  preview.src = photoURL;
-  preview.style.display = "block";
-  document.getElementById("photoStatus").textContent =
-    "✅ फोटो चुन ली गई है: " + file.name;
-});
+  function applyData() {
+    document.getElementById('nameDisplay').innerText = data.name;
+    document.getElementById('nameDisplay2').innerText = data.name;
+    document.getElementById('nameDisplay3').innerText = data.name;
+    document.getElementById('nameDisplay4').innerText = data.name;
+    document.getElementById('nameDisplay5').innerText = data.name + "!";
+    document.getElementById('ageDisplay').innerText = data.age;
+    document.getElementById('senderDisplay').innerText = data.sender;
+    document.getElementById('senderDisplay2').innerText = data.sender;
+    document.getElementById('senderDisplay3').innerText = data.sender;
+    document.getElementById('initialDisplay').innerText = data.name.charAt(0).toUpperCase();
+    
+    // Letter
+    document.getElementById('letterContent').innerHTML = data.letter
+      .split('\n')
+      .filter(p => p.trim() !== '')
+      .map(p => `<p style="margin-top:12px;">${p}</p>`)
+      .join('');
 
-function chooseMusic() {
-  document.getElementById("musicInput").click();
-}
+    // Photo
+    document.getElementById('photoImg').src = data.photos[0] || "";
+    document.getElementById('photoCaption').innerText = `Memory 1 of ${data.photos.length}`;
+  }
+  applyData();
 
-document.getElementById("musicInput").addEventListener("change", function(event) {
-  const file = event.target.files && event.target.files[0];
-  if (!file) return;
-
-  if (!file.type.startsWith("audio/")) {
-    alert("कृपया audio फ़ाइल चुनें।");
-    event.target.value = "";
-    return;
+  function next(n) {
+    document.getElementById('s' + current).classList.remove('active');
+    current = n;
+    document.getElementById('s' + current).classList.add('active');
   }
 
-  const player = document.getElementById("musicPlayer");
-  if (musicURL) URL.revokeObjectURL(musicURL);
-
-  musicURL = URL.createObjectURL(file);
-  player.src = musicURL;
-  player.load();
-
-  document.getElementById("musicStatus").textContent =
-    "✅ गाना तैयार है: " + file.name + " — चलाने के लिए Play दबाएँ।";
-});
-
-function blowCandles() {
-  document.getElementById("cake").textContent = "🎂✨🎉";
-  document.getElementById("wishMessage").textContent =
-    "आपकी सारी प्यारी इच्छाएँ पूरी हों! ❤️";
-
-  for (let i = 0; i < 22; i++) {
-    setTimeout(createHeart, i * 100);
-  }
-}
-
-function createHeart() {
-  const heart = document.createElement("div");
-  heart.className = "heart";
-  heart.textContent = ["💖", "❤️", "💕", "✨", "🌹"][
-    Math.floor(Math.random() * 5)
-  ];
-  heart.style.left = Math.random() * 100 + "vw";
-  heart.style.fontSize = (18 + Math.random() * 22) + "px";
-
-  document.body.appendChild(heart);
-  setTimeout(() => heart.remove(), 5100);
-}
-
-setInterval(() => {
-  if (Math.random() > 0.5) createHeart();
-}, 1600);
-
-async function shareWebsite() {
-  const shareData = {
-    title: "Happy Birthday ❤️",
-    text: "आपके लिए एक खास Birthday Surprise! 🎂",
-    url: window.location.href
-  };
-
-  if (navigator.share) {
-    try {
-      await navigator.share(shareData);
-    } catch (error) {
-      // शेयर विंडो बंद करने पर कोई त्रुटि संदेश नहीं दिखाएँ।
+  function popBalloon(el, num) {
+    if (el.classList.contains('popped')) return;
+    el.classList.add('popped');
+    popped++;
+    const card = document.createElement('div');
+    card.className = 'reason-card';
+    card.innerHTML = `<strong style="color:#ff6b9d;">REASON NO.\( {num} 💛</strong><br> \){data.reasons[num-1]}`;
+    document.getElementById('reasons').appendChild(card);
+    setTimeout(() => card.classList.add('show'), 50);
+    if (popped === 5) {
+      setTimeout(() => {
+        document.getElementById('nextAfterBalloons').style.display = 'block';
+      }, 600);
     }
-  } else if (navigator.clipboard && window.isSecureContext) {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      alert("वेबसाइट का लिंक कॉपी हो गया!");
-    } catch (error) {
-      alert("इस पेज का लिंक कॉपी नहीं हो पाया। ऑनलाइन प्रकाशित URL को कॉपी करें।");
-    }
-  } else {
-    alert("ऑनलाइन प्रकाशित वेबसाइट का URL ब्राउज़र के एड्रेस बार से कॉपी करके शेयर करें।");
   }
-}
+
+  function nextPhoto() {
+    photoIndex = (photoIndex + 1) % data.photos.length;
+    document.getElementById('photoImg').src = data.photos[photoIndex];
+    document.getElementById('photoCaption').innerText = `Memory ${photoIndex + 1} of ${data.photos.length}`;
+  }
+
+  function openLetter() {
+    document.getElementById('envelope').style.display = 'none';
+    document.getElementById('letter').style.display = 'block';
+    document.getElementById('afterLetter').style.display = 'block';
+  }
+
+  // Secret 5-tap unlock
+  function secretTap() {
+    const now = Date.now();
+    if (now - lastTap < 400) {
+      tapCount++;
+    } else {
+      tapCount = 1;
+    }
+    lastTap = now;
+
+    if (tapCount >= 5) {
+      tapCount = 0;
+      const pass = prompt("Enter Password:");
+      if (pass === "PASS82") {
+        openEdit();
+      } else if (pass !== null) {
+        alert("Wrong Password!");
+      }
+    }
+  }
+
+  function openEdit() {
+    document.getElementById('editName').value = data.name;
+    document.getElementById('editAge').value = data.age;
+    document.getElementById('editSender').value = data.sender;
+    document.getElementById('editR1').value = data.reasons[0];
+    document.getElementById('editR2').value = data.reasons[1];
+    document.getElementById('editR3').value = data.reasons[2];
+    document.getElementById('editR4').value = data.reasons[3];
+    document.getElementById('editR5').value = data.reasons[4];
+    document.getElementById('editLetter').value = data.letter;
+    document.getElementById('editP1').value = data.photos[0] || "";
+    document.getElementById('editP2').value = data.photos[1] || "";
+    document.getElementById('editP3').value = data.photos[2] || "";
+    
+    // Previews
+    updatePreviews();
+    document.getElementById('editPanel').style.display = 'block';
+  }
+
+  function updatePreviews() {
+    const box = document.getElementById('photoPreviews');
+    box.innerHTML = '';
+    [1,2,3].forEach(i => {
+      const url = document.getElementById('editP' + i).value;
+      if(url) {
+        const img = document.createElement('img');
+        img.src = url;
+        img.className = 'photo-preview';
+        img.onerror = () => img.style.display = 'none';
+        box.appendChild(img);
+      }
+    });
+  }
+
+  // Live preview when typing photo URL
+  document.getElementById('editP1')?.addEventListener('input', updatePreviews);
+  document.getElementById('editP2')?.addEventListener('input', updatePreviews);
+  document.getElementById('editP3')?.addEventListener('input', updatePreviews);
+
+  function closeEdit() {
+    document.getElementById('editPanel').style.display = 'none';
+  }
+
+  function saveEdits() {
+    data.name = document.getElementById('editName').value.trim() || "Lovely";
+    data.age = document.getElementById('editAge').value.trim() || "19";
+    data.sender = document.getElementById('editSender').value.trim() || "Shubham";
+    data.reasons = [
+      document.getElementById('editR1').value.trim(),
+      document.getElementById('editR2').value.trim(),
+      document.getElementById('editR3').value.trim(),
+      document.getElementById('editR4').value.trim(),
+      document.getElementById('editR5').value.trim()
+    ];
+    data.letter = document.getElementById('editLetter').value.trim();
+    
+    data.photos = [
+      document.getElementById('editP1').value.trim(),
+      document.getElementById('editP2').value.trim(),
+      document.getElementById('editP3').value.trim()
+    ].filter(url => url !== "");
+
+    if(data.photos.length === 0) {
+      data.photos = [
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop",
+        "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=500&fit=crop",
+        "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=500&fit=crop"
+      ];
+    }
+
+    localStorage.setItem('bdayData', JSON.stringify(data));
+    applyData();
+    closeEdit();
+    alert("सभी बदलाव सेव हो गए!");
+    location.reload();
+  }
 </script>
 </body>
 </html>
