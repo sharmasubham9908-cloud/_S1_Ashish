@@ -5,7 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Happy Birthday Lovely</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: #0a0a0a;
@@ -18,11 +23,11 @@
   .falling {
     position: fixed;
     top: -40px;
-    font-size: 18px;
+    font-size: 17px;
     animation: fall linear infinite;
     z-index: 1;
     pointer-events: none;
-    opacity: 0.85;
+    opacity: 0.8;
   }
   @keyframes fall {
     0% { transform: translateY(0) rotate(0deg); opacity: 1; }
@@ -35,12 +40,16 @@
     display: none;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 20px;
+    justify-content: flex-start;
+    padding: 40px 20px 50px;
     text-align: center;
     z-index: 10;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
-  .screen.active { display: flex; }
+  .screen.active {
+    display: flex;
+  }
 
   .btn {
     background: linear-gradient(135deg, #ff6b9d, #c44569);
@@ -51,10 +60,15 @@
     font-size: 16px;
     font-weight: 600;
     margin-top: 25px;
+    margin-bottom: 20px;
     box-shadow: 0 8px 25px rgba(255,107,157,0.4);
   }
 
-  .heart { font-size: 75px; animation: pulse 1.5s infinite; }
+  .heart {
+    font-size: 75px;
+    animation: pulse 1.5s infinite;
+    margin-top: 40px;
+  }
   @keyframes pulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.12); }
@@ -74,7 +88,7 @@
     position: relative;
     cursor: pointer;
     box-shadow: 0 8px 20px rgba(0,0,0,0.35);
-    transition: 0.3s;
+    transition: 0.35s;
   }
   .balloon::after {
     content: '';
@@ -94,16 +108,17 @@
   .reason {
     background: rgba(255,255,255,0.1);
     border: 1px solid rgba(255,107,157,0.6);
-    border-radius: 14px;
-    padding: 14px 18px;
-    margin: 8px auto;
-    max-width: 310px;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin: 7px auto;
+    max-width: 300px;
     text-align: left;
     display: none;
+    font-size: 14px;
     animation: fadeIn 0.4s ease;
   }
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(12px); }
+    from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
@@ -120,8 +135,8 @@
   }
 
   .photo-frame {
-    width: 230px;
-    height: 290px;
+    width: 220px;
+    height: 280px;
     background: #222;
     border: 6px solid #333;
     border-radius: 8px;
@@ -135,8 +150,8 @@
   }
 
   .envelope {
-    width: 250px;
-    height: 150px;
+    width: 240px;
+    height: 145px;
     background: #f5c518;
     position: relative;
     cursor: pointer;
@@ -147,7 +162,7 @@
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 75px;
+    height: 70px;
     background: #e6b800;
     clip-path: polygon(0 0, 50% 70%, 100% 0);
   }
@@ -156,13 +171,12 @@
     background: #1a1a1a;
     border: 2px solid #ff6b9d;
     border-radius: 14px;
-    padding: 20px;
-    max-width: 310px;
+    padding: 18px;
+    max-width: 300px;
     text-align: left;
     line-height: 1.6;
     font-size: 15px;
-    max-height: 55vh;
-    overflow-y: auto;
+    margin-top: 10px;
     display: none;
   }
 
@@ -184,7 +198,7 @@
 
 <!-- Screen 2 -->
 <div class="screen" id="s2">
-  <p class="small">make a wish...</p>
+  <p class="small" style="margin-top:60px;">make a wish...</p>
   <h1 style="font-size:38px;">Happy<br>Birthday</h1>
   <div style="width:70px; height:3px; background:#ff6b9d; margin:16px 0;"></div>
   <p>to someone worth celebrating</p>
@@ -193,7 +207,7 @@
 
 <!-- Screen 3 -->
 <div class="screen" id="s3">
-  <p class="small">it's officially your day</p>
+  <p class="small" style="margin-top:60px;">it's officially your day</p>
   <h1 style="color:#ff6b9d;">Happy Birthday,<br>Lovely</h1>
   <p style="margin-top:12px;">and just like that, you're turning 19 ✨</p>
   <button class="btn" onclick="next(4)">Keep going</button>
@@ -201,7 +215,7 @@
 
 <!-- Screen 4 -->
 <div class="screen" id="s4">
-  <h2>First things first 🎂</h2>
+  <h2 style="margin-top:50px;">First things first 🎂</h2>
   <div style="font-size:70px; margin:20px 0;">🎂</div>
   <p>Baking something sweet...</p>
   <p style="margin-top:15px; font-size:20px; color:#ffd700;">Happy Birthday, Lovely!</p>
@@ -210,7 +224,7 @@
 
 <!-- Screen 5 - Balloons -->
 <div class="screen" id="s5">
-  <h2>Pop the balloons 🎈</h2>
+  <h2 style="margin-top:30px;">Pop the balloons 🎈</h2>
   <p class="small">5 balloons. Each one holds a reason you're cool.<br>Pop them all</p>
 
   <div class="balloons">
@@ -222,12 +236,13 @@
   </div>
 
   <div id="reasons"></div>
+
   <button class="btn" id="nextBtn" style="display:none;" onclick="next(6)">Keep going 💛</button>
 </div>
 
 <!-- Screen 6 -->
 <div class="screen" id="s6">
-  <h2>A quick memory check</h2>
+  <h2 style="margin-top:40px;">A quick memory check</h2>
   <p class="small">even if we just started hanging out 📸</p>
   <div class="photo-frame">
     <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop" id="photoImg">
@@ -235,12 +250,12 @@
   <button class="btn" onclick="next(7)">Continue</button>
 </div>
 
-<!-- Screen 7 - Letter -->
+<!-- Screen 7 -->
 <div class="screen" id="s7">
-  <h2>One last thing, Lovely...</h2>
+  <h2 style="margin-top:40px;">One last thing, Lovely...</h2>
   <p class="small">A small note for you</p>
   <div class="envelope" id="envelope" onclick="openLetter()"></div>
-  <p class="small" style="margin-top:10px;">Tap to open</p>
+  <p class="small">Tap to open</p>
 
   <div class="letter" id="letter">
     <p style="color:#ff6b9d; font-weight:600;">Hey Lovely,</p>
@@ -248,14 +263,14 @@
     <p style="margin-top:12px;">Even though we’ve just started being friends, talking to you already feels nice and easy. You’ve got a cool vibe.</p>
     <p style="margin-top:12px;">Hope this new year of your life brings you lots of good moments and happiness.</p>
     <p style="margin-top:12px;">Wishing you an amazing day and a wonderful year ahead!</p>
-    <p style="margin-top:20px; text-align:right; color:#ff6b9d;">— Shubham</p>
+    <p style="margin-top:18px; text-align:right; color:#ff6b9d;">— Shubham</p>
   </div>
   <button class="btn" id="afterLetter" style="display:none;" onclick="next(8)">Continue</button>
 </div>
 
 <!-- Screen 8 -->
 <div class="screen" id="s8">
-  <h1 style="font-size:34px;">HAPPY<br>BIRTHDAY</h1>
+  <h1 style="font-size:34px; margin-top:60px;">HAPPY<br>BIRTHDAY</h1>
   <h2 style="color:#ffd700; margin:12px 0;">Lovely!</h2>
   <div style="font-size:65px; margin:15px 0;">🐱🎈🎉</div>
   <p style="font-size:18px;">Have an awesome day!</p>
@@ -264,9 +279,9 @@
 
 <script>
   // Falling items
-  const items = ['✨', '🎀', '⭐', '💖', '🌸'];
-  for (let i = 0; i < 22; i++) {
-    const el = document.createElement('div');
+  var items = ['✨', '🎀', '⭐', '💖', '🌸'];
+  for (var i = 0; i < 20; i++) {
+    var el = document.createElement('div');
     el.className = 'falling';
     el.innerText = items[Math.floor(Math.random() * items.length)];
     el.style.left = Math.random() * 100 + 'vw';
@@ -276,10 +291,10 @@
     document.getElementById('fallingContainer').appendChild(el);
   }
 
-  let current = 1;
-  let popped = 0;
+  var current = 1;
+  var popped = 0;
 
-  const reasonsList = [
+  var reasonsList = [
     "🎀 You have a beautiful presence that makes everything around you feel lighter.",
     "🎀 You carry such positive energy. The world needs more of what you have.",
     "🎀 Your kindness and calm nature make you truly special. Never change that.",
@@ -291,6 +306,7 @@
     document.getElementById('s' + current).classList.remove('active');
     current = n;
     document.getElementById('s' + current).classList.add('active');
+    window.scrollTo(0, 0);
   }
 
   function popBalloon(el, num) {
@@ -298,38 +314,40 @@
 
     el.style.transform = 'scale(0)';
     el.style.opacity = '0';
-    el.style.transition = '0.4s';
+    el.style.transition = '0.35s';
 
-    // Stars burst
-    for (let i = 0; i < 8; i++) {
-      const star = document.createElement('div');
+    // Stars
+    for (var i = 0; i < 7; i++) {
+      var star = document.createElement('div');
       star.className = 'star';
       star.innerText = '✨';
-      const rect = el.getBoundingClientRect();
-      star.style.left = rect.left + rect.width / 2 + 'px';
-      star.style.top = rect.top + rect.height / 2 + 'px';
+      var rect = el.getBoundingClientRect();
+      star.style.left = (rect.left + rect.width / 2) + 'px';
+      star.style.top = (rect.top + rect.height / 2) + 'px';
 
-      const angle = (i / 8) * 360;
-      const dist = 50 + Math.random() * 40;
-      star.style.setProperty('--x', Math.cos(angle * Math.PI / 180) * dist + 'px');
-      star.style.setProperty('--y', Math.sin(angle * Math.PI / 180) * dist + 'px');
+      var angle = (i / 7) * 360;
+      var dist = 45 + Math.random() * 35;
+      star.style.setProperty('--x', (Math.cos(angle * Math.PI / 180) * dist) + 'px');
+      star.style.setProperty('--y', (Math.sin(angle * Math.PI / 180) * dist) + 'px');
 
       document.body.appendChild(star);
-      setTimeout(() => star.remove(), 700);
+      setTimeout((function(s) {
+        return function() { s.remove(); };
+      })(star), 700);
     }
 
-    // Show reason
-    const div = document.createElement('div');
+    // Reason
+    var div = document.createElement('div');
     div.className = 'reason';
-    div.innerHTML = `<b style="color:#ff6b9d;">REASON NO.\( {num}</b><br> \){reasonsList[num-1]}`;
+    div.innerHTML = '<b style="color:#ff6b9d;">REASON NO.' + num + '</b><br>' + reasonsList[num - 1];
     div.style.display = 'block';
     document.getElementById('reasons').appendChild(div);
 
     popped++;
     if (popped === 5) {
-      setTimeout(() => {
+      setTimeout(function() {
         document.getElementById('nextBtn').style.display = 'block';
-      }, 500);
+      }, 400);
     }
   }
 
@@ -341,6 +359,3 @@
 </script>
 </body>
 </html>
-
-
-
