@@ -27,7 +27,7 @@
     animation: fall linear infinite;
     z-index: 1;
     pointer-events: none;
-    opacity: 0.8;
+    opacity: 0.85;
   }
   @keyframes fall {
     0% { transform: translateY(0) rotate(0deg); opacity: 1; }
@@ -72,6 +72,64 @@
   @keyframes pulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.12); }
+  }
+
+  /* Aesthetic Cake */
+  .cake-box {
+    position: relative;
+    margin: 25px 0;
+  }
+  .cake {
+    width: 160px;
+    height: 90px;
+    background: linear-gradient(#ff9a9e, #fad0c4);
+    border-radius: 12px 12px 6px 6px;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  }
+  .cake::before {
+    content: '';
+    position: absolute;
+    top: -28px;
+    left: 15px;
+    right: 15px;
+    height: 32px;
+    background: #fff;
+    border-radius: 50% 50% 0 0;
+  }
+  .cake-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 15px;
+    font-weight: 700;
+    color: #c44569;
+    white-space: nowrap;
+  }
+  .candle {
+    position: absolute;
+    top: -55px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 30px;
+    background: #ffd700;
+  }
+  .flame {
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 18px;
+    background: orange;
+    border-radius: 50% 50% 20% 20%;
+    animation: flicker 0.3s infinite alternate;
+  }
+  @keyframes flicker {
+    from { transform: translateX(-50%) scale(1); }
+    to { transform: translateX(-50%) scale(1.1); }
   }
 
   .balloons {
@@ -213,12 +271,19 @@
   <button class="btn" onclick="next(4)">Keep going</button>
 </div>
 
-<!-- Screen 4 -->
+<!-- Screen 4 - Cake -->
 <div class="screen" id="s4">
-  <h2 style="margin-top:50px;">First things first 🎂</h2>
-  <div style="font-size:70px; margin:20px 0;">🎂</div>
+  <h2 style="margin-top:40px;">First things first 🎂</h2>
+  
+  <div class="cake-box">
+    <div class="cake">
+      <div class="candle"><div class="flame"></div></div>
+      <div class="cake-text">LOVELY🎀</div>
+    </div>
+  </div>
+
   <p>Baking something sweet...</p>
-  <p style="margin-top:15px; font-size:20px; color:#ffd700;">Happy Birthday, Lovely!</p>
+  <p style="margin-top:12px; font-size:18px; color:#ffd700;">Happy Birthday, Lovely!</p>
   <button class="btn" onclick="next(5)">Continue</button>
 </div>
 
@@ -236,7 +301,6 @@
   </div>
 
   <div id="reasons"></div>
-
   <button class="btn" id="nextBtn" style="display:none;" onclick="next(6)">Keep going 💛</button>
 </div>
 
@@ -278,9 +342,9 @@
 </div>
 
 <script>
-  // Falling items
-  var items = ['✨', '🎀', '⭐', '💖', '🌸'];
-  for (var i = 0; i < 20; i++) {
+  // Falling items (with knife)
+  var items = ['✨', '🎀', '⭐', '💖', '🌸', '🔪'];
+  for (var i = 0; i < 22; i++) {
     var el = document.createElement('div');
     el.className = 'falling';
     el.innerText = items[Math.floor(Math.random() * items.length)];
@@ -316,7 +380,7 @@
     el.style.opacity = '0';
     el.style.transition = '0.35s';
 
-    // Stars
+    // Stars burst
     for (var i = 0; i < 7; i++) {
       var star = document.createElement('div');
       star.className = 'star';
@@ -359,3 +423,5 @@
 </script>
 </body>
 </html>
+
+
